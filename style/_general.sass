@@ -1,0 +1,86 @@
+@use 'var' as v
+
+@font-face
+	font-family: 'atlas_m'
+	src: url(../asset/font/AtlasGrotesk-Medium.otf)
+
+@font-face
+	font-family: 'atlas_m_l'
+	src: url(../asset/font/AtlasGrotesk-MediumItalic.otf)
+
+@font-face
+	font-family: 'atlas_r'
+	src: url(../asset/font/AtlasGrotesk-Regular.otf)
+
+@font-face
+	font-family: 'atlas_r_l'
+	src: url(../asset/font/AtlasGrotesk-RegularItalic.otf)
+@font-face
+	font-family: 'mala_r'
+	src: url(../asset/font/MalayalamSangamMN.woff)
+@font-face
+	font-family: 'mala_b'
+	src: url(../asset/font/MalayalamSangamMN-Bold.woff)
+
+*
+	padding:0
+	margin:0
+	@include v.box-sizing(border-box)
+	@include v.relative()
+	font-weight: 400
+body
+	font-size: 1vw
+	background-color: v.$bg-color
+	color: v.$main-color
+
+h1
+	font-family: 'atlas_m'
+	font-size: 2.25em
+	line-height: 1.05em
+
+h2
+	font-family: 'atlas_m'
+	font-size: 2.25em
+	line-height: 1.05em
+	@include v.outline-text-black()
+	-webkit-text-fill-color: v.$bg-color
+	&.active
+		color: black
+		-webkit-text-fill-color: v.$main-color
+		-webkit-text-stroke-color: transparent
+	&:hover
+		color: black
+		-webkit-text-fill-color: v.$main-color
+		-webkit-text-stroke-color: transparent
+
+h3
+	font-family: 'mala_r'
+
+h4
+	font-family: 'atlas_m'
+	font-size: 2.75em
+	line-height: 1.05em
+h5
+	font-family: 'atlas_r'
+	font-size: 2.75em
+	line-height: 1.05em
+h6
+	font-family: 'atlas_m'
+	font-size: 1.2em
+	line-height: 1.5em
+
+a
+	color: v.$main-color
+	text-decoration: none
+	&:hover
+		text-decoration: underline
+.ex
+	@include v.absolute()
+
+::-moz-selection
+	background-color: v.$selected_color
+	color: black
+	
+::selection
+	background-color: v.$selected_color
+	color: black

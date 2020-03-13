@@ -1,0 +1,113 @@
+@use 'var' as v
+
+#main_ctner_home
+	padding: 20vw 0 12vw 0
+	overflow: hidden
+	.event
+		cursor: pointer
+		color: v.$main-color
+		text-decoration: none
+		display: block
+	#upcoming_ctner
+		padding: 0 2.25vw
+		margin-bottom: 15vw
+		.event_upcoming
+			display: flex
+			align-items: flex-start
+			margin-bottom: 4vw
+			border-bottom: 2px solid v.$bg-color
+			.event_upcoming_img
+				@include v.absolute($bottom: 0)
+				opacity:0
+				pointer-events: none
+				img 
+					max-width: 45vw
+					max-height: 27vw 
+					display: block
+			.event_upcoming_info
+				@include v.transition(opacity .25s)
+				padding: 1vw
+			.event_upcoming_date
+				white-space: nowrap
+				font-size: 24vw
+				line-height: .9em
+				max-height: 17vw
+				pointer-events: none
+				// border-bottom: 2px solid v.$main-color
+				@include v.outline-text-black()
+			&:hover
+				border-bottom: 2px solid v.$main-color
+				.event_upcoming_date
+					-webkit-text-fill-color: black
+				.event_upcoming_img
+					opacity:1
+			&:nth-of-type(odd)
+				.event_upcoming_info
+					margin-left: 1.5vw
+			&:nth-of-type(even)
+				flex-direction: row-reverse
+				.event_upcoming_info
+					// text-align: right
+					padding-right: 1.5vw
+		#more_upcoming
+			width: 30vw
+			border: 2px solid v.$main-color
+			color: v.$main-color
+			margin: 0 auto
+			padding: 1vw
+			text-align: center
+			cursor: pointer
+			margin-top: 5vw
+			&:hover
+				background-color: white
+				@include v.transition(background-color .25s)
+
+	#arch_ctner
+		padding: 0 2vw
+		.event_arch
+			padding: 0 1vw
+			display: flex
+			padding-top: 1.5vw
+			border-bottom: 2px solid v.$bg-color
+			font-size: 2.25vw
+			&:hover
+				border-bottom: 2px solid v.$main-color
+				// background-color: white
+				.event_arch_date
+					-webkit-text-fill-color: black
+					-webkit-text-stroke-color: transparent
+				.event_arch_img
+					opacity: 1
+			*
+				align-self: flex-end
+				// max-height: 3.5vw
+				
+			.event_arch_date
+				font-family: 'mala_b'
+				font-size: 1.35em
+				letter-spacing: .02em
+				line-height: 2.5vw
+				width: 15vw
+				@include v.outline-text-black()
+				// width: 13vw
+
+			.event_arch_cato
+				font-size: 1em
+				line-height: 2.5vw
+				width: 17vw
+
+			.event_arch_title
+				font-size: 1em
+				line-height: 2.5vw
+			.event_arch_img
+				@include v.absolute()
+				pointer-events: none
+				opacity: 0
+				img 
+					max-width: 30vw
+					max-height: 17vw 
+					display: block
+		&:first-of-type
+			.event_arch
+				padding-top: 0
+

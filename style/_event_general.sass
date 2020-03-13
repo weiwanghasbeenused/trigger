@@ -1,0 +1,66 @@
+@use 'var' as v	
+p, a
+	font-family: 'atlas_r'
+	font-size: 1.5em
+	line-height: 1.35em
+	margin-top: .5vw
+p.body, a.body
+	line-height: 1.65em
+	margin-top: 1vw
+p.caption
+	font-size: 1em
+
+.section_title
+	position: -webkit-sticky
+	position: sticky
+	cursor: pointer
+	display: grid
+	grid-template-columns: repeat(12, 1fr)
+	grid-gap: .5vw 2vw
+	border-top: 2px solid v.$main-color
+	padding: .5vw 0
+	width: 100%
+	margin-top: 12vw
+	@include v.transition(padding .1s, transform .15s) 
+	z-index: 500
+	background-color: v.$bg-color
+	&:first-of-type
+		border-top: 2px solid v.$bg-color
+		margin-top: 0
+// .section_content
+// 	&:nth-of-type(2)
+// 		margin-top: 20vw
+#title_title
+	width: 100vw
+	max-width: 100%
+	background-color: v.$bg-color
+	z-index: 500
+	#title
+		grid-column: 1 / 7 span
+		font-size: 4.5em
+		@include v.transition(all .25s)
+	#cato
+		grid-column: 1 / 2 span
+		margin-bottom: .5vw		
+	
+	&.folded
+		padding-top:.5vw
+		padding-bottom: .5vw
+		#title
+			grid-column: 3 / 7 span
+			font-size: 1.2em
+			line-height: 1.5em					
+		#cato
+			margin-bottom: 0vw
+
+.img_ctner
+	margin: .5vw 0
+	img
+		max-height: 100vh
+		max-width: 100%
+	p
+		font-size: 1em
+		padding: 0
+		margin-top: .5vw
+
+

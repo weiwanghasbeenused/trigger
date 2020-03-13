@@ -1,0 +1,42 @@
+@use 'var' as v
+
+#nav
+	display: grid
+	grid-template-columns: repeat(12, 1fr)
+	grid-gap: 2vw
+	@include v.fixed( $top: 0, $left: 0)
+	z-index: 1000
+	width: 100vw
+	max-width: 100%
+	padding: 1.25vw 3vw 1vw 3vw
+	background-color: v.$bg-color
+	border-bottom: 2px solid black
+	#title
+		grid-column: 1 / 2 span
+	#menu_cnter
+		grid-column: 8 / 2 span
+		display: flex 
+	#submenu_cnter
+		grid-column: 11 / 2 span
+	.menu
+		h2
+			max-height: 4vw
+			@include v.transition(max-height .35s)
+			cursor: pointer
+#nav.folded
+	.menu
+		h2:not(.active)
+			max-height: 0
+			overflow: hidden
+	&:hover
+		.menu
+			h2:not(.active)
+				max-height: 4vw
+				overflow: hidden
+
+
+
+
+
+
+

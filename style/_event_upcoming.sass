@@ -1,0 +1,73 @@
+@use 'var' as v
+
+#main_ctner_upcoming
+	padding: 0 3vw 8vw 3vw
+	
+	    
+	.section_title
+		grid-column: 1 / 12 span
+	.section_content
+		display: grid
+		grid-template-columns: repeat(12, 1fr)
+		grid-gap: 2vw
+		padding-top:1.5vw
+		&:nth-of-type(3)
+			margin-top: 20vw
+	.info_cato
+		font-family: 'atlas_m'
+		z-index: 500
+	// #title_title
+	#info_cato_time
+		grid-column: 1 / 3 span
+	#info_cato_location
+		grid-column: 4 / 9 span
+	#info_content
+		h1
+			font-family: 'mala_r'
+		#info_time
+			grid-column: 1 / 3 span
+			// margin-right: 5vw
+		#info_location
+			grid-column: 4 / 9 span
+			display: flex
+			flex-direction: row
+			-webkit-flex-flow: row wrap
+			.location
+				width: 50%
+				margin-bottom: 1vw
+				.location_address
+					font-family: 'atlas_r'
+					font-size: 1.2vw
+					line-height: 1.5em
+					margin:-.25vw 0 1vw 0
+	.info_cato
+		grid-column: 4 / 9 span
+	#about_content
+		#about_img
+			grid-column: 4 / 9 span
+			margin-bottom: 2vw
+			img
+				max-height: 100vh
+				max-width: 100%
+		#about_bio
+			grid-column: 4 / 9 span
+			// display: grid
+			// grid-template-columns: 1fr 1fr
+			// grid-gap: 2vw
+	// #upcoming_event_page_reference
+	#cato_website, #reference_website
+		grid-column: 1 / 2 span
+	#cato_exhibit, #reference_exhibit
+		grid-column: 3 / 6 span
+		.link_exhibit
+			display: grid
+			grid-template-columns: repeat(6, 1fr)
+			grid-gap: 2vw
+			.exhibit_title
+				grid-column: 1 / 4 span
+			.exhibit_info
+				grid-column: 5 / 2 span
+	#cato_reading, #reference_reading
+		grid-column: 9 / 4 span
+
+
