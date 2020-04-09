@@ -2,6 +2,8 @@
 	box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
+	margin: 0;
+	padding: 0;
 }
 
 html, body, #page {
@@ -147,7 +149,6 @@ a:hover {
     border-color: #CCC;
 }
 
-
 /* form elements */
 input{
 	padding:2px;
@@ -188,11 +189,16 @@ textarea.medium {
 textarea.small {
 	height: 2em;
 }
-p.body{
-	width: 80%;
+.editable div{
+	width:70%;
 }
-p.body:nth-of-type(even){
-	margin-left: 15%;
+
+.editable div:nth-of-type(even){
+	margin-left: 10%;
+}
+figure{
+	width:80%;
+	margin-bottom: 0.5vw;
 }
 .subtitle{
 	font-size:2em;
@@ -203,9 +209,10 @@ p.body:nth-of-type(even){
 	-webkit-text-stroke-color: black;
 	width: 30%;
 	margin-left:68%;
-	position: sticky;
-	top: 20px;
-
+}
+figcaption{
+	font-size: 0.9em;
+	color: #AAA;
 }
 
 #body > div:nth-child(odd) .toolbar {
@@ -263,7 +270,7 @@ input[type="datetime-local"] {
 }
 
 select {
-	max-width: 100%;
+	width: 150px;
 }
 
 #body {
@@ -323,6 +330,31 @@ select {
 
 .active{
 	color:blue;
+}
+.selectList{
+	position:relative;
+}
+.selectList_list{
+	display:none;
+	position: absolute;
+    background-color: #FFF;
+    max-height: 50vh;
+    padding: 30px;
+    max-width: 50vw;
+   	right: 0;
+    z-index: 20;
+    overflow: scroll;
+}
+.selectList_btn{
+	float:right;
+	position: relative;
+	z-index: 21;
+}
+.showingSelectList .selectList_list{
+	display: block;
+}
+.shadowBox{
+	box-shadow: 10px 10px 12px #000;
 }
 @media screen and (max-device-width: 568px) {
 	html {

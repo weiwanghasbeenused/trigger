@@ -1,20 +1,21 @@
 @use 'var' as v
 
-@font-face
-	font-family: 'atlas_m'
-	src: url(../asset/font/AtlasGrotesk-Medium.otf)
+	
+// @font-face
+// 	font-family: 'atlas_m'
+// 	src: url(../asset/font/AtlasGrotesk-Medium.otf)
 
-@font-face
-	font-family: 'atlas_m_l'
-	src: url(../asset/font/AtlasGrotesk-MediumItalic.otf)
+// @font-face
+// 	font-family: 'atlas_m_l'
+// 	src: url(../asset/font/AtlasGrotesk-MediumItalic.otf)
 
-@font-face
-	font-family: 'atlas_r'
-	src: url(../asset/font/AtlasGrotesk-Regular.otf)
+// @font-face
+// 	font-family: 'atlas_r'
+// 	src: url(../asset/font/AtlasGrotesk-Regular.otf)
 
-@font-face
-	font-family: 'atlas_r_l'
-	src: url(../asset/font/AtlasGrotesk-RegularItalic.otf)
+// @font-face
+// 	font-family: 'atlas_r_l'
+// 	src: url(../asset/font/AtlasGrotesk-RegularItalic.otf)
 @font-face
 	font-family: 'mala_r'
 	src: url(../asset/font/MalayalamSangamMN.woff)
@@ -27,20 +28,26 @@
 	margin:0
 	@include v.box-sizing(border-box)
 	@include v.relative()
-	font-weight: 400
-body
+	// font-weight: 400
+html
 	font-size: 1vw
+	font-family: neue-haas-grotesk-text, sans-serif
+	font-weight: 400
+	font-style: normal
+body
 	background-color: v.$bg-color
 	color: v.$main-color
 
 h1
-	font-family: 'atlas_m'
-	font-size: 2.25em
+	// font-family: 'atlas_m'
+	// font-family: 'Helvetica', sans-serif
+	font-weight: 400
+	font-size: 2rem
 	line-height: 1.05em
 
 h2
-	font-family: 'atlas_m'
-	font-size: 2.25em
+	// font-family: 'Helvetica', sans-serif
+	font-size: 1.75rem
 	line-height: 1.05em
 	@include v.outline-text-black()
 	-webkit-text-fill-color: v.$bg-color
@@ -55,25 +62,30 @@ h2
 
 h3
 	font-family: 'mala_r'
+	font-weight:400
+	font-style: normal
 
 h4
-	font-family: 'atlas_m'
-	font-size: 2.75em
+	// font-family: 'atlas_m'
+	font-weight: 400
+	font-size: 2rem
 	line-height: 1.05em
 h5
-	font-family: 'atlas_r'
-	font-size: 2.75em
+	// font-family: 'atlas_r'
+	font-weight: 400
+	font-size: 2.75rem
 	line-height: 1.05em
 h6
-	font-family: 'atlas_m'
-	font-size: 1.2em
+	// font-family: 'atlas_m'
+	font-weight: 500
+	font-size: 1.25rem
 	line-height: 1.5em
-
 a
-	color: v.$main-color
+	color: #000
 	text-decoration: none
-	&:hover
-		text-decoration: underline
+	font-style: italic
+a:hover
+	font-style: normal
 .ex
 	@include v.absolute()
 

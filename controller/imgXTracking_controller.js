@@ -5,7 +5,12 @@ var sEvent_upcoming_img = document.getElementsByClassName("event_upcoming_img");
 var sEvent_arch_img = document.getElementsByClassName("event_arch_img");
 // var sEvent = [];
 var sTn = [];
-var dev_X = sEvent_upcoming[0].offsetLeft;
+if(sEvent_upcoming.length){
+	var dev_X = sEvent_upcoming[0].offsetLeft;
+}else{
+	var dev_X = sEvent_arch[0].offsetLeft;
+}
+
 console.log(dev_X);
 
 class Event {

@@ -128,6 +128,7 @@ function process_media($toid)
 	global $resize_root;
 	global $resize_scale;
 	global $media_root;
+	global $thumbnail;
 
 	$m_rows = $mm->num_rows();
 	$m_old = $m_rows;

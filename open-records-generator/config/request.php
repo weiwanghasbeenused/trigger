@@ -36,6 +36,9 @@ class Request
 	public $ranks;
 	public $deletes;
 	
+	public $thumbnail;
+	public $reading_fromid;
+	public $reading_toid;
 	public $uploads;
 	
 	function __construct()
@@ -53,10 +56,10 @@ class Request
 		// 				'submit', 'action',
 		// 				'wires_toid',
 		// 				'uploads', 'cato','event_date', 'location');
-		$vars = array("cato", "name1", "event_date", "event_time", "location", "upcoming_text", "website", "exhibit", "reading", "body", "url", "rank", "qAndA", "begin", "end", 'deletes', 'submit', 'action','wires_toid','uploads');
+		$vars = array("cato", "name1", "event_date", "event_time", "location", "upcoming_text", "website", "exhibit", "reading", "body", "url", "rank", "qanda", "begin", "end", 'deletes','captions', 'submit', 'action','wires_toid','uploads','medias', 'types', 'captions', 'ranks', 'thumbnail','reading_fromid','reading_toid');
 
 
-		foreach($vars as $v)	
+		foreach($vars as $v)
 			$this->$v = $_POST[$v];
 	}
 }

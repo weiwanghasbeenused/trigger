@@ -2,7 +2,6 @@
 class Events extends Objects
 {
 	// const table_name = "objects";
-	
 	public function get_upcoming()
 	{	
 		global $db;
@@ -61,10 +60,37 @@ class Events extends Objects
 	}
 	public function get_location($index)
 	{	
-		$location_list_path = "data/location_list.json";
+		$location_list_path = __DIR__."/../json/location.json";
 		$location_fulllist = json_decode(file_get_contents($location_list_path), true);
-		$list_name = "list".$index;
+		$list_name = $index;
 		return $location_fulllist[$list_name];
+	}
+	public static function insertReference($arr)
+	{
+		global $db;
+		$dt = date(self::MYSQL_DATE_FMT);
+		$arr["created"] = "'".$dt."'";
+		$arr["modified"] = "'".$dt."'";
+
+		$keys = implode(", ", array_keys($arr));
+		$values = implode(", ", array_values($arr));
+		$sql = "INSERT INTO " . static::table_name . " (";
+		$sql .= $keys . ") VALUES(" . $values . ")";
+		$db->query($sql);
+		return $db->insert_id;
+	}
+	public static function update_reading($id, $arr)
+	{
+		global $db;
+		$dt = date(self::MYSQL_DATE_FMT);
+		$arr["modified"] = "'".$dt."'";
+		foreach($arr as $key => $value)
+			$pairs[] = $key."=".$value;
+		$z = implode(", ", $pairs);
+		$sql = "UPDATE ".static::table_name." 
+				SET ".$z."
+				WHERE id = '".$id."'";
+		return $db->query($sql);
 	}
 }
 ?>

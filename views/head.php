@@ -42,6 +42,6 @@ else
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <link rel="stylesheet" href="/style/exe.css">
     <script type = "text/javascript" src = "/scripts/var.js"></script>
-
+    <link rel="stylesheet" href="https://use.typekit.net/odu6cjg.css">
 </head>
 <body>

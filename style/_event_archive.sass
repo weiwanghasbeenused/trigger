@@ -1,62 +1,48 @@
 @use 'var' as v
 
 #main_ctner_archive
-	padding: 0 3vw 8vw 3vw
+	padding-top: 0
 	.section_content
 		background-color: v.$bg-color
 		&:nth-of-type(2)
 			margin-top: 20vw
 		.content_section
-			grid-column: 1 / 12 span
-			display: grid
-			grid-template-columns: repeat(12, 1fr)
-			grid-gap: 0 2vw
 			margin-top: 6vw
-		.body
-			margin-top: 1vw
-			padding:0
-			&:nth-of-type(even)
-				grid-column: 2 / 8 span
-			&:nth-of-type(odd)
-				grid-column: 1 / 8 span
 		.subtitle
-			font-family: 'atlas_m'
-			font-size: 3.5vw
+			font-weight: 500
+			font-size: 3.5rem
 			line-height: 1.1em
 			grid-column: 8 / 5 span
 			position: sticky
+			margin-left: 66.7%
 			top: 10vw
 			margin-bottom: 2vw
 			@include v.outline-text-black()
 		.img_ctner
 			grid-column: 1 / 9 span
-	.section_title
-		h6:nth-of-type(2)
-			grid-column: 3 / 7 span
 	#title_title
+		template-grid-rows: auto auto
+		
 		&.folded
 			#location
 				max-height: 0
 				overflow: hidden
 		#info
 			grid-column: 10 / 3 span
+			grid-row: 1 / 2 span
 	#about_content
 		#about_img
 			grid-column: 4 / 9 span
 			margin-bottom: 2vw
-	#cato_website, #reference_website
-		grid-column: 1 / 2 span
-	#cato_exhibit, #reference_exhibit
-		grid-column: 3 / 6 span
-		.link_exhibit
-			display: grid
-			grid-template-columns: repeat(6, 1fr)
-			grid-gap: 2vw
-			.exhibit_title
-				grid-column: 1 / 4 span
-			.exhibit_info
-				grid-column: 5 / 2 span
-	#cato_reading, #reference_reading
-		grid-column: 9 / 4 span
-
-
+#intro_content
+	.content_section
+		div
+			font-size: 1.75rem
+			width: 66.7%
+			&:nth-of-type(even)
+				margin-left: 10%
+	.img_ctner
+		width: 80%
+		img
+			width: auto
+			max-height:75vh

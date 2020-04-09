@@ -8,33 +8,50 @@
 	z-index: 1000
 	width: 100vw
 	max-width: 100%
-	padding: 1.25vw 3vw 1vw 3vw
+	padding: 1.25vw 5vw 1vw 5vw
 	background-color: v.$bg-color
-	border-bottom: 2px solid black
+	
 	#title
 		grid-column: 1 / 2 span
+		a
+			font-style: normal
 	#menu_cnter
-		grid-column: 8 / 2 span
+		grid-column: 3 / 8 span
 		display: flex 
-	#submenu_cnter
-		grid-column: 11 / 2 span
-	.menu
-		h2
-			max-height: 4vw
+		a
+			font-size: 2rem
+			line-height: 1.15em
+			max-height: 5vw
+			display: block
+			overflow: hidden
 			@include v.transition(max-height .35s)
+			&.active
+				font-style: normal
+			&:hover
+				font-style: normal
+		.menu_btn
 			cursor: pointer
+			max-height: 5vw	
+		#menu_btn_event
+			display: flex
+		
 #nav.folded
-	.menu
-		h2:not(.active)
+	border-bottom: none
+	#menu_cnter
+		a:not(.active)
 			max-height: 0
 			overflow: hidden
+			max-width: 0
 	&:hover
-		.menu
-			h2:not(.active)
-				max-height: 4vw
-				overflow: hidden
+		border-bottom: 2px solid black
+		#menu_cnter
+			a:not(.active)
+				max-height: 5vw
+				max-width: none
 
 
+	
+	
 
 
 

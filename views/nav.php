@@ -1,18 +1,14 @@
 <div id = "nav" class = "<? echo ($uri[1] == "") ? "" : "folded" ?>">
 	<div id = "title">
-		<h1>Trigger</h1>
+		<h1><a href = "/">Trigger</a></h1>
 		<div class = "ex ex_initial"></div>
 	</div>
 	<div id = "menu_cnter">
 		<div id = "menu_layer1" class = "menu">
-			<h2 id = "menu_btn_event" class = "menu_btn_1 <? echo ($uri[1] == "events" || $uri[1] == "") ? "active" : "" ?>">Events</h2>
-			<h2 id = "menu_btn_resource" class = "menu_btn_1 <? echo ($uri[1] == "resource") ? "active" : "" ?>">Resource</h2>
-			<h2 id = "menu_btn_about" class = "menu_btn_1 <? echo ($uri[1] == "about") ? "active" : "" ?>">About</h2>
+			<div id = "menu_btn_event" class = "menu_btn" ><a class = "<? echo ($uri[1] == "events" || $uri[1] == "") ? "active" : "" ?>"  href = "/events">Events</a><a class = "<? echo ($uri[2] == "upcoming") ? "active" : "" ?>"  href = "/events/upcoming">&nbsp;|&nbsp;Upcoming&nbsp;</a><a class = "<? echo ($uri[2] == "archive") ? "active" : "" ?>"  href = "/events/archive">&nbsp;|&nbsp;Archive&nbsp;</a></div>
+			<a id = "menu_btn_resource" class = "menu_btn <? echo ($uri[1] == "resource") ? "active" : "" ?>" href = "/resource">Resource</a>
+			<a id = "menu_btn_about" class = "menu_btn <? echo ($uri[1] == "about") ? "active" : "" ?>" href = "/about">About</a>
 		</div>
-	</div>
-	<div id = "submenu_cnter" class = "menu submenu">
-		<h2 id = "menu_btn_upcoming" class = "menu_btn_2 <? echo ($uri[2] == "upcoming") ? "active" : "" ?>">Upcoming</h2>
-		<h2 id = "menu_btn_archive" class = "menu_btn_2 <? echo ($uri[2] == "archive") ? "active" : "" ?>">Archive</h2>
 	</div>
 </div>
 

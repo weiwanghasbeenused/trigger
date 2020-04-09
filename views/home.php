@@ -1,51 +1,58 @@
-<?
-require_once('controller/home_controller.php');
-
-?>
-<div id = "main_ctner_home">
+<div id = "main_ctner_list_<? echo $thisView; ?>" class = 'main_ctner main_ctner_list'>
+	<? if($home_upcoming_limit){?>
 	<div id = "upcoming_ctner">
-		<? foreach($upcoming_events as $up){?>
-			<a class = "event event_upcoming" href = "/events/upcoming/<? echo $up['url']; ?>">
+		<? echo ( $thisView == 'home' ) ? '<h4 id = "upcoming_ctner_title" class = "ctner_title">Upcoming&darr;</h4>' : ''; 
+		for($i = 0 ; $i < $home_upcoming_limit ; $i++){
+			if(isset($upcoming_events[$i])){
+			?>
+			<a class = "event event_upcoming" href = "/events/upcoming/<? echo $upcoming_events[$i]['url']; ?>">
 				<div class = "event_upcoming_img"><img src = "<? 
-					if(!empty($upcoming_tn_url[$up['id']])){
-						echo m_url($upcoming_tn_url[$up['id']]); 
-					}
+					if(!empty($upcoming_tn_url[$i]))
+						echo $upcoming_tn_url[$i]; 
 				?>"></div>
 				<h3 class = "event_upcoming_date"><? 
-					if(!empty($up['event_date'])){
-						echo date("m.d", strtotime($up['event_date'])); 
+					if(!empty($upcoming_events[$i]['event_date'])){
+						echo date("m.d", strtotime($upcoming_events[$i]['event_date'])); 
 					}
 				?></h3>
 				<div class = "event_upcoming_info">
-					<h6><? echo $up['cato']; ?></h6>
-					<h4 class = "event_upcoming_title"><? echo $up['name1']; ?></h4>
-					<h6></h6>
+					<h4><? echo $upcoming_events[$i]['cato']; ?>:</h4>
+					<h4 class = "event_upcoming_title"><? echo $upcoming_events[$i]['name1']; ?></h4>
 				</div>
 			</a>
-		<? } ?>
-		<div id = "more_upcoming">
-			<h6>More upcoming events</h6>
-		</div>
+		<? }
+		}
+		echo ( $thisView == 'home' ) ? '<div id = "more_upcoming" class = "more" ><a  href = "/events/upcoming">More upcoming events&rarr;</a></div>' : '' ;
+		?>
 	</div>
-
+	<?
+	}
+	if($home_archive_limit){
+	?>
 	<div id = "arch_ctner">
-		<? foreach($archive_events as $ar){?>
-			<a class = "event event_arch" href = "/events/archive/<? echo $ar['url']; ?>">
+		<? echo ( $thisView == 'home' ) ? '<h4 id = "arch_ctner_title" class = "ctner_title">Archive&darr;</h4>' : '' ; ?>
+		<? for($i = 0 ; $i < $home_archive_limit ; $i++){
+			if(isset($archive_events[$i])){ ?>
+			<a class = "event event_arch" href = "/events/archive/<? echo $archive_events[$i]['url']; ?>">
 				<div class = "event_arch_img"><img src = "<? 
-					if(!empty($archive_tn_url[$ar['id']])){
-						echo m_url($archive_tn_url[$ar['id']]); 
+					if(!empty($archive_tn_url[$i])){
+						echo $archive_tn_url[$i]; 
 					}
 				?>"></div>
 				<h3 class = "event_arch_date"><? 
-					if(!empty($ar['event_date'])){
-						echo date("m.d", strtotime($ar['event_date'])); 
+					if(!empty($archive_events[$i]['event_date'])){
+						echo date("m.d", strtotime($archive_events[$i]['event_date'])); 
 					}
 				?></h3>
-				<h6 class = "event_arch_cato"><? echo $ar['cato']; ?></h6>
-				<h4 class = "event_arch_title"><? echo $ar['name1']; ?></h4>
+				<h6 class = "event_arch_cato"><? echo $archive_events[$i]['cato']; ?></h6>
+				<h4 class = "event_arch_title"><? echo $archive_events[$i]['name1']; ?></h4>
 			</a>
-		<? } ?>
+		<? }
+		}
+		echo ( $thisView == 'home' ) ? '<div id = "more_archive" class = "more"><a href = "/events/archive">More archive events&rarr;</a></div>':'' ;
+		?>
 	</div>
+	<?
+	}
+	?>
 </div>
-<script type = "text/javascript" src = "/controller/nav_controller.js"></script>
-<script src = "controller/imgXTracking_controller.js"></script>

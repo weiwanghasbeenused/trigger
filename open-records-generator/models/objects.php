@@ -33,6 +33,7 @@
 		- end
 		- date
 ---------------------------------------------------------*/
+
 class Objects extends Model
 {
 	const table_name = "objects";
@@ -120,15 +121,20 @@ class Objects extends Model
 	// throw 404 exception if not
 	public function urls_to_ids($u)
 	{
-		$fromid = 0;
+		// $fromid = 0;
+		$fromid = '*';
 		$objects = array();
 		for($i = 0; $i < count($u); $i++)
 		{
 			$fields = array("objects.id",
 							"objects.name1");
 			$tables = array("objects", "wires");
-			$where 	= array("wires.fromid = '".$fromid."'",
-							"wires.toid = objects.id",
+			// $where 	= array("wires.fromid = '".$fromid."'",
+			// 				"wires.toid = objects.id",
+			// 				"objects.url = '".$u[$i]."'",
+			// 				"wires.active = '1'",
+			// 				"objects.active = '1'");
+			$where 	= array("wires.toid = objects.id",
 							"objects.url = '".$u[$i]."'",
 							"wires.active = '1'",
 							"objects.active = '1'");

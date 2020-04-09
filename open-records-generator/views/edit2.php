@@ -1,12 +1,8 @@
 <script type = "text/javascript" src = '<? echo $admin_path;?>static/wysiwyg_func.js'></script>
 <?
-
-require_once($include_path.'function_strToItems.php');
-require_once($include_path.'function_itemsToStr.php');
-
 $browse_url = $admin_path.'browse/'.$uu->urls();
-$isEdit = true;
-$vars = array("cato", "name1", "event_date", "event_time", "location", "upcoming_text", "website", "exhibit", "reading", "body", "url", "rank", "qanda", "begin", "end","thumbnail","reading_toid","reading_fromid"  );
+
+$vars = array("cato", "name1", "event_date", "event_time", "location", "upcoming_text", "website", "exhibit", "reading", "body", "url", "rank", "qanda", "begin", "end","thumbnail" );
 
 $var_info = array();
 
@@ -20,15 +16,13 @@ $var_info["input-type"]["url"] = "text";
 $var_info["input-type"]["rank"] = "text";
 $var_info["input-type"]["event_date"] = "text";
 $var_info["input-type"]["event_time"] = "text";
-$var_info["input-type"]["location"] = "select";
+$var_info["input-type"]["location"] = "text";
 $var_info["input-type"]["cato"] = "text";
 $var_info["input-type"]["upcoming_text"] = "triggerEditor";
 $var_info["input-type"]["website"] = "referencelist";
 $var_info["input-type"]["exhibit"] = "referencelist";
 $var_info["input-type"]["reading"] = "referencelist";
 $var_info["input-type"]["thumbnail"] = "none";
-$var_info["input-type"]["reading_toid"] = "hidden";
-$var_info["input-type"]["reading_fromid"] = "hidden";
 
 $var_info["label"] = array();
 $var_info["label"]["cato"] = "Event Category";
@@ -47,28 +41,12 @@ $var_info["label"]["qanda"] = "Q & A";
 $var_info["label"]["begin"] = "Begin";
 $var_info["label"]["end"] = "End";
 
-$location_url = "json/location.json";
-$location = file_get_contents($location_url);
-$location = json_decode($location, true);
-$reading_keep = array();
-$id_resource = $oo->urls_to_ids(array("resource"))[0];
-
-$hasReading = false;
-
-if(isset($item['reading_toid'])){
-	$hasReading = true;
-	$old_reading = array();
-	$old_reading_id = explode(',', str_replace(' ', '', $item['reading_toid']));
-	foreach($old_reading_id as $ori)
-		$old_reading[] = $oo->get($ori);
-	// $item['reading_toid'] = $old_reading_id;
-}
-
 // return false if object not updated,
 // else, return true
-function update_object(&$old, &$new, $siblings, $vars, &$old_reading)
+function update_object(&$old, &$new, $siblings, $vars)
 {
 	global $oo;
+
 	// set default name if no name given
 	if(!$new['name1'])
 		$new['name1'] = "untitled";
@@ -114,141 +92,10 @@ function update_object(&$old, &$new, $siblings, $vars, &$old_reading)
 		$dt = strtotime($new['event_date']);
 		$new['event_date'] = date("Y-m-d", $dt);
 	}
-	if(!empty($new['reading']))
-	{	
-		$hasNewReading = true;
-		// forming $new_reading
-		global $old_reading_id;
-		global $old_reading;
-		global $reading_keep;
-		global $thisId;
-		global $id_resource;
-		global $hasReading;
-		global $ww;
-		$new_reading = array(); // to carry all the blocks in this update
-		$arr_reading = array(); // to carry those which need to be updated
-
-		foreach($reading_keep as $key => $rk){
-			$new_reading[$key]['name1'] = $rk[0];
-			$new_reading[$key]['reading'] = '<a class = "reference_link" href = "'.$rk[1].'">'.$rk[0].'</a><br>';
-			$new_reading[$key]['url'] = slug($new_reading[$key]['name1']);
-			$new_reading[$key]['reading_fromid'] = $thisId;
-			$new_reading[$key]['event_date'] = $new['event_date'];
-
-		}
-
-		if($hasReading){
-			// already had reading;
-			$new['reading_toid'] = explode(',', str_replace(' ', ' ', $new['reading_toid']));
-			$loop_length = count($new_reading);
-			$toInsert_index = array(); // for new readings added in this update
-			
-			if( count($old_reading) >= $loop_length){
-				$hasNewReading = false;
-				$loop_length = count($old_reading);
-			}
-			// starting fileter out unhooked and to-be-ininserted.
-			// looping through each reading
-			for($i = 0 ; $i< $loop_length; $i++ ){
-				if( $old_reading[$i] != $new_reading[$i] ){
-					// update of item detected, now needs to update
-					if( $i < count($old_reading)){
-						// if just updating
-						$arr_reading[$i] = $new_reading[$i] ?  $new_reading[$i] : "null";
-						if($arr_reading[$i] == "null"){
-							//  a reading got deleted/unhooked
-							$this_reading_fromid = $oo->get($id_reading[$i])['reading_fromid'];
-							$this_reading_fromid = explode(',', str_replace(' ', ' ', $this_reading_fromid));
-							if(count($this_reading_fromid) == 1){
-								// if this is the only event related to this reading
-								$oo->deactivate($id_reading[$i]);
-							}
-							else{
-								// else remove this event id from the reading
-								$key = array_search($thisId, $this_reading_fromid);
-								unset( $this_reading_fromid[$key] );
-								$new_reading[$i]['reading_fromid'] = implode(',',$this_reading_fromid);
-							}
-							unset($new['reading_toid'][$i]);
-							unset($arr_reading[$i]);
-						}else{
-							
-							foreach($arr_reading[$i] as $j => &$ar){
-								$ar = $ar ?  "'".$new_reading[$i][$j]."'" : "null";
-							}
-						}
-					}else{
-						// adding new reading
-						$arr_reading[$i] = $new_reading[$i] ?  $new_reading[$i] : "null";
-						foreach($arr_reading[$i] as $j => &$ar){
-							$ar = $ar ?  "'".$new_reading[$i][$j]."'" : "null";
-						}
-						$toInsert_index[] = $i;
-					}
-					
-				}
-			}
-			foreach($arr_reading as $i =>$ar){
-				if($ar!='null'){
-					$siblings_reading = $oo->children_ids($id_resource);
-					$s_urls_reading = array();
-					foreach($siblings_reading as $s_id_r)
-						$s_urls_reading[] = $oo->get($s_id_r)['url'];
-		 			$u_reading = str_replace("'", "", $ar['url']);
-		 			$url_reading = valid_url($u_reading, strval($id_reading[$i]), $s_urls_reading);
-					if($url_reading != $u_reading)
-					{
-						$ar['url'] = "'".$url_reading."'";
-						if( array_search($i, $toInsert_index) !==false ){
-							$new['reading_toid'][] = $oo->insert($ar);
-							$ww->create_wire($id_resource, end($new['reading_toid']));
-						}else{
-							$oo->update($id_reading[$i], $ar);
-						}
-						
-						
-					}else{
-						if( array_search($i, $toInsert_index) !==false ){
-							$new['reading_toid'][] = $oo->insert($ar);
-							$ww->create_wire($id_resource, end($new['reading_toid']));
-						}else{
-							$oo->update($siblings_reading[$i], $ar);
-						}
-						// update the original reading;
-						
-					}
-				}
-			}
-			$new['reading_toid'] = implode(',',$new['reading_toid']);
-
-
-		}else{
-			// didn't have reading;
-			for($i = 0; $i < count($new_reading) ; $i++){
-				$siblings_reading = $oo->children_ids($id_resource);
-				$s_urls_reading = array();
-				foreach($siblings_reading as $s_id_r)
-					$s_urls_reading[] = $oo->get($s_id_r)['url'];
-
-		 		foreach ($new_reading[$i] as $key => $value) {
-		 			if($value)
-						$new_reading[$i][$key] = "'".$value."'";
-					else
-						$new_reading[$i][$key] = "null";
-				}
-				$id_reading[] = $oo->insert($new_reading[$i]);
-				$u_reading = str_replace("'", "", $new_reading[$i]['url']);
-				$url_reading = valid_url($u_reading, strval($id_reading[$i]), $s_urls_reading);
-				if($url_reading != $u_reading)
-				{
-					$new_reading[$i]['url'] = "'".$url_reading."'";
-					$oo->update(end($id_reading), $new_reading[$i]);
-				}
-			}
-			$new['reading_toid'] = implode(',',$id_reading);
-		}
-
+	if(!empty($new['website'])){
+		
 	}
+
 	// check for differences
 	$arr = array();
 	foreach($vars as $v)
@@ -336,10 +183,9 @@ if ($rr->action != "update" && $uu->id)
 
 				function resignImageContainer(name) {
 					var imagecontainer = document.getElementById(name + '-imagecontainer');
-					imagecontainer.classList.add('hidden');
+					imagecontainer.classList.toggle('hidden');
 				}
 				function image(name) {
-					console.log("image()");
 					var imagecontainer = document.getElementById(name + '-imagecontainer');
 					var imagebox = document.getElementById(name + '-imagebox');
 					imagecontainer.classList.toggle('hidden');
@@ -356,82 +202,72 @@ if ($rr->action != "update" && $uu->id)
 				}
 
 				function showToolBar(name) {
-					}
+					// hideToolBars();
+					// var tb = document.getElementById(name + '-toolbar');
+					// tb.style.display = 'block';
+				}
 
 				function hideToolBars() {
-					}
+					// var tbs = document.getElementsByClassName('toolbar');
+					// Array.prototype.forEach.call(tbs, function(tb) { tb.style.display = 'none'});
+
+					// var ics = document.getElementsByClassName('imagecontainer');
+					// Array.prototype.forEach.call(ics, function(ic) { ic.style.display = 'none'});
+				}
+
 				function commitAll() {
 					var names = <?
 						$textnames = [];
 						foreach($vars as $var) {
-							if($var_info["input-type"][$var] == "triggerEditor" ) {
+							if($var_info["input-type"][$var] == "textarea" || $var_info["input-type"][$var] == "triggerEditor" ) {
 								$textnames[] = $var;
 							}
 						}
 						echo '["' . implode('", "', $textnames) . '"]'
 						?>;
+					<?
+					foreach($vars as $var) {
+						if($var_info["input-type"][$var] == "triggerEditor" ) {
+							?> 
+							wrappingImgCtner('<? echo $var ?>'); <?
+						}
+					}
+
+					?>
+
 					for (var i = 0; i < names.length; i++) {
 						commit(names[i]);
 					}
 				}
 				function commit(name) {
-
 					var editable = document.getElementById(name + '-editable');
 					var textarea = document.getElementById(name + '-textarea');
-					// If the editor is activated
-					if(editable){
-						if (!editable.classList.contains('hidden')) {
-							var html = editable.innerHTML;
-							textarea.value = html;    // update textarea for form submit
-						} else {
-							var html = textarea.value;
-							editable.innerHTML = html;    // update editable
-						}
-					}else{
-						var temp = document.createElement("div");
-						temp.innerText = textarea.value;
-						var str = ''+temp.innerHTML;
-						str = str.replace(/(?:\r\n|\r|\n)/g, '<br>');
-						str = str.replace(/<br><br>/g , '<\/div><div>');
-						str = str.replace('<br>', '</div><div>');
-						str = '<div>'+str+'</div>';
-						textarea.value = str;
+					if (editable.style.display === 'block') {
+						var html = editable.innerHTML;
+						textarea.value = html;    // update textarea for form submit
+					} else {
+						var html = textarea.value;
+						editable.innerHTML = html;    // update editable
 					}
-				}
-				function format(name){
-					var editable = document.getElementById(name + '-editable');
-					var textarea = document.getElementById(name + '-textarea');
-					var temp = document.createElement("div");
-
-					if (!editable.classList.contains('hidden'))
-						temp.innerHTML = editable.innerHTML;
-					else
-						temp.innerText = text.value;
-
-					var str = ''+temp.innerHTML;
-					str = str.replace(/(?:\r\n|\r|\n)/g, '<br>');
-					str = str.replace(/<br><br>/g , '<\/div><div>');
-					str = str.replace('<br>', '</div><div>');
-					str = '<div>'+str+'</div>';
-					editable.innerHTML = str;
-					textarea.value = str;
+					// console.log([name, editable.style.display, textarea.style.display]);
 				}
 
 				function resetViews(name) {
-					var names = <?
-						$textnames = [];
-						foreach($vars as $var) {
-							if($var_info["input-type"][$var] == "triggerEditor" && $item[$var]) {
-								$textnames[] = $var;
-							}
-						}
-						echo '["' . implode('", "', $textnames) . '"]'
-						?>;
+					// commitAll();
+					// var names = <?
+					// 	$textnames = [];
+					// 	foreach($vars as $var) {
+					// 		if($var_info["input-type"][$var] == "textarea") {
+					// 			$textnames[] = $var;
+					// 		}
+					// 	}
+					// 	echo '["' . implode('", "', $textnames) . '"]'
+					// 	?>;
 
-					for (var i = 0; i < names.length; i++) {
-						if (!(name && name === names[i]))
-							showrich(names[i]);
-					}
+					// for (var i = 0; i < names.length; i++) {
+					// 	if (!(name && name === names[i]))
+					// 		showrich(names[i]);
+					// 	}
 				}
 
 				
@@ -455,67 +291,150 @@ if ($rr->action != "update" && $uu->id)
 					}
 					
 				}
-
-				function toggleSelectList(name){
-					var thisList = document.getElementById(name+"-selectList");
-					thisList.classList.toggle('showingSelectList');
-					if(thisList.classList.contains('showingSelectList')){
-						thisList.children[0].innerText = "hide list [-]";
-					}else{
-						thisList.children[0].innerText = "show list [+]";
-					}
-				}
 				
 				</script>
 				<?php
 				// show object data
-				$thisId = $oo->urls_to_ids(array($item['url']));
-				
-
-				// var_dump($thisId);
-				// die();
-				?>
-				<br><div id = "id_display">ID: <? echo $thisId[0]; ?></div>
-				
-				<? 
-				if(isset($item['reading_fromid'])){
-					?><div id = "hooked_display">This reading is hooked with the event(s):<br><?
-					$thisHookedEvents_id = explode(',', str_replace(' ','',$item['reading_fromid']));
-					$thisHookedEvents = array();
-					foreach($thisHookedEvents_id as $thei){
-						$thisHookedEvents[] = $oo->name($thei);
-					}
-					foreach($thisHookedEvents as $key => $name)
-						echo $name.' (ID = '.$thisHookedEvents_id[$key].')<br>';
-					?></div><?
-				}elseif(isset($item['reading_toid'])){
-					?><div id = "hooked_display">This event is hooked with the reading(s):<br><?
-					$thisHookedReadings_id = explode(',', str_replace(' ','',$item['reading_toid']));
-					$thisHookedReadings = array();
-					foreach($thisHookedReadings_id as $thei){
-						$thisHookedReadings[] = $oo->name($thei);
-					}
-					foreach($thisHookedReadings as $key => $name)
-						echo $name.' (ID = '.$thisHookedReadings_id[$key].')<br>';
-					?></div><?
-				}
-				
 				foreach($vars as $var)
 				{
 				?><div class="field">
 					<div class="field-name"><? echo $var_info["label"][$var]; ?></div>
 					<div id = "<? echo $var; ?>-body" class = "field-body"><?
-						if($var_info["input-type"][$var] == "triggerEditor")
+						if($var_info["input-type"][$var] == "textarea")
 						{
 
-						require('views/triggerEditor.php');
+                        // ** start experimental minimal wysiwig toolbar **
+
+                        ?>
+
+					<div id="<?echo $var;?>-toolbar" class="toolbar">
+						<a id="<? echo $var; ?>-html" class='right tool_show' href="#null" onclick="sethtml('<? echo $var; ?>');">html</a>
+						<a id="<? echo $var; ?>-txt" class='right tool_hide' href="#null" onclick="showrich('<? echo $var; ?>');">done.</a>
+						<a id="<? echo $var; ?>-back" class='tool_show' href="#null" onclick="undo('<? echo $var; ?>');">Undo &#8617;</a>
+						<a id="<? echo $var; ?>-forward" class='tool_show' href="#null" onclick="redo('<? echo $var; ?>');">&#8618; Redo</a>
+						<a id="<? echo $var; ?>-link" class='tool_show' href="#null" onclick="link('<? echo $var; ?>');">link</a>
+						<a id="<? echo $var; ?>-image" class='tool_show' href="#null" onclick="image('<? echo $var; ?>');">image</a>
+						
+						<div id="<?echo $var; ?>-imagecontainer" class='imagecontainer hidden' style="background-color: #999;">
+							<span style="color: white;">insert an image...</span>
+							<div id="<? echo $var; ?>-imagebox" class='imagebox'>
+								<?
+									for($i = 0; $i < $num_medias; $i++) {
+										if ($medias[$i]["type"] != "pdf" && $medias[$i]["type"] != "mp4" && $medias[$i]["type"] != "mp3") {
+											echo '<div class="image-container" id="'. m_pad($medias[$i]['id']) .'-'. $var .'"><img src="'. $medias[$i]['display'] .'"></div>';
+											echo '<script>
+											document.getElementById("'. m_pad($medias[$i]['id']) .'-'. $var .'").onclick = (function() {
+												// closure for variable issue
+												return function() {
+													document.getElementById("'. $var .'-imagecontainer").classList.add("hidden");
+													document.getElementById("'. $var .'-editable").focus();
+													var thisImg = this.childNodes[0];
+													addTag("'. $var .'", "div", "img_ctner",thisImg);
+												}
+											})();
+											</script>';
+										}
+									}
+								?>
+								</div>
+						</div>
+					</div>
+
+												<div name='<? echo $var; ?>' class='large editable' contenteditable='true' id='<? echo $var; ?>-editable' onclick="showToolBar('<? echo $var; ?>'); resetViews('<? echo $var; ?>');" style="display: block;"><?
+                            if($item[$var])
+                                echo $item[$var];
+                            ?></div>
+
+                        <textarea name='<? echo $var; ?>' class='large hidden' id='<? echo $var; ?>-textarea' onclick="" onblur=""><?
+                            if($item[$var])
+                                echo $item[$var];
+                        ?></textarea>
+
+						<script>
+							addListeners('<?echo $var; ?>');
+							if('<?echo $var; ?>' == "body"){
+								addListeners_selection('<?echo $var; ?>');
+							}
+						</script>
+						<?
+
+                        // ** end minimal wysiwig toolbar **
+
+						}elseif($var_info["input-type"][$var] == "triggerEditor")
+						{
+
+                        // ** start experimental minimal wysiwig toolbar **
+
+                        ?>
+					<div id="<?echo $var;?>-toolbar" class="toolbar">
+						<a id="<? echo $var; ?>-html" class='right tool_show' href="#null" onclick="sethtml('<? echo $var; ?>');">html</a>
+						<a id="<? echo $var; ?>-txt" class='right tool_hide' href="#null" onclick="showrich('<? echo $var; ?>');">done.</a>
+						<a id="<? echo $var; ?>-back" class='tool_show' href="#null" onclick="undo('<? echo $var; ?>');">Undo &#8617;</a>
+						<a id="<? echo $var; ?>-forward" class='tool_show' href="#null" onclick="redo('<? echo $var; ?>');">&#8618; Redo</a>
+						<a id="<? echo $var; ?>-link" class='tool_show' href="#null" onclick="link('<? echo $var; ?>');">link</a>
+						<? if($var != 'upcoming_text'){ ?>
+						<a id="<? echo $var; ?>-image" class='tool_show' href="#null" onclick="image('<? echo $var; ?>');">image</a>
+						<?}?>
+						<? if($var == 'body'){ ?>
+						<a id="<? echo $var; ?>-subtitle" class='tool_show' href="#null" onclick="addTag('<? echo $var; ?>','h4', 'subtitle');">subtitle</a>
+						<?}elseif($var == 'qanda'){?>
+						<a id="<? echo $var; ?>-qandaname" class='tool_show' href="#null" onclick="addTag('<? echo $var; ?>','h4', 'qandaname');">Q & A name</a>
+						<?}?>
+						<div id="<?echo $var; ?>-imagecontainer" class='imagecontainer hidden' style="background-color: #999;">
+							<span style="color: white;">insert an image...</span>
+							<div id="<? echo $var; ?>-imagebox" class='imagebox'>
+								<?
+									for($i = 0; $i < $num_medias; $i++) {
+										if ($medias[$i]["type"] != "pdf" && $medias[$i]["type"] != "mp4" && $medias[$i]["type"] != "mp3") {
+											$thisUrl = $medias[$i]['display'];
+											if(isset($medias[$i]['caption'])){
+												$thisCaption = $medias[$i]['caption'];
+											}else{
+												$thisCaption = "";
+											}
+											
+											$addTag = "addTag('" .$var. "', 'img', 'img_ctner_temp', '".$thisUrl."', '".$thisCaption."')";
+											echo '<div class="image-container" id="'. m_pad($medias[$i]['id']) .'-'. $var .'" onclick = "'.$addTag.'"><img src="'. $medias[$i]['display'] .'"></div>';
+										}
+									}
+								?>
+								</div>
+						</div>
+					</div>
+
+						<div name='<? echo $var; ?>' class='large editable' contenteditable='true' id='<? echo $var; ?>-editable' onclick="showToolBar('<? echo $var; ?>'); resetViews('<? echo $var; ?>');" style="display: block;"><?
+                            if($item[$var])
+                                echo $item[$var];
+                        ?></div>
+
+                        <textarea name='<? echo $var; ?>' class='large hidden' id='<? echo $var; ?>-textarea' onclick="" onblur=""><?
+                            if($item[$var])
+                                echo $item[$var];
+                        ?></textarea>
+
+						<script>
+							addListeners('<?echo $var; ?>');
+							// for triggerEditor
+							unWrappingTemp('<?echo $var; ?>');
+							addListeners_selection('<?echo $var; ?>');
+							addListeners_paste('<?echo $var; ?>');
+
+						</script>
+						<?
+
+                        // ** end minimal wysiwig toolbar **
 
 						}elseif($var_info["input-type"][$var] == "referencelist")
 						{?>
 							<a class = "btn_addListItem" href = "#null" onclick = "addListItem('<? echo $var ;?>')">add item</a>
 							<?
-							$temp = strToItems($item[$var]);
-
+							$temp = htmlspecialchars($item[$var]);
+							$pattern = [htmlspecialchars('<a class = "reference_link" href = '), htmlspecialchars('</a>'), htmlspecialchars('"')];
+							$replacement = ["", "",""];
+							$temp = str_replace($pattern,$replacement,$temp);
+							$temp = explode(htmlspecialchars("<br>"), $temp);
+							foreach($temp as &$tp)
+								$tp = explode(htmlspecialchars(">"), $tp);
 							if(count($temp) > 1){
 								$loop_length = count($temp);
 							}else{
@@ -523,11 +442,11 @@ if ($rr->action != "update" && $uu->id)
 							}
 							for($i = 0; $i < $loop_length; $i++){
 						?><div class = 'list_name'><? echo $var . "-" . ($i+1); ?></div><input 
-							name='<? echo $var."[".$i."][]"; ?>' 
+							name='<? echo $var."[]"; ?>' 
 							type='<? echo $var_info["input-type"][$var]; ?>'
 							value='<? echo (isset( $temp[$i][1] ) ? $temp[$i][1] : "(title)" )?>' 
 						><input 
-							name='<? echo $var."[".$i."][]"; ?>' 
+							name='<? echo $var."Url[]"; ?>' 
 							type='<? echo $var_info["input-type"][$var]; ?>'
 							value='<? echo (isset( $temp[$i][0] ) && $temp[$i][0] != "" ? $temp[$i][0] : "(url)" )?>' 
 						><?	
@@ -538,68 +457,15 @@ if ($rr->action != "update" && $uu->id)
 						?><input name='<? echo $var; ?>'
 								type='<? echo $var_info["input-type"][$var]; ?>'
 								value='<? echo urldecode($item[$var]); ?>'
-								onclick=""
+								onclick="hideToolBars(); resetViews();"
 						><?
-						}
-						elseif($var == "location")
-						{
-						?>
-						<div id = '<? echo $var; ?>-selectList' class = "selectList">
-							<a class = "selectList_btn" href = "#null" onclick = "toggleSelectList('<? echo $var; ?>')">show list [+]</a>
-							<div class = "selectList_list shadowBox">
-								*** you can edit this list at json/location.json ***
-							<? 
-							foreach($location as $list => $adds){
-								?>
-								<ul>
-									<? echo $list; ?>
-									<?
-									foreach($adds as $add){
-										?>
-										<li><? echo $add["loc"].'<br> --- '.$add["address"]; ?></li>
-										<?
-									}
-									echo '<br>'; ?>
-								</ul>
-
-								<?
-							}
-							?>
-								
-							</div>
-						</div>
-						<select name ='<? echo $var; ?>' type='<? echo $var_info["input-type"][$var]; ?>' > 
-							<?
-							foreach($location as $list => $adds){
-								?>
-								<option class = '<? echo $var; ?>-option' <? 
-									if ($list == htmlspecialchars($item[$var], ENT_QUOTES)) {
-										?>
-										selected = "selected" 
-										<?
-									}
-								?>value = '<? echo $list; ?>'><? echo $list; ?></option>
-
-								<?
-							}
-							?>
-						</select>
-						<?	
-						}
-						elseif($var_info["input-type"][$var] == 'hidden'){
-						?><input name='<? echo $var; ?>'
-							type='<? echo $var_info["input-type"][$var]; ?>'
-							value='<? echo htmlspecialchars($item[$var], ENT_QUOTES); ?>'
-							onclick=""
-						>
-						<?	
 						}
 						elseif($var_info["input-type"][$var] != "none")
 						{
 						?><input name='<? echo $var; ?>'
 								type='<? echo $var_info["input-type"][$var]; ?>'
 								value='<? echo htmlspecialchars($item[$var], ENT_QUOTES); ?>'
-								onclick=""
+								onclick="hideToolBars(); resetViews();"
 						><?
 						}
 					?></div>
@@ -714,25 +580,24 @@ else
 	foreach($vars as $var)
 	{	
 		if($var_info["input-type"][$var] == "referencelist"){
-			while(end($rr->$var) == '(title)'){
-				array_pop($rr->$var);
+			$temp = "";
+			$thisUrl = $var."Url";
+
+			foreach($rr->$var as $key => $rl){
+				if(!empty($rl) && $rl != "(title)"){
+					$temp .= '<a class = "reference_link" href = "'.$_POST[$thisUrl][$key].'">'.$rl.'</a><br>';
+				}
 			}
-			if($var == 'reading'){
-				$reading_keep = $rr->$var;
-			}
-			$rr->$var = itemsToStr( $rr->$var, 'reference_link', $var);
+			$rr->$var = $temp;
 		}elseif($var == "thumbnail"){
 			$rr->$var = $_POST['thumbnail'];
-		}elseif($var == "reading_fromid" || $var == "reading_toid" ){
-			$rr->$var = $item[$var];
 		}
-
 		$new[$var] = addslashes($rr->$var);
 		$item[$var] = addslashes($item[$var]);
 	}
 
 	$siblings = $oo->siblings($uu->id);
-	$updated = update_object($item, $new, $siblings, $vars, $old_reading);
+	$updated = update_object($item, $new, $siblings, $vars);
 
 	// process new media
 	$updated = (process_media($uu->id) || $updated);

@@ -17,4 +17,40 @@ require_once("views/archive.php");
 	var topElement = document.getElementById("nav"); 
 	sectioning_title(topElement);
 	scrollEvents(foldTitle);
+
+	var sImg_ctner_temp = document.getElementsByClassName('img_ctner_temp');
+	for(i = 0 ; i< sImg_ctner_temp.length; i++){
+		var thisParent = sImg_ctner_temp[i].parentElement;
+		var thisImg_ctner = document.createElement('figure');
+		var caption = sImg_ctner_temp[i].getAttribute('caption');
+		var thisCaption = document.createElement('figcaption');
+		thisCaption.innerText = caption;
+		thisImg_ctner.className = 'img_ctner';
+		thisParent.insertBefore(thisImg_ctner, sImg_ctner_temp[i])
+		thisImg_ctner.appendChild(sImg_ctner_temp[i]);
+		thisImg_ctner.appendChild(thisCaption);
+		sImg_ctner_temp[i].className = '';
+	}
+	// intro_content
+	var sIntro_content = document.getElementById('intro_content');
+	var children = sIntro_content.children;
+	var temp = document.createElement('div');
+	var temp_intro_content = document.createElement('div');
+	temp.className = 'content_section';
+	var fuse = 0;
+	while(children.length && fuse < 300){
+		if(children[0].classList.contains('subtitle')){
+			temp_intro_content.appendChild(temp);
+			var temp = document.createElement('div');
+			temp.className = 'content_section';
+		}
+		temp.appendChild(children[0]);
+		fuse++;
+	}
+	if(fuse == 300){
+		console.log('loop loses control (or we do have 300 paragraphs)');
+	}
+	temp_intro_content.appendChild(temp);
+	sIntro_content.innerHTML = temp_intro_content.innerHTML;
 </script>
+

@@ -12,7 +12,10 @@ var unDoSteps = -1;
 // ==============================================================
 // From o-r-g, with some btns removed
 
+
+// ==============================================================
 function sethtml(name) {
+	console.log("sethtml");
 	var sToolbar = document.getElementById(name + '-toolbar');
 	var editable = document.getElementById(name + '-editable');
 	var textarea = document.getElementById(name + '-textarea');
@@ -21,10 +24,12 @@ function sethtml(name) {
 	editable.classList.toggle('hidden');
 
 	var passString = editable.innerHTML;
-	textarea.value = pretty(passString);
+	textarea.value = passString;
+
 }
 
 function showrich(name) {
+	console.log("showrich");
 	var sToolbar = document.getElementById(name + '-toolbar');
 	var editable = document.getElementById(name + '-editable');
 	var textarea = document.getElementById(name + '-textarea');
@@ -35,47 +40,30 @@ function showrich(name) {
 	var passString = textarea.value;
 	editable.innerHTML = passString;
 }
-// ==============================================================
+
 
 function pretty(str) {
 	// Format the string to be wrapped only in p.body:
 	// if the str has been prettified or not;
-	var beenPrettied = str.indexOf('p class="body"');
-	var firstDivIndex = str.indexOf("<div>");
-	var noDivAtBeginning = false;
+	// var beenPrettied = str.indexOf('p class="body"');
+	var beenPrettied = true;
+	var firstDivIndex = str.indexOf("<div");
 	// Sometimes the first paragraph will be wrapped nothing
-	if(beenPrettied == -1){
-		if(firstDivIndex != 0){
-			noDivAtBeginning = true;
-		}
-		if(firstDivIndex != -1 ){
-			// got some divs
-			if(noDivAtBeginning){
-				// if there's no div for first paragraph
-				// then give wrap it with a div
-				var preFirstDiv = str.slice(0, firstDivIndex);
-				var postFirstDiv = str.slice(firstDivIndex);
-				str = '<div>'+preFirstDiv+'</div>'+	postFirstDiv
-			}
-			str = str.replace(/<div>/gi,'<p class="body">');
-			str = str.replace(/<\/div>/gi,"</p>");
-		}else{
-			// no div at all
-			str = '<p class="body">'+str+"</p>";
-		}
-		// str = '<div class="content_section">'+str+'</div>';	
-	}else{
-		str = str.replace(/<div>/gi,'<p class="body">');
-		str = str.replace(/<\/div>/gi,"</p>");
+	if(firstDivIndex != 0){
+		var preFirstDiv = str.slice(0, firstDivIndex);
+		var postFirstDiv = str.slice(firstDivIndex);
+		str = '<div>'+preFirstDiv+'</div>'+	postFirstDiv;
 	}
-	
 
+	// str = str.replace(/<div>/gi,'<p class="body">');
+	// str = str.replace(/<\/div>/gi,"</p>");
+	
 	var isBrFree = str.indexOf("<br");
 	if (isBrFree !== -1){
-		str = str.replace(/<br\s*[\/]?>/gi,'<\/p><p class="body">');
+		str = str.replace(/<br\s*[\/]?>/gi,'<\/div><div>');
 	}
-	str = str.replace(/<p class="body"><\/p>/gi,'');  
-	stripEmptyTags('body'); 
+	str = str.replace(/<div><\/div>/gi,'');  
+	 
 	return str; 
 }
 
@@ -83,262 +71,63 @@ function stripEmptyTags(name){
 	// remove all the empty elements
 	// which result from addTag() (or other causes);
 	var editor = document.getElementById(name+"-editable");
-	var editorChilds = editor.children;
-	var isClean = true;
-	var loopfuse = 0;
-	do{	
-		isClean = true;
-		for(i = 0; i<editorChilds.length;i++){
-			var editorGrandChilds = editorChilds[i].children;
-			for(j= 0;j<editorGrandChilds.length;j++){
-				if(!editorGrandChilds[j].innerHTML){
-					editorChilds[i].removeChild(editorGrandChilds[j]);
-					isClean = false;
-				}else if(editorGrandChilds[j].innerHTML == ""){
-					editorChilds[i].removeChild(editorGrandChilds[j]);
-					isClean = false;
-				}
+	var allDescendant = document.querySelectorAll("#"+name+"-editable *");
+	var length = allDescendant.length;
+	for(i = 0; i<length;i++){
+		var thisContent = allDescendant[i].innerHTML;
+		var thisTagName = allDescendant[i].tagName;
+		if(!thisContent || thisContent=="" || thisContent==" "||thisContent =="&nbsp;" ){
+			if(thisTagName != 'IMG'){
+				var thisParent = allDescendant[i].parentNode;
+				thisParent.removeChild(allDescendant[i]);
+			}else{
+				console.log("found img");
 			}
 		}
-
-	}while(!isClean);
+	}
 }
 
 function rmSpan(name){
 	var span = document.querySelectorAll('#'+name+'-editable span');
-	while(span.length) {
-	    var parent = span[ 0 ].parentNode;
-	    while( span[ 0 ].firstChild ) {
-	        parent.insertBefore(  span[ 0 ].firstChild, span[ 0 ] );
-	    }
-	    parent.removeChild( span[ 0 ] );
-	}
-}
-function replaceDivWithP(name){
-	// var div = document.getElementsByTagName('div');
-	var div = document.querySelectorAll("#"+name+"-editable div");
-	var index = 0;
-	while(div.length) {
-		if(div[index].cliassList.contains('content_section')){
-			index++;
-		}else{
-			var parent = div[ index ].parentNode;
-		    // while( div[ index ].firstChild ) {
-		    var temp_p = document.createElement("p");
-		    temp_p.className = "body";
-		    temp_p.innerHTML = div[ index ].firstChild;
-	        parent.insertBefore(  temp_p, div[ index ] );
-		    // }
-		    parent.removeChild( div[ index ] );
-		}
+	// while(span.length) {
+	//     var parent = span[ 0 ].parentNode;
 	    
+	//     while( span[ 0 ].firstChild ) {
+	//         parent.insertBefore(  span[ 0 ].firstChild, span[ 0 ] );
+	//     }
+	//     parent.removeChild( span[ 0 ] );
+	//     span = document.querySelectorAll('#'+name+'-editable span');
+	//     console.log(span.length);
+	// }
+	for(i = 0 ; i < span.length ; i++){
+		var parent = span[i].parentNode;
+		while( span[ i ].firstChild ) {
+	        parent.insertBefore(  span[ i ].firstChild, span[ i ] );
+	    }
+	    parent.removeChild( span[ i ] );
 	}
 }
-
-var selText = "";
-var selRange = [];
-var selected_el = null;
-var selectedParentNodeOrder = -1;
-var selectedGrandParentNodeOrder = -1;
-var selParentIndex = [];
-var selChildIndex = [];
-
-function setSelection(origin){
-	var origin_id = origin+"-editable";
-	var sel;
-	if(typeof window.getSelection !== "undifined"){
-		if(window.getSelection().type == 'None'){
-			console.log("window gets selection but type == None");
-			return false;
-		}else{
-			sel = window.getSelection();
-		}
-	}else if(typeof document.selection !== "undifined"){
-		sel = document.selection;
-	}else{
-		console.log("can't get active text");
-		return false;
-	}
-	
-	selText = sel.toString();
-	var temp_element = document.createElement("span");
-	temp_element.innerHTML = selText;
-	selText = stripNbsp(temp_element.innerHTML);
-	var rr = sel.getRangeAt(0);	
-	selected_el = rr.startContainer;
-	while(selected_el.nodeType == 3){
-		selected_el = selected_el.parentElement;
-	}
-	var rr_test = document.createRange();
-	rr_test.selectNode(selected_el);
-	rr_test.className = 'active';
-	selRange[0] = rr.startOffset;
-	selRange[1] = rr.endOffset;
-	if(selRange[0] == 0 && selRange[1] == 0 && selText.length > 0){
-		// if the text includes line break at the end;
-		selText = selText.substring(0, selText.length - 2);
-		selRange[1] = selText.length;
-	}
-	
-	var rr_ancestor = [];
-	var generation_el = selected_el,
-		generation_el_id = generation_el.id,
-		generation_count = 0;
-	while(generation_el_id != origin_id){
-		rr_ancestor[generation_count] = document.createRange();
-		rr_ancestor[generation_count].selectNode(generation_el);
-		selParentIndex[generation_count] = rr_ancestor[generation_count].startOffset;
-		generation_el_id = rr_ancestor[generation_count].startContainer.id;
-		generation_el = generation_el.parentElement;
-		generation_count++;
-	}
-	for (i = 0;i<selParentIndex.length;i++){
-		var order_reversed = selParentIndex.length-i-1;
-		selChildIndex[order_reversed] = selParentIndex[i];
-	}
-}
-var addListeners_selection = function(name){
-	document.getElementById(name+"-editable").addEventListener('mouseup', function(){
-		setSelection(name);
-	});
-	document.getElementById(name+"-editable").addEventListener('keyup', function(event){
-		// if right arrow or left arrow;
-		if (event.keyCode === 37 || event.keyCode === 38 || event.keyCode === 39 || event.keyCode === 40) {
-		   setSelection(name);
-		}
-	});
-}
-var aa = [];
-var temp_whole = "";
-var addTag = function(name, tagName, newclass, imgContent = null){
-	if(selected_el){
-		editingCommit(name);
-		var editor = document.getElementById(name+"-editable");
-		var textarea = document.getElementById(name + '-textarea');
-		var fullContent = selected_el.innerHTML;
-		var tagName = tagName;
-		// var thisEditorChild = [];
-		// var temp_child = editor;
-		// for (i = 0;i<selChildIndex.length;i++){
-		// 	temp_child = temp_child.childNodes[selChildIndex[i]];
-		// 	thisEditorChild[i] = temp_child;
-
-		// }
-		if(fullContent.indexOf(selText)!= -1 ){
-			var tempText = [];
-			tempText[0] = fullContent.slice(0, selRange[0]);
-			tempText[1] = fullContent.slice(selRange[0], selRange[1]);
-			tempText[2] = fullContent.slice(selRange[1], fullContent.length);
-
-			if(newclass == 'subtitle'){
-				tempText[0] += '</p></div><div class="content_section">';
-				tempText[2] = '<p class="body">'+tempText[2];
-				tempText[1] = '<'+tagName+" class = '"+newclass+"'>"+tempText[1]+"</"+tagName+">";
-			}else if(mewclass == 'img_ctner'){
-				tempText[0] += '</p>';
-				tempText[2] = '<p class="body">'+tempText[2];
-				tempText[1] = '<'+tagName+" class = '"+newclass+"'>"+imgContent+"</"+tagName+">";
-			}
-
-			var modifiedContent = tempText[0] + tempText[1] + tempText[2];
-			
-			// var aa = [];
-			aa = [];
-			var root = editor;
-			var nextRoot;
-			var layer_num = selChildIndex.length;
-			for(i = 0; i < layer_num ;  i++){
-				var layer_size = root.children.length;
-				aa[i] = [];
-				for(j = 0; j<layer_size; j++ ){
-					if(j == selChildIndex[i]){
-						nextRoot = root.children[j].cloneNode(true);
-						if(nextRoot.children.length){
-							var temp_content = nextRoot.innerHTML;
-							aa[i][j] = htmlToText(nextRoot).split(temp_content);
-						}else{
-							var temp_content = nextRoot.innerHTML;
-							aa[i][j] = htmlToText(nextRoot).replace(temp_content, modifiedContent);
-						}
-						
-					}else{
-						aa[i][j] = htmlToText(root.children[j]);
-					}
-				}
-				root = nextRoot;
-			}
-
-			// var temp_whole = "";
-			temp_whole = "";
-			
-			for( i = layer_num-1 ; i >=0 ; i --){
-				var preStr = "";
-				var postStr = "";
-				var pre = true;
-				for( j = 0 ; j< aa[i].length ; j++){
-					if( j == selChildIndex[i]){
-						if(Array.isArray(aa[i][j])){
-							pre = false;
-							temp_whole = aa[i][j][0]+temp_whole+aa[i][j][1];
-						}else{
-							pre = false;
-							temp_whole += aa[i][j];
-						}
-					}else{
-						if(pre){
-							preStr += aa[i][j];
-						}else{
-							postStr += aa[i][j];
-						}
-					}
-					
-				}
-				temp_whole = preStr + temp_whole + postStr;
-			}
-			editor.innerHTML = temp_whole;
-			stripEmptyTags(name);
-			rmSpan(name);
-			editingCommit(name);
-			selText = "";
-			selRange = [];
-			selected_el = null;
-			selParentIndex = [];
-			selChildIndex = [];
-		}else{
-
-		}
-
-	}else{
-		console.log("this text can not be modified");
-	}
-}
-function htmlToText(el){
-	var temp_element1 = document.createElement("div");
-	var temp_element2 = el.cloneNode(true);
-	temp_element1.append(temp_element2);
-	return temp_element1.innerHTML;
-}
-
-function getSelected_el(){
-    if (document.selection)
-        return document.selection.createRange().parentElement();
-    else
-    {
-        var selection = window.getSelection();
-        if (selection.rangeCount > 0)
-            return selection.getRangeAt(0).startContainer.parentElement;
-    }
-}
-
-function commit(name) {
-	var editable = document.getElementById(name + '-editable');
-	var textarea = document.getElementById(name + '-textarea');
-	if (textarea.classList.contains('hidden')) {
-		var html = editable.innerHTML;
-		textarea.value = html;    // update textarea for form submit
-	} else {
-		var html = textarea.value;
-		editable.innerHTML = html;    // update editable
+function rmP(name){
+	var p = document.querySelectorAll('#'+name+'-editable p');
+	// while(p.length) {
+	//     var parent = p[ 0 ].parentNode;
+	//     var br = document.createElement('<br>');
+	//     while( p[ 0 ].firstChild ) {
+	//         parent.insertBefore(  p[ 0 ].firstChild, p[ 0 ] );
+	//         parent.insertBefore(  br, p[ 0 ] );
+	//     }
+	//     parent.removeChild( p[ 0 ] );
+	// }
+	console.log(p);
+	for(i = 0 ; i < p.length ; i++){
+		var parent = p[i].parentNode;
+		var br = document.createElement('br');
+		console.log(i);
+		while( p[ i ].firstChild ) {
+	        parent.insertBefore(  p[ i ].firstChild, p[ i ] );
+	    }
+	    parent.insertBefore(  br, p[ i ] );
+	    parent.removeChild( p[ i ] );
 	}
 }
 var stripTags = function(str, brFree = false){
@@ -362,58 +151,319 @@ var stripNbsp = function(str){
 }
 
 
-var addListeners_paste = function(name){
-	var editable = document.getElementById(name+'-editable');
-		editable.addEventListener('paste', (event) => {
-		var paste_content = (event.clipboardData || window.clipboardData).getData('text/html');
-		var temp_element = document.createElement("div");
-		    temp_element.setAttribute('contenteditable', true);
-		editingCommit(name);
-		if(!editable.innerText || editable.innerText == ""){
-			
-			if(editable.innerHTML != editable.innerText){
-				editable.innerHTML = "";
-			}
-		    if(!paste_content){
-		    	var paste_content = (event.clipboardData || window.clipboardData).getData('text/plain');
-			}
-		    // temp_element.innerHTML = stripTags(paste_content);
+var selText = "";
+var rr;
+var selRange = [];
+var selected_el = null;
+var selectedParentNodeOrder = -1;
+var selectedGrandParentNodeOrder = -1;
+var selParentIndex = [];
+var selChildIndex = [];
 
-		    temp_element.innerHTML = stripTags(paste_content);
-		    editable.innerHTML = '<div class = "content_section">'+pretty(temp_element.innerHTML)+'</div>';
-		    
-
-
-		    event.preventDefault();
-
+function setSelection(){
+	var sel;
+	if(typeof window.getSelection !== "undifined"){
+		if(window.getSelection().type == 'None'){
+			console.log("window gets selection but type == None");
+			return false;
 		}else{
-			if(paste_content){
-				event.preventDefault();
-			    temp_element.innerHTML = stripNbsp(stripTags(paste_content));
-			    var str = selected_el.innerText.substring(0, selRange[0])+temp_element.innerText+selected_el.innerText.substring(selRange[0]);
-			    selected_el.innerText = str;
-			    editable.innerHTML = pretty(editable.innerHTML);
+			sel = window.getSelection();
+		}
+	}else if(typeof document.selection !== "undifined"){
+		sel = document.selection;
+	}else{
+		console.log("can't get active text");
+		return false;
+	}
+	
+	selText = sel.toString();
+	
+	// var temp_element = document.createElement("span");
+	// temp_element.innerHTML = selText;
+	// selText = stripNbsp(temp_element.innerHTML);
+	rr = sel.getRangeAt(0);	
+	selected_el = rr.startContainer;
+	while(selected_el.nodeType == 3){
+		selected_el = selected_el.parentElement;
+	}
+	selRange[0] = rr.startOffset;
+	selRange[1] = rr.endOffset;
+	// if(selRange[0] == 0 && selRange[1] == 0 && selText.length > 0){
+	// 	// if the text includes line break at the end;
+	// 	selText = selText.substring(0, selText.length - 2);
+	// 	selRange[1] = selText.length;
+	// }
+	
+	// var rr_ancestor = [];
+	// var generation_el = selected_el,
+	// 	generation_el_id = generation_el.id,
+	// 	generation_count = 0;
+	// while(generation_el_id != origin_id){
+	// 	rr_ancestor[generation_count] = document.createRange();
+	// 	rr_ancestor[generation_count].selectNode(generation_el);
+	// 	selParentIndex[generation_count] = rr_ancestor[generation_count].startOffset;
+	// 	generation_el_id = rr_ancestor[generation_count].startContainer.id;
+	// 	generation_el = generation_el.parentElement;
+	// 	generation_count++;
+	// }
+	// for (i = 0;i<selParentIndex.length;i++){
+	// 	var order_reversed = selParentIndex.length-i-1;
+	// 	selChildIndex[order_reversed] = selParentIndex[i];
+	// }
+}
+var addListeners_selection = function(name){
+	var editable = document.getElementById(name+"-editable");
+	editable.addEventListener('mouseup', function(){
+		setSelection(name);
+	});
+	editable.addEventListener('keyup', function(event){
+		// if right arrow or left arrow;
+		if (event.keyCode === 37 || event.keyCode === 38 || event.keyCode === 39 || event.keyCode === 40) {
+		   setSelection(name);
+		}else if(event.keyCode === 13){
+			// var content_section = document.querySelectorAll('#'+name+'-editable .content_section');
+		}
 
-			    var ee = editable;
-			    
-			    for(i = 0; i<selChildIndex.length ; i++){
-			    	ee = ee.childNodes[selChildIndex[i]];
-			    }
-			    setCaretPosition(ee, selRange[0]+temp_element.innerHTML.length);
-			    setTimeout(function(){
-			    	rmSpan(name);
-			    	stripEmptyTags(name);
-			    },0);
-		    }else{
-		    	var paste_content = (event.clipboardData || window.clipboardData).getData('text/plain');
-		    	setTimeout(function(){
-		    		editable.innerHTML = pretty(editable.innerHTML);
-		    		stripEmptyTags(name);
-		    	}, 0);
-		    }
+	});
+}
+var addTag2 = function(name, tagName, newclass, imgUrl = null, imgCaption = null){
+	if(selected_el && fullHTML.indexOf(selText)!= -1 ){
+		editingCommit(name);
+		var caretTarget = document.getElementById("caretTarget");
+		if (caretTarget !== null){
+			caretTarget.parentNode.removeChild(caretTarget);
+		}
+		var editor = document.getElementById(name+"-editable");
+		var textarea = document.getElementById(name + '-textarea');
+		var fullHTML = selected_el.innerHTML,
+			fullText = selected_el.innerText;
+		var tagName = tagName;
+		var tempText = [];
+
+		tempText[0] = fullHTML.slice(0, selRange[0]);
+		tempText[1] = fullHTML.slice(selRange[0], selRange[1]);
+		tempText[2] = fullHTML.slice(selRange[1], fullHTML.length);
+		if(tempText[2] == '<br>' || tempText[2] == '&nbsp;'){
+			tempText[2] = '';
 		}
 		
+
+
+
+		if(newclass == 'subtitle'){
+			tempText[0] += '</div></div><div class="content_section">';
+			tempText[2] = '<div>'+tempText[2];
+			tempText[1] = '<'+tagName+" class = '"+newclass+"'>"+tempText[1]+"</"+tagName+">";
+		}else if(newclass == 'qandaname'){
+			tempText[1] = '<'+tagName+" class = '"+newclass+"'>"+tempText[1]+"</"+tagName+">";
+		}else if(newclass == 'img_ctner_temp'){
+			tempText[0] += '</div>';
+			tempText[2] = '<div>'+tempText[2];
+			tempText[1] = '<'+tagName+" class = '"+newclass+"' src = '"+imgUrl+"' caption = '"+imgCaption+"'>";
+		}else{
+			return false;
+		}
+
+		var modifiedContent = tempText[0] + tempText[1] +"<span id = 'caretTarget'>1</span>"+ tempText[2];
+		editor.innerHTML = replaceSelected(name, modifiedContent);
+		setCaretPosition();
+		selText = "";
+		selRange = [];
+		selected_el = null;
+		selParentIndex = [];
+		selChildIndex = [];
+		stripEmptyTags(name);
+		editingCommit(name);
+
+	}else{
+		console.log("this text can not be modified");
+	}
+}
+
+function addTag(name, tagName, newclass, imgUrl = null, imgCaption = null){
+	editingCommit(name);
+	setSelection();
+	const oldConent = document.createTextNode(rr.toString());
+	const newElement = document.createElement(tagName);
+	newElement.className = newclass;
+	newElement.append(oldConent);
+	if(tagName == "span"){
+		// for inline elements
+		rr.deleteContents();
+		rr.insertNode(newElement);
+	}else if(newclass == "subtitle"){
+		// for blocks
+		var temp = document.createElement('h4');
+		temp.innerText = selText;
+		if(temp.innerText == selected_el.innerText){
+			temp.className = 'subtitle';
+			selected_el.parentElement.replaceChild(temp, selected_el);
+
+		// var fullHTML = selected_el.innerHTML;
+		// var fullText = selected_el.innerText;
+		// var tempText = [];
+		// var lastCode_selText = selText.charCodeAt(selText.length-1);
+		// var blankChars = [10, 32, 160];
+		// while(blankChars.indexOf(lastCode_selText) != -1 || isNaN(lastCode_fullText)){
+		// 	selText = selText.slice(0, -1);
+		// 	lastCode_selText = selText.charCodeAt(selText.length-1);
+		// }
+
+		// var lastCode_fullText = fullText.charCodeAt(selText.length-1);
+		// while(blankChars.indexOf(lastCode_fullText) != -1 || isNaN(lastCode_fullText)){
+		// 	fullText = fullText.substring(0, fullText.length-1);
+		// 	lastCode_fullText = fullText.charCodeAt(fullText.length-1);
+		// }
+		// if(selText == fullText){
+		// 	// insert the tag
+		// 	var thisParent = selected_el.parentNode;
+		// 	selected_el.parentNode.insertBefore(newElement, selected_el);
+		// 	selected_el.parentNode.removeChild(selected_el);
+		// 	// re-sectioning
+		// 	thisParent = newElement.parentElement;
+		// 	var thisSiblings = thisParent.children;
+		// 	var newSection = document.createElement('div');
+		// 	newSection.className = 'content_section';
+		// 	thisParent.parentNode.insertBefore(newSection, thisParent);
+
+		// 	while(thisSiblings[0] !== newElement){
+		// 		console.log("thisSiblings[0] = "+thisSiblings[0]);
+		// 		newSection.appendChild(thisSiblings[0]);
+		// 	}
+
+		}else{
+			alert('please select an [isolated paragraph] to make it subtitle.');
+		}
+	}else if(newclass == "img_ctner"){
+		var blankChars = [10, 32, 160];
+		var fullText = selected_el.innerText;
+		var lastCode_fullText = fullText.charCodeAt(selText.length-1);
+		while(blankChars.indexOf(lastCode_fullText) != -1 || isNaN(lastCode_fullText)){
+			if(fullText.length > 1){
+				fullText = fullText.substring(0, fullText.length-1);
+				lastCode_fullText = fullText.charCodeAt(fullText.length-1);
+			}else{
+				console.log("only one char in fullText");
+				fullText = false;
+				break;
+			}
+		}
+		if(!fullText || fullText == "undefined"){
+			console.log("an empty line");
+			var newImg = document.createElement('img');
+			newImg.src = imgUrl;
+			var newCaption = document.createElement('figcaption');
+			newCaption.innerText = imgCaption;
+			newElement.appendChild(newImg);
+			newElement.appendChild(newCaption);
+			selected_el.parentNode.replaceChild(newElement, selected_el);
+		}else{
+			alert('please insert the image at an empty line.');
+		}
+	}
+}
+
+function htmlToText(el){
+	var temp_element1 = document.createElement("div");
+	var temp_element2 = el.cloneNode(true);
+	temp_element1.append(temp_element2);
+	return temp_element1.innerHTML;
+}
+
+function getSelected_el(){
+    if (document.selection)
+        return document.selection.createRange().parentElement();
+    else
+    {
+        var selection = window.getSelection();
+        if (selection.rangeCount > 0)
+            return selection.getRangeAt(0).startContainer.parentElement;
+    }
+}
+
+
+var addListeners_paste = function(name){
+	var editable = document.getElementById(name+'-editable');
+
+	editable.addEventListener("paste", function(e) {
+	    setTimeout(function(){
+	    	var temp = document.createElement('div');
+	    	temp.setAttribute('id', 'temp');
+	    	temp.innerHTML = editable.innerHTML;
+	    	var span_temp = temp.querySelectorAll('span');
+	    	// var p_temp = temp.getElementsByTagName('p');
+	    	console.log(name);
+	    	rmSpan(name);
+	    	rmP(name);
+	    	// editable.innerHTML = temp.innerHTML;
+			// editingCommit(name);
+		}, 0);
 	});
+
+
+
+
+		// editable.addEventListener('paste', (event) => {
+		// editingCommit(name);
+		// var paste_content = (event.clipboardData || window.clipboardData).getData('text/html');
+		// var temp_element = document.createElement("div");
+		//     temp_element.setAttribute('contenteditable', true);
+		// var isEmpty = false;
+		// if(stripTags(editable.innerHTML, true) == ""){
+		// 	isEmpty = true;
+		// };
+		// var caretTarget = document.getElementById("caretTarget");
+		// console.log("caretTarget = "+caretTarget);
+		// if (caretTarget !== null){
+		// 	caretTarget.parentNode.removeChild(caretTarget);
+		// }
+		// if(isEmpty){
+
+		// 	editable.innerHTML = "";
+		//     if(!paste_content){
+		//     	var paste_content = (event.clipboardData || window.clipboardData).getData('text/plain');
+		// 	}
+		//     temp_element.innerHTML = stripTags(paste_content);
+		//     editable.innerHTML = '<div class = "content_section">'+pretty(temp_element.innerHTML)+'<span id = "caretTarget">1</span></div>';
+		//     setCaretPosition();
+		//     setTimeout(function(){
+		//     	rmSpan(name);
+		//     	stripEmptyTags(name);
+		//     },0);
+
+
+		//     event.preventDefault();
+		// }else{
+		// 	if(paste_content){
+		// 		event.preventDefault();
+		// 	    temp_element.innerHTML = stripNbsp(stripTags(paste_content));
+		// 	    var fullHTML = selected_el.innerHTML;
+		// 	    var tempText = [];
+		// 	    tempText[0] = fullHTML.substring(0, selRange[0]);
+		// 	    tempText[1] = temp_element.innerHTML;
+		// 	    tempText[2] = fullHTML.substring(selRange[0]);
+		// 	    var modifiedContent = tempText[0]+tempText[1]+'<span id = "caretTarget">1</span>'+tempText[2];
+			    
+		// 	    editable.innerHTML = pretty(replaceSelected(name, modifiedContent));
+		// 	    setCaretPosition();
+		// 	    setTimeout(function(){
+		// 			rmSpan(name);
+		// 	    	stripEmptyTags(name);
+		// 	    },0);
+		//     }else{
+		//     	var paste_content = (event.clipboardData || window.clipboardData).getData('text/plain');
+		//     	editable.innerHTML = pretty(editable.innerHTML);
+		//     	setCaretPosition();
+		//     	setTimeout(function(){
+		//     		rmSpan(name);
+		//     		stripEmptyTags(name);
+		//     	}, 0);
+		//     }
+		// }
+	// 	setTimeout(function(){
+	// 		editingCommit(name);
+	// 	}, 0);
+	// });
 }
 
   
@@ -424,13 +474,7 @@ var editingCommit = function(name){
 	unDoSteps = 0;
     saveHTML(name);
 }
-var addListeners_input = function(name){
-	document.getElementById(name+"-editable").addEventListener("input", function() {
-		if(unDoSteps>-1){
-			// editingCommit(name);
-		}
-	}, false);
-}
+
 var saveHTML = function(name){
 	var editor = document.getElementById(name+"-editable");
 	var newEdition = editor.innerHTML;
@@ -461,7 +505,7 @@ var redo = function(name){
 		alert("Reached the latest record!");
 	}
 }
-function setCaretPosition(elm, pos) {
+function setCaretPosition(elm = document.getElementById('caretTarget'), pos = 0) {
  	 var tag = elm; 
 
 	// Creates range object 
@@ -469,7 +513,6 @@ function setCaretPosition(elm, pos) {
 	  
 	// Creates object for selection 
 	var set = window.getSelection(); 
-	 console.log(tag);
 	// Set start position of range 
 	setpos.setStart(tag.childNodes[0], pos); 
 	
@@ -486,7 +529,116 @@ function setCaretPosition(elm, pos) {
 	  
 	// Set cursor on focus 
 	tag.focus(); 
+	tag.parentNode.removeChild(tag);
 }
+
+function wrappingImgCtner(name){
+	var editor = document.getElementById(name+"-editable");
+	var query = "#"+name+"-editable img.img_ctner_temp";
+	var allImgCtner = document.querySelectorAll(query);
+	if(allImgCtner.length > 0){
+		for(i = 0; i <allImgCtner.length;i++){
+			var thisImgCtner = allImgCtner[i];
+			allImgCtner[i].parentNode.replaceChild(tempToImgCtner(allImgCtner[i]), allImgCtner[i]);
+		}
+
+	}else{
+		return false;
+	}
+}
+function unWrappingTemp(name){
+	var editor = document.getElementById(name+"-editable");
+	var query = "#"+name+"-editable div.img_ctner";
+	var allImgCtner = document.querySelectorAll(query);
+	if(allImgCtner.length > 0){
+		for(i = 0; i <allImgCtner.length;i++){
+			var thisImgCtner = allImgCtner[i];
+			allImgCtner[i].parentNode.replaceChild(imgCtnerToTemp(allImgCtner[i]), allImgCtner[i]);
+		}
+
+	}else{
+		return false;
+	}
+}
+function tempToImgCtner(obj){
+	var oldImgCtner = obj;
+	var newImgCtner = document.createElement("div");
+	newImgCtner.className = 'img_ctner';
+	var newImgCtner_img = document.createElement("img");
+	newImgCtner_img.src = oldImgCtner.src;
+	var newImgCtner_caption = document.createElement("p");
+	newImgCtner_caption.className = 'caption';
+	newImgCtner_caption.innerText = oldImgCtner.getAttribute('caption');
+	newImgCtner.appendChild(newImgCtner_img);
+	newImgCtner.appendChild(newImgCtner_caption);
+	return newImgCtner;
+}
+function imgCtnerToTemp(obj){
+	var oldImgCtner = obj;
+	var newImgCtner_img = document.createElement("img");
+	newImgCtner_img.src = oldImgCtner.childNodes[0].src;
+	newImgCtner_img.setAttribute('caption', oldImgCtner.childNodes[1].innerText);
+	newImgCtner_img.className = 'img_ctner_temp';
+	return newImgCtner_img;
+}
+
+function replaceSelected(name, newStr){
+	var aa = [];
+	var root = document.getElementById(name+"-editable");
+	var nextRoot;
+	var layer_num = selChildIndex.length;
+	for(i = 0; i < layer_num ;  i++){
+		var layer_size = root.children.length;
+		aa[i] = [];
+		for(j = 0; j<layer_size; j++ ){
+			if(j == selChildIndex[i]){
+				nextRoot = root.children[j].cloneNode(true);
+				if(nextRoot.children.length && nextRoot.children[0].tagName != 'BR'){
+					var temp_content = nextRoot.innerHTML;
+					aa[i][j] = htmlToText(nextRoot).split(temp_content);
+				}else{
+					
+					var temp_content = nextRoot.innerHTML;
+					aa[i][j] = htmlToText(nextRoot).replace(temp_content, newStr);
+					
+				}
+				
+			}else{
+				aa[i][j] = htmlToText(root.children[j]);
+			}
+		}
+		root = nextRoot;
+	}
+	var temp_whole = "";
+	
+	for( i = layer_num-1 ; i >=0 ; i --){
+		var preStr = "";
+		var postStr = "";
+		var pre = true;
+		for( j = 0 ; j< aa[i].length ; j++){
+			if( j == selChildIndex[i]){
+				if(Array.isArray(aa[i][j])){
+					pre = false;
+					temp_whole = aa[i][j][0]+temp_whole+aa[i][j][1];
+				}else{
+					pre = false;
+					temp_whole += aa[i][j];
+				}
+			}else{
+				if(pre){
+					preStr += aa[i][j];
+				}else{
+					postStr += aa[i][j];
+				}
+			}
+			
+		}
+		temp_whole = preStr + temp_whole + postStr;
+	}
+	// console.log("temp_whole = "+temp_whole);
+	// editor.innerHTML = temp_whole;
+	return temp_whole;
+};
 /* ==========================================
 			saved for the future
 ===========================================*/
