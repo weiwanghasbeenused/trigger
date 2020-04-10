@@ -40,9 +40,10 @@ $resize_scale = 65;
 $resize_root = $media_root . "hi/";
 
 // namespace stuff, for markdown parser
+
 set_include_path($lib_root);
 spl_autoload_register(function ($class) {
-	$file = preg_replace('#\\\|_(?!.+\\\)#','/', $class) . '.php';
+	$file = strtolower(preg_replace('#\\\|_(?!.+\\\)#','/', $class) . '.php');
 	if (stream_resolve_include_path($file))
 		require $file;
 });
