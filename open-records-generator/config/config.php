@@ -71,14 +71,10 @@ function db_connect($remote_user) {
 
 	} else {
 		// IF YOU ARE NOT USING ENVIRONMENTAL VARIABLES
-		// $host = "157.230.182.114";
-		// $dbse = "materia_abierta_2020";
 		$host = "localhost";
 		$dbse = "trigger_local";
 
 		// full access
-		// $creds['full']['db_user'] = "materia_full_2020";
-		// $creds['full']['db_pass'] = "YUhqvTaU";
 		$creds['full']['db_user'] = "root";
 		$creds['full']['db_pass'] = "f3f4p4ax";
 

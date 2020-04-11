@@ -31,7 +31,6 @@ function url_array()
 	
 	while($s[0] == $u[0])
 	{
-		echo $u[0];
 		array_shift($s);
 		array_shift($u);
 	}
