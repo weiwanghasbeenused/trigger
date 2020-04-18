@@ -9,6 +9,14 @@ $thumbnail_filename = end(explode('/', $thumbnail_img));
 $thumbnail_filename = explode('.', $thumbnail_filename)[0];
 $thumbnail_caption;
 
+
+$hasExhibit = false;
+$hasReading = false;
+if($thisEvent['exhibit'])
+	$hasExhibit = true;
+if($thisEvent['reading'])
+	$hasReading = true;
+
 // push relative paths
 foreach($thisEvent_media as $m){
 	$this_filename = "".m_pad($m['id']);

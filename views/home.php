@@ -5,7 +5,8 @@
 		for($i = 0 ; $i < $home_upcoming_limit ; $i++){
 			if(isset($upcoming_events[$i])){
 			?>
-			<a class = "event event_upcoming" href = "/events/upcoming/<? echo $upcoming_events[$i]['url']; ?>">
+			<a class = "event event_upcoming explodeCtner" href = "/events/upcoming/<? echo $upcoming_events[$i]['url']; ?>">
+				<svg class = 'explode'></svg>
 				<div class = "event_upcoming_img"><img src = "<? 
 					if(!empty($upcoming_tn_url[$i]))
 						echo $upcoming_tn_url[$i]; 
@@ -33,7 +34,8 @@
 		<? echo ( $thisView == 'home' ) ? '<h4 id = "arch_ctner_title" class = "ctner_title">Archive&darr;</h4>' : '' ; ?>
 		<? for($i = 0 ; $i < $home_archive_limit ; $i++){
 			if(isset($archive_events[$i])){ ?>
-			<a class = "event event_arch" href = "/events/archive/<? echo $archive_events[$i]['url']; ?>">
+			<a class = "event event_arch explodeCtner" href = "/events/archive/<? echo $archive_events[$i]['url']; ?>">
+				<svg class = 'explode'></svg>
 				<div class = "event_arch_img"><img src = "<? 
 					if(!empty($archive_tn_url[$i])){
 						echo $archive_tn_url[$i]; 

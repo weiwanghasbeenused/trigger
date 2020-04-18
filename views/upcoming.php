@@ -33,9 +33,9 @@
 		<div id = 'about_text'><? echo $thisEvent["upcoming_text"]; ?></div>
 	</div>
 	<div id = "reference_title" class = 'section_title'>
-		<h6 class = "info_cato" id = "cato_website">Artist&rsquo;s website</h6>
-		<h6 class = "info_cato" id = "cato_exhibit">Recent exhibition</h6>
-		<h6 class = "info_cato" id = "cato_reading">Reading list</h6>
+		<h6 class = "info_cato" id = "cato_website"></h6>
+		<h6 class = "info_cato" id = "cato_exhibit"><? echo $hasExhibit ? 'Recent exhibition' : ''; ?></h6>
+		<h6 class = "info_cato" id = "cato_reading"><? echo $hasReading ? 'Reading List' : ''; ?></h6>
 	</div>
 	<div id = "reference_content" class = "section_content">
 		<div id = "reference_website">

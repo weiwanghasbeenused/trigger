@@ -5,8 +5,8 @@ $requestclean = strtok($request,"?");
 $uri = explode('/', $requestclean);
 // uri: trigger.com/ -> ["",""]
 
-require_once("views/head.php");
-require_once("views/nav.php");
+require_once("controller/head_controller.php");
+require_once("controller/nav_controller.php");
 // var_dump($uri[1]);
 // die();
 if(!$uri[1] || (count($uri) == 3 && $uri[2] == "upcoming") || (count($uri) == 3 && $uri[2] == "archive") || (count($uri) == 2 && $uri[1] == "events"))

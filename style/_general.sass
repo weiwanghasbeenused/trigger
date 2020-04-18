@@ -86,8 +86,10 @@ a
 	font-style: italic
 a:hover
 	font-style: normal
-.ex
+.explode
 	@include v.absolute()
+	pointer-events: none
+	z-index: -1
 
 ::-moz-selection
 	background-color: v.$selected_color

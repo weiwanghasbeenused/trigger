@@ -3,5 +3,6 @@
 <script>
 	scrollEvents(foldNav);
 </script>
+<script text = 'text/javascript' src = '/scripts/explode.js'></script>
 </body>
 </html>

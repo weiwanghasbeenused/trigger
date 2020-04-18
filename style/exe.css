@@ -88,9 +88,11 @@ a:hover {
   font-style: normal;
 }
 
-.ex {
+.explode {
   position: absolute;
   position: -webkit-absolute;
+  pointer-events: none;
+  z-index: -1;
 }
 
 ::-moz-selection {
@@ -131,8 +133,7 @@ a:hover {
   font-size: 2rem;
   line-height: 1.15em;
   max-height: 5vw;
-  display: block;
-  overflow: hidden;
+  display: inline-block;
   -webkit-transition: max-height 0.35s;
   -moz-transition: max-height 0.35s;
   -ms-transition: max-height 0.35s;
@@ -148,8 +149,6 @@ a:hover {
 #nav #menu_cnter .menu_btn {
   cursor: pointer;
   max-height: 5vw;
-}
-#nav #menu_cnter #menu_btn_event {
   display: flex;
 }
 
@@ -167,6 +166,7 @@ a:hover {
 #nav.folded:hover #menu_cnter a:not(.active) {
   max-height: 5vw;
   max-width: none;
+  overflow: visible;
 }
 
 .main_ctner {
@@ -201,7 +201,7 @@ a:hover {
 }
 .main_ctner_list #upcoming_ctner .event_upcoming {
   margin-bottom: -0.5vw;
-  border-bottom: 3px solid #f0f0f0;
+  border-bottom: 3px solid transparent;
 }
 .main_ctner_list #upcoming_ctner .event_upcoming .event_upcoming_img {
   position: absolute;
@@ -262,7 +262,7 @@ a:hover {
   font-size: 1.25rem;
   text-align: center;
   font-weight: 500;
-  margin-bottom: 2vw;
+  margin-bottom: 0.5vw;
 }
 .main_ctner_list #arch_ctner {
   padding: 0 5vw;
@@ -277,7 +277,7 @@ a:hover {
 .main_ctner_list #arch_ctner .event_arch {
   display: flex;
   padding-top: 1.5vw;
-  border-bottom: 3px solid #f0f0f0;
+  border-bottom: 3px solid transparent;
   font-size: 2rem;
 }
 .main_ctner_list #arch_ctner .event_arch:hover {
@@ -324,8 +324,8 @@ a:hover {
   max-height: 17vw;
   display: block;
 }
-.main_ctner_list #arch_ctner .event_arch:first-of-type {
-  padding-top: 0;
+.main_ctner_list #arch_ctner .event_arch .explode {
+  top: -125% !important;
 }
 
 #main_ctner_list_upcoming, #main_ctner_list_archive {

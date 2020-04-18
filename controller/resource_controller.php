@@ -26,13 +26,13 @@ require_once("views/resource.php");
 	var sResource_item = document.getElementsByClassName('resource_item');
 	var sItem_translate = [];
 	var sItem_rotation = [];
+	function randn_bm() {
+	    var u = 0, v = 0;
+	    while(u === 0) u = Math.random(); //Converting [0,1) to (0,1)
+	    while(v === 0) v = Math.random();
+	    return Math.sqrt( -2.0 * Math.log( u ) ) * Math.cos( 2.0 * Math.PI * v );
+	}
 	Array.prototype.forEach.call(sResource_item, function(el,i){
-		function randn_bm() {
-		    var u = 0, v = 0;
-		    while(u === 0) u = Math.random(); //Converting [0,1) to (0,1)
-		    while(v === 0) v = Math.random();
-		    return Math.sqrt( -2.0 * Math.log( u ) ) * Math.cos( 2.0 * Math.PI * v );
-		}
 		var random_rotation = 10*randn_bm()-5;
 		var random_x = parseInt((2.4*randn_bm()-1)*100)/100;
 		var random_y = parseInt((2.4*randn_bm()-0.8)*100)/100;

@@ -27,7 +27,7 @@
 			// display: flex
 			// align-items: flex-start
 			margin-bottom: -.5vw
-			border-bottom: 3px solid v.$bg-color
+			border-bottom: 3px solid transparent
 			.event_upcoming_img
 				@include v.absolute($bottom: 0)
 				opacity:0
@@ -75,7 +75,7 @@
 		font-size: 1.25rem
 		text-align: center
 		font-weight: 500
-		margin-bottom: 2vw
+		margin-bottom: .5vw
 		
 	#arch_ctner
 		padding: 0 5vw
@@ -88,7 +88,7 @@
 		.event_arch
 			display: flex
 			padding-top: 1.5vw
-			border-bottom: 3px solid v.$bg-color
+			border-bottom: 3px solid transparent
 			font-size: 2rem
 			&:hover
 				border-bottom: 3px solid v.$main-color
@@ -125,9 +125,8 @@
 					max-width: 30vw
 					max-height: 17vw 
 					display: block
-		
-			&:first-of-type
-				padding-top: 0
+			.explode
+				top: -125% !important
 #main_ctner_list_upcoming, #main_ctner_list_archive
 	padding-bottom: 3vw
 	border-bottom: 0
