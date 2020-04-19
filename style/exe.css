@@ -169,6 +169,12 @@ a:hover {
   overflow: visible;
 }
 
+.logo_explodeCtner .explode {
+  width: 100%;
+  height: 10vw;
+  top: -2vw;
+}
+
 .main_ctner {
   margin-bottom: 6vw;
   border-bottom: 2px solid #000;
@@ -379,10 +385,15 @@ p {
   background-color: #f0f0f0;
   z-index: 500;
   border-bottom: none;
+  padding-top: 4vw;
+  -webkit-transition: padding-top 0.1s;
+  -moz-transition: padding-top 0.1s;
+  -ms-transition: padding-top 0.1s;
+  -o-transition: padding-top 0.1s;
+  transition: padding-top 0.1s;
 }
 #title_title #title {
-  grid-column: 1/9 span;
-  grid-row: 2/1 span;
+  grid-column: 3/7 span;
   font-size: 4.5rem;
   -webkit-transition: all 0.25s;
   -moz-transition: all 0.25s;
@@ -397,6 +408,7 @@ p {
 }
 #title_title.folded {
   border-bottom: 2px solid #000;
+  padding-top: 0vw;
 }
 #title_title.folded #title {
   grid-column: 3/7 span;
@@ -559,7 +571,6 @@ p {
 }
 #main_ctner_archive #title_title #info {
   grid-column: 10/3 span;
-  grid-row: 1/2 span;
 }
 #main_ctner_archive #about_content #about_img {
   grid-column: 4/9 span;

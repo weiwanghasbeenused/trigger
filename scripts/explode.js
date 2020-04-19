@@ -1,5 +1,5 @@
 var sExplodeCtner = document.getElementsByClassName('explodeCtner');
-if(sExplodeCtner.length != 0){
+if(!status_isMobile){
 	// animation
 	var duration = 250; //ms
 	var steps = 8;
@@ -47,7 +47,6 @@ if(sExplodeCtner.length != 0){
 	}
 
 	var initial_points = '225.35 148.03 224.65 148.03 224 148.27 223.47 148.71 223.12 149.32 223 150 223.12 150.68 223.47 151.29 224 151.73 224.65 151.97 225.35 151.97 226 151.73 226.53 151.29 226.88 150.68 227 150 226.88 149.32 226.53 148.71 226 148.27 225.35 148.03';
-	var initial_points_axis_num = (initial_points.split(' ').length);
 	var final_points_arr = [
 		'236 78.66 200.11 3 199 88.66 103 3.66 174 111.66 27 89.66 153 148.66 28 202.66 177 180.66 149 291.66 219.14 183.81 311 250.66 247.69 165.83 379 201.66 278.35 135.17 444 68.66 255.09 107.68 312 41.66 236 78.66',
 		'238 85 260 7 194 98 169 8 169 114 13 68 154.64 158.31 32 231 180.21 185.45 152 287 219.14 192.15 354 298 272 182 375 197 278.35 143.51 431 90 255.09 116.02 359 22 238 85',
@@ -61,7 +60,9 @@ if(sExplodeCtner.length != 0){
 
 	initial_points = initial_points.split(' ');
 
-	function generatePoints(final_points){
+	function generatePoints(initial_points, final_points){
+		console.log(initial_points);
+		console.log(final_points);
 		var intermediate_points = [];
 		intermediate_points.push(initial_points);
 		currentIndex = 0;
@@ -69,7 +70,7 @@ if(sExplodeCtner.length != 0){
 		temp_final = [];
 		temp_initial[currentIndex] = [];
 		temp_final[currentIndex] = [];
-		
+		var initial_points_axis_num = (initial_points.length);
 		for(i = 0 ; i < initial_points_axis_num ; i++){
 			if( i % 2 == 0 && i > 0){
 				currentIndex ++;
@@ -79,7 +80,6 @@ if(sExplodeCtner.length != 0){
 			temp_initial[currentIndex].push(parseInt(initial_points[i]));
 			temp_final[currentIndex].push(parseInt(final_points[i]));
 		}
-
 		for( i = 0 ; i < steps ; i++){
 			intermediate_points[i] = [];
 			for(j = 0; j < temp_initial.length ; j++){
@@ -103,7 +103,7 @@ if(sExplodeCtner.length != 0){
 		return intermediate_points;
 	}
 
-	function setPoints(i, inter_points){
+	function setPoints(i, inter_points, polygon){
 		setTimeout(function(){
 			polygon.setAttribute('points', inter_points);
 		}, i * duration/steps);
@@ -115,9 +115,9 @@ if(sExplodeCtner.length != 0){
 			var final_points = final_points_arr[k].split(' ');
 			var thisSvg = sExplodeCtner[j].getElementsByClassName('explode')[0];
 			thisSvg.appendChild(polygon);
-			var inter_points = generatePoints(final_points);
+			var inter_points = generatePoints(initial_points, final_points);
 			for( i = 0 ; i < steps ; i++){
-				setPoints(i, inter_points[i]);
+				setPoints(i, inter_points[i], polygon);
 			}
 			setTimeout(function(){
 				polygon.setAttribute('points', final_points);
@@ -128,4 +128,19 @@ if(sExplodeCtner.length != 0){
 			thisSvg.removeChild(polygon);
 		});
 	});
+	var logo_explodeCtner = document.getElementsByClassName('logo_explodeCtner')[0];
+
+	var logo_initial_points = '90 154 89 153 88 152 87 151 85 151 83 153 82 155 82 156 82 157 82 158 82 159 82 160 83 161 84 161 85 161 86 161 87 161 88 160 89 159 90 158 90 157 90 156 90 154';
+	var logo_final_points = '121.5 140.5 200 70 105.24 129.71 147.81 0 86.5 116.5 78.5 43.5 74.18 131.45 14.5 58.5 58.5 148.5 2.5 144.5 54.5 169.5 0 220.14 55.93 187.49 8.8 300 75.5 206.5 83.5 260.5 92.5 195.5 179.5 278.5 114.5 183.5 157.5 195.5 118.5 162.5 183.07 140.92 121.5 140.5';
+	logo_initial_points = logo_initial_points.split(' ');
+	logo_final_points = logo_final_points.split(' ');
+	var logo_polygon = logo_explodeCtner.getElementsByTagName('polygon')[0];
+	logo_explodeCtner.addEventListener('mouseenter', function(){
+		var inter_points = generatePoints(logo_initial_points, logo_final_points);
+		for(i = 0; i< steps; i++){
+			setPoints(i, inter_points[i], logo_polygon);
+		}
+
+	});
 }
+

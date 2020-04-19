@@ -33,9 +33,10 @@ p
 	background-color: v.$bg-color
 	z-index: 500
 	border-bottom: none
+	padding-top: 4vw
+	@include v.transition(padding-top .1s)
 	#title
-		grid-column: 1 / 9 span
-		grid-row: 2 / 1 span
+		grid-column: 3 / 7 span
 		font-size: 4.5rem
 		@include v.transition(all .25s)
 	#cato
@@ -45,6 +46,7 @@ p
 	
 	&.folded
 		border-bottom:2px solid #000
+		padding-top: 0vw
 		#title
 			grid-column: 3 / 7 span
 			grid-row: 1 / 1 span
