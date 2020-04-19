@@ -331,7 +331,7 @@ a:hover {
   display: block;
 }
 .main_ctner_list #arch_ctner .event_arch .explode {
-  top: -125% !important;
+  top: -25% !important;
 }
 
 #main_ctner_list_upcoming, #main_ctner_list_archive {
