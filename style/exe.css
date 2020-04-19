@@ -132,8 +132,8 @@ a:hover {
 #nav #menu_cnter a {
   font-size: 2rem;
   line-height: 1.15em;
-  max-height: 5vw;
   display: inline-block;
+  max-height: 5vw;
   -webkit-transition: max-height 0.35s;
   -moz-transition: max-height 0.35s;
   -ms-transition: max-height 0.35s;
@@ -148,7 +148,6 @@ a:hover {
 }
 #nav #menu_cnter .menu_btn {
   cursor: pointer;
-  max-height: 5vw;
   display: flex;
 }
 
@@ -158,14 +157,12 @@ a:hover {
 #nav.folded #menu_cnter a:not(.active) {
   max-height: 0;
   overflow: hidden;
-  max-width: 0;
 }
 #nav.folded:hover {
   border-bottom: 2px solid black;
 }
 #nav.folded:hover #menu_cnter a:not(.active) {
   max-height: 5vw;
-  max-width: none;
   overflow: visible;
 }
 
