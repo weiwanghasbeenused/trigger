@@ -1,0 +1,92 @@
+@use 'var' as v
+
+#main_ctner_artist-index
+	padding: 12vw 0 6vw 0
+	#search_ctner
+		text-align: center
+		position: sticky
+		margin-bottom: 7vw
+		font-size: 2rem
+		z-index: 500
+		background: v.$bg-color
+		#search_form > *
+			vertical-align: bottom
+		#keyword
+			font-size: 2rem
+			border: 0
+			padding: .5vw 1vw .5vw 1vw
+			width: 40%
+			background-color: transparent
+			border-bottom: 2px solid #000
+			&:focus
+				background-color: #fff
+				outline: none
+		#submit_search
+			width: 3vw
+			display: inline-block
+			vertical-align: bottom
+		.search_btn
+			svg
+				width: 100%
+				polygon
+					stroke: #000
+					stroke-width: 2
+					fill: transparent
+			&:hover
+				polygon
+					fill: #000
+			cursor: pointer
+		#clear_search
+			display: inline-block
+			width: 3vw
+	#no_result
+		text-align: center
+		font-size: 2rem
+	#artist-index_list
+		padding-left: 5vw
+		padding-right: 5vw
+		.artist-index_item
+			font-size: 1.2rem
+			display: grid
+			grid-template-columns: repeat(12, 1fr)
+			grid-gap: 2vw
+			padding: .75vw 0
+			cursor: pointer
+			& > *
+				display: inline-block
+				vertical-align: top
+				padding-top: .55vw
+			.item_name
+				grid-column: 1 / 4 span
+				cursor: pointer
+				padding-top: 0
+				font-weight: 500
+				@include v.outline-text-black()
+				-webkit-text-fill-color: v.$bg-color
+				font-size: 3rem
+			.item_tag
+				grid-column: 5 / 2 span
+			.item_link
+				grid-column: 7 / 2 span
+				& > a
+					display: none
+					&:first-child
+						display: inline
+			.item_brief
+				grid-column: 9 / 4 span
+				display: none
+			&:hover
+				.item_name
+					-webkit-text-fill-color: #000
+		.artist-index_item.expanded
+			padding-bottom: 2vw
+			.item_name
+				-webkit-text-fill-color: #000
+			.item_brief
+				display: block
+			.item_link > a
+				display: inline
+
+#main_ctner_artist-index.viewing_search
+	.item_brief
+		display: block 

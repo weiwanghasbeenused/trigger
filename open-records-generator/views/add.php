@@ -6,50 +6,47 @@ require_once($include_path.'function_itemsToStr.php');
 
 $browse_url = $admin_path.'browse/'.$uu->urls();
 $isAdd = true;
-$vars = array("cato", "name1", "event_date", "event_time", "location", "upcoming_text", "website", "exhibit", "reading", "body", "url", "rank", "qanda", "begin", "end","thumbnail","reading_toid","reading_fromid" );
+$vars = array("cato", "name1", "event_date", "event_time", "location", "main_one", "website", "exhibit", "reading", "main_two", "url", "rank", "qanda", "begin", "end","thumbnail","reading_toid","reading_fromid"  );
 
 $var_info = array();
 
 $var_info["input-type"] = array();
+$var_info["input-type"]["cato"] = "text";
 $var_info["input-type"]["name1"] = "text";
-$var_info["input-type"]["body"] = "triggerEditor";
+$var_info["input-type"]["event_date"] = "text";
+$var_info["input-type"]["event_time"] = "text";
+$var_info["input-type"]["location"] = "triggerEditor";
+$var_info["input-type"]["main_one"] = "triggerEditor";
+$var_info["input-type"]["website"] = "referencelist";
+$var_info["input-type"]["exhibit"] = "referencelist";
+$var_info["input-type"]["reading"] = "referencelist";
+$var_info["input-type"]["main_two"] = "triggerEditor";
 $var_info["input-type"]["qanda"] = "triggerEditor";
 $var_info["input-type"]["begin"] = "text";
 $var_info["input-type"]["end"] = "text";
 $var_info["input-type"]["url"] = "text";
 $var_info["input-type"]["rank"] = "text";
-$var_info["input-type"]["event_date"] = "text";
-$var_info["input-type"]["event_time"] = "text";
-$var_info["input-type"]["location"] = "select";
-$var_info["input-type"]["cato"] = "text";
-$var_info["input-type"]["upcoming_text"] = "triggerEditor";
-$var_info["input-type"]["website"] = "referencelist";
-$var_info["input-type"]["exhibit"] = "referencelist";
-$var_info["input-type"]["reading"] = "referencelist";
 $var_info["input-type"]["thumbnail"] = "none";
-$var_info["input-type"]["reading_toid"] = "none";
-$var_info["input-type"]["reading_fromid"] = "none";
+$var_info["input-type"]["reading_toid"] = "hidden";
+$var_info["input-type"]["reading_fromid"] = "hidden";
 
 $var_info["label"] = array();
 $var_info["label"]["cato"] = "Event Category";
-$var_info["label"]["name1"] = "Title";
-$var_info["label"]["event_date"] = "Date";
+$var_info["label"]["name1"] = "Name";
+$var_info["label"]["event_date"] = "Date (MM.DD.YYYY)";
 $var_info["label"]["event_time"] = "Time";
 $var_info["label"]["location"] = "Location";
-$var_info["label"]["upcoming_text"] = "Upcoming Intro";
+$var_info["label"]["main_one"] = "Main Text / Upcoming Text";
 $var_info["label"]["website"] = "Website";
-$var_info["label"]["exhibit"] = "Recent Exhibition";
+$var_info["label"]["exhibit"] = "Exhibition";
 $var_info["label"]["reading"] = "Reading List";
-$var_info["label"]["body"] = "Main Text";
+$var_info["label"]["main_two"] = "Main Text 2 / Archive Text";
+$var_info["label"]["qanda"] = "Q & A";
 $var_info["label"]["url"] = "URL Slug";
 $var_info["label"]["rank"] = "Rank";
-$var_info["label"]["qanda"] = "Q & A";
 $var_info["label"]["begin"] = "Begin";
 $var_info["label"]["end"] = "End";
 
-$location_url = "json/location.json";
-$location = file_get_contents($location_url);
-$location = json_decode($location, true);
 $reading_keep = array();
 
 // for use on add.php
@@ -97,7 +94,7 @@ function insert_object(&$new, $siblings)
 		$new['event_date'] = date("Y-m-d", $dt);
 	}
 
-	if(!empty($new['reading'])){
+	if(!empty($new['reading']) && !empty($new['cato'])){
 		$id_reading = array();
 		$new_reading = array();
 		global $reading_keep;
@@ -201,6 +198,7 @@ function insert_object(&$new, $siblings)
 		?><div id="form-container">
 			<div class="self">You are adding a new object.</div>
 			<form 
+				id = 'add_form'
 				enctype="multipart/form-data" 
 				action="<? echo $form_url; ?>" 
 				method="post"
@@ -218,6 +216,8 @@ function insert_object(&$new, $siblings)
 
 				function addListeners(name) {
 					document.getElementById(name + '-html').addEventListener('click', function(e) {resignImageContainer(name);}, false);
+					document.getElementById(name + '-bold').addEventListener('click', function(e) {resignImageContainer(name);}, false);
+					document.getElementById(name + '-italic').addEventListener('click', function(e) {resignImageContainer(name);}, false);
 					document.getElementById(name + '-link').addEventListener('click', function(e) {resignImageContainer(name);}, false);
 				}
 
@@ -281,7 +281,7 @@ function insert_object(&$new, $siblings)
 						str = str.replace(/(?:\r\n|\r|\n)/g, '<br>');
 						str = str.replace(/<br><br>/g , '<\/div><div>');
 						str = str.replace('<br>', '</div><div>');
-						str = '<div class = "content_section"><div>'+str+'</div></div>';
+						str = '<div>'+str+'</div>';
 						textarea.value = str;
 					}
 				}
@@ -334,6 +334,15 @@ function insert_object(&$new, $siblings)
 						thisList.children[0].innerText = "show list [+]";
 					}
 				}
+
+				function submitForm(e){
+					e.preventDefault();
+					commitAll();
+					var sAdd_form = document.getElementById('add_form');
+					console.log(sAdd_form);
+					sAdd_form.submit();
+					
+				}
 				
 				</script>
 				<?php
@@ -361,51 +370,6 @@ function insert_object(&$new, $siblings)
 							type='<? echo $var_info["input-type"][$var]; ?>'
 							value = "(url)"
 						><?	
-						}
-						elseif($var == "location")
-						{
-						?>
-						<div id = '<? echo $var; ?>-selectList' class = "selectList">
-							<a class = "selectList_btn" href = "#null" onclick = "toggleSelectList('<? echo $var; ?>')">show list [+]</a>
-							<div class = "selectList_list shadowBox">
-								*** you can edit this list at json/location.json ***
-							<? 
-							foreach($location as $list => $adds){
-								?>
-								<ul>
-									<? echo $list; ?>
-									<?
-									foreach($adds as $add){
-										?>
-										<li><? echo $add["loc"].'<br> --- '.$add["address"]; ?></li>
-										<?
-									}
-									echo '<br>'; ?>
-								</ul>
-
-								<?
-							}
-							?>
-								
-							</div>
-						</div>
-						<select name ='<? echo $var; ?>' type='<? echo $var_info["input-type"][$var]; ?>' > 
-							<?
-							foreach($location as $list => $adds){
-								?>
-								<option class = '<? echo $var; ?>-option' <? 
-									if ($list == htmlspecialchars($item[$var], ENT_QUOTES)) {
-										?>
-										selected = "selected" 
-										<?
-									}
-								?>value = '<? echo $list; ?>'><? echo $list; ?></option>
-
-								<?
-							}
-							?>
-						</select>
-						<?	
 						}
 						elseif($var_info["input-type"][$var] != "none")
 						{
@@ -441,8 +405,9 @@ function insert_object(&$new, $siblings)
 						onClick="<? echo $js_back; ?>"
 					>
 					<input
+						onclick = 'submitForm(event);'
 						type='submit' 
-						name='submit' 
+						name='btnsubmit' 
 						value='Add Object'
 					>
 				</div>

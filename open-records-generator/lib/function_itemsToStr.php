@@ -1,6 +1,6 @@
 <?
 // merge list into ready-display html;
-function itemsToStr($items = array(), $className, $var){
+function itemsToStr($items = array(), $className = 'reference_link', $var = null){
 	$output = '';
 	foreach($items as $key => $item){
 		if(!empty($item[0]) && $item[0] != "(title)"){

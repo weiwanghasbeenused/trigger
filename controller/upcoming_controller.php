@@ -2,7 +2,14 @@
 $ee = new Events();
 $thisEvent = $item;
 $thisEvent_media = $ee->media($uu->id);
-$thisEvent_location = $ee->get_location($thisEvent["location"]);
+$this_cat = $thisEvent["cato"];
+$this_title = $thisEvent["name1"];
+$this_location = $thisEvent["location"];
+$this_date = $thisEvent["event_date"];
+$this_time = $thisEvent["event_time"];
+$this_main1 = $thisEvent["main_one"];
+
+
 $imgUrl = array();
 $thumbnail_img = $thisEvent['thumbnail'];
 $thumbnail_filename = end(explode('/', $thumbnail_img));
@@ -12,11 +19,16 @@ $thumbnail_caption;
 
 $hasExhibit = false;
 $hasReading = false;
+$hasWebsite = false;
+$hasReference = true;
 if($thisEvent['exhibit'])
 	$hasExhibit = true;
 if($thisEvent['reading'])
 	$hasReading = true;
-
+if($thisEvent['website'])
+	$hasWebsite = true;
+if(!$hasExhibit && !$hasReading && !$hasWebsite)
+	$hasReference = false;
 // push relative paths
 foreach($thisEvent_media as $m){
 	$this_filename = "".m_pad($m['id']);
@@ -28,9 +40,7 @@ foreach($thisEvent_media as $m){
 		}
 	}
 }
-if(empty($thisEvent_location)){
-	$thisEvent_location = array();
-}
+
 require_once("views/upcoming.php");
 ?>
 

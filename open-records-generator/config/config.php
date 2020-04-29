@@ -91,6 +91,7 @@ function db_connect($remote_user) {
 	// users
 	$users["main"] = $creds['rw'];
 	$users["guest"] = $creds['r'];
+	$users["admin"] = $creds['full'];
 
 	$user = $users[$remote_user]['db_user'];
 	$pass = $users[$remote_user]['db_pass'];

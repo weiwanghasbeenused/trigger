@@ -29,7 +29,9 @@ function sethtml(name) {
 }
 
 function showrich(name) {
-	console.log("showrich");
+	var bold = document.getElementById(name + '-bold');
+	var italic = document.getElementById(name + '-italic');
+	var link = document.getElementById(name + '-link');
 	var sToolbar = document.getElementById(name + '-toolbar');
 	var editable = document.getElementById(name + '-editable');
 	var textarea = document.getElementById(name + '-textarea');
@@ -291,49 +293,6 @@ function addTag(name, tagName, newclass, imgUrl = null, imgCaption = null){
 		// for inline elements
 		rr.deleteContents();
 		rr.insertNode(newElement);
-	}else if(newclass == "subtitle"){
-		// for blocks
-		var temp = document.createElement('h4');
-		temp.innerText = selText;
-		if(temp.innerText == selected_el.innerText){
-			temp.className = 'subtitle';
-			selected_el.parentElement.replaceChild(temp, selected_el);
-
-		// var fullHTML = selected_el.innerHTML;
-		// var fullText = selected_el.innerText;
-		// var tempText = [];
-		// var lastCode_selText = selText.charCodeAt(selText.length-1);
-		// var blankChars = [10, 32, 160];
-		// while(blankChars.indexOf(lastCode_selText) != -1 || isNaN(lastCode_fullText)){
-		// 	selText = selText.slice(0, -1);
-		// 	lastCode_selText = selText.charCodeAt(selText.length-1);
-		// }
-
-		// var lastCode_fullText = fullText.charCodeAt(selText.length-1);
-		// while(blankChars.indexOf(lastCode_fullText) != -1 || isNaN(lastCode_fullText)){
-		// 	fullText = fullText.substring(0, fullText.length-1);
-		// 	lastCode_fullText = fullText.charCodeAt(fullText.length-1);
-		// }
-		// if(selText == fullText){
-		// 	// insert the tag
-		// 	var thisParent = selected_el.parentNode;
-		// 	selected_el.parentNode.insertBefore(newElement, selected_el);
-		// 	selected_el.parentNode.removeChild(selected_el);
-		// 	// re-sectioning
-		// 	thisParent = newElement.parentElement;
-		// 	var thisSiblings = thisParent.children;
-		// 	var newSection = document.createElement('div');
-		// 	newSection.className = 'content_section';
-		// 	thisParent.parentNode.insertBefore(newSection, thisParent);
-
-		// 	while(thisSiblings[0] !== newElement){
-		// 		console.log("thisSiblings[0] = "+thisSiblings[0]);
-		// 		newSection.appendChild(thisSiblings[0]);
-		// 	}
-
-		}else{
-			alert('please select an [isolated paragraph] to make it subtitle.');
-		}
 	}else if(newclass == "img_ctner"){
 		var blankChars = [10, 32, 160];
 		var fullText = selected_el.innerText;
@@ -359,6 +318,17 @@ function addTag(name, tagName, newclass, imgUrl = null, imgCaption = null){
 			selected_el.parentNode.replaceChild(newElement, selected_el);
 		}else{
 			alert('please insert the image at an empty line.');
+		}
+	}else{
+		// for blocks
+		var temp = document.createElement(tagName);
+		temp.innerText = selText;
+		if(temp.innerText == selected_el.innerText){
+			temp.className = newclass;
+			selected_el.parentElement.replaceChild(temp, selected_el);
+
+		}else{
+			alert('please select an [isolated paragraph].');
 		}
 	}
 }

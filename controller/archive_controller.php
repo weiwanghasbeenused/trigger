@@ -2,8 +2,28 @@
 $ee = new Events();
 $thisEvent = $item;
 $thisEvent_media = $ee->media($uu->id);
-$thisEvent_location = $ee->get_location($thisEvent["location"]);
+$this_cat = $thisEvent["cato"];
+$this_title = $thisEvent["name1"];
+$this_location = $thisEvent["location"];
+$this_date = $thisEvent["event_date"];
+$this_time = $thisEvent["event_time"];
+$this_main2 = $thisEvent["main_two"];
+$this_qanda = $thisEvent["qanda"];
+
 $imgUrl = array();
+
+$hasExhibit = false;
+$hasReading = false;
+$hasWebsite = false;
+$hasReference = true;
+if($thisEvent['exhibit'])
+	$hasExhibit = true;
+if($thisEvent['reading'])
+	$hasReading = true;
+if($thisEvent['website'])
+	$hasWebsite = true;
+if(!$hasExhibit && !$hasReading && !$hasWebsite)
+	$hasReference = false;
 
 foreach($thisEvent_media as $m)
 	array_push($imgUrl, "/media/" . m_pad($m['id']).".".$m['type']); 

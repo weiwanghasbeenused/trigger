@@ -12,7 +12,7 @@ class Request
 	// add, edit
 	public $name1;
 	// public $deck;
-	public $body;
+	public $main_two;
 	public $qanda;
 	public $begin;
 	public $end;
@@ -25,7 +25,7 @@ class Request
 	public $website = array();
 	public $exhibit = array();
 	public $reading = array();
-	public $upcoming_text;
+	public $main_one;
 	// link
 	public $wires_toid;
 	
@@ -44,20 +44,7 @@ class Request
 	function __construct()
 	{
 		$this->page = basename($_SERVER['PHP_SELF'], ".php");
-		
-		// post variables
-		// $vars = array(	'name1', 'deck', 'body', 'qAndA', 'begin', 'end', 'url', 'rank',
-		// 				'medias', 'types', 'captions', 'ranks', 'deletes',
-		// 				'submit', 'action',
-		// 				'wires_toid',
-		// 				'uploads');
-		// $vars = array(	'name1', 'body', 'qAndA', 'begin', 'end', 'url', 'rank',
-		// 				'medias', 'types', 'captions', 'ranks', 'deletes',
-		// 				'submit', 'action',
-		// 				'wires_toid',
-		// 				'uploads', 'cato','event_date', 'location');
-		$vars = array("cato", "name1", "event_date", "event_time", "location", "upcoming_text", "website", "exhibit", "reading", "body", "url", "rank", "qanda", "begin", "end", 'deletes','captions', 'submit', 'action','wires_toid','uploads','medias', 'types', 'captions', 'ranks', 'thumbnail','reading_fromid','reading_toid');
-
+		$vars = array("cato", "name1", "event_date", "event_time", "location", "main_one", "website", "exhibit", "reading", "main_two", "url", "rank", "qanda", "begin", "end", 'deletes','captions', 'submit', 'action','wires_toid','uploads','medias', 'types', 'captions', 'ranks', 'thumbnail','reading_fromid','reading_toid');
 
 		foreach($vars as $v)
 			$this->$v = $_POST[$v];

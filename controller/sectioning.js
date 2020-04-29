@@ -3,7 +3,6 @@ var ticking = false;
 var isSec_stack_hStable = false;
 var topElement_bottom = 0;
 var sectioning_title = function(topElement){
-	// window).scrollTop(0);
 	var sTopElement = topElement;
 	var sSection_title = document.getElementsByClassName("section_title");
 	topElement_bottom = sTopElement.offsetTop+sTopElement.offsetHeight;

@@ -7,16 +7,16 @@
 	<a id="<? echo $var; ?>-html" class='right tool_show' href="#null" onclick="sethtml('<? echo $var; ?>');">html</a>
 	<a id="<? echo $var; ?>-txt" class='right tool_hide' href="#null" onclick="showrich('<? echo $var; ?>');">done.</a>
 	<a id="<? echo $var; ?>-format" class='right' href="#null" onclick="format('<? echo $var; ?>');">Format</a>
-	<a id="<? echo $var; ?>-back" class='' href="#null" onclick="undo('<? echo $var; ?>');">Undo &#8617;</a>
-	<a id="<? echo $var; ?>-forward" class='' href="#null" onclick="redo('<? echo $var; ?>');">&#8618; Redo</a>
+	<a id="<? echo $var; ?>-bold" class='tool_show' href="#null" onclick="document.execCommand('bold',false,null);">bold</a>
+    <a id="<? echo $var; ?>-italic" class='tool_show' href="#null" onclick="document.execCommand('italic',false,null);">italic</a>
 	<a id="<? echo $var; ?>-link" class='tool_show' href="#null" onclick="link('<? echo $var; ?>');">link</a>
-	<? if($var != 'upcoming_text'){ ?>
 	<a id="<? echo $var; ?>-image" class='tool_show' href="#null" onclick="image('<? echo $var; ?>');">image</a>
-	<? } ?>
-	<? if($var == 'body'){ ?>
+	<? if($var == 'main_two'){ ?>
 	<a id="<? echo $var; ?>-subtitle" class='tool_show' href="#null" onclick="addTag('<? echo $var; ?>','h4', 'subtitle');">subtitle</a>
 	<? }elseif($var == 'qanda'){ ?>
 	<a id="<? echo $var; ?>-qandaname" class='tool_show' href="#null" onclick="addTag('<? echo $var; ?>','h4', 'qandaname');">Q & A name</a>
+	<? }elseif($var == 'location'){ ?>
+	<a id="<? echo $var; ?>-address" class='tool_show' href="#null" onclick="addTag('<? echo $var; ?>','div', 'address');">Address</a>
 	<? } ?>
 	<div id="<?echo $var; ?>-imagecontainer" class='imagecontainer hidden' style="background-color: #999;">
 		<span style="color: white;">insert an image...</span>

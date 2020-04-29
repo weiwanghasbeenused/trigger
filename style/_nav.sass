@@ -15,9 +15,8 @@
 		grid-column: 1 / 2 span
 		a
 			font-style: normal
-	#menu_cnter
+	#menu_ctner
 		grid-column: 3 / 8 span
-		display: flex 
 		a
 			font-size: 2rem
 			line-height: 1.15em
@@ -27,7 +26,7 @@
 			&.active
 				font-style: normal
 			&:hover
-				font-style: normal
+				font-style: italic
 		.menu_btn
 			cursor: pointer
 			display: flex
@@ -35,13 +34,13 @@
 		
 #nav.folded
 	border-bottom: none
-	#menu_cnter
+	#menu_ctner
 		a:not(.active)
 			max-height: 0
 			overflow: hidden
 	&:hover
 		border-bottom: 2px solid black
-		#menu_cnter
+		#menu_ctner
 			a:not(.active)
 				max-height: 5vw
 				overflow: visible

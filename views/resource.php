@@ -1,6 +1,7 @@
 <div id = "main_ctner_resource" class = "main_ctner main_ctner_list">
 	<? foreach($resource_list as $key => $rl){ ?>
-		<div class = 'resource_item'>
+		<div class = 'resource_item explodeCtner'>
+			<svg class = 'explode'></svg>
 			<? echo $rl; ?>
 			<? if($resource_from_name[$key] != null){ ?>
 			<div class = 'item_events'>

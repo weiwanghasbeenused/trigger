@@ -24,10 +24,6 @@
 		#upcoming_ctner_title
 			margin-bottom:3vw
 		.event_upcoming
-			// display: flex
-			// align-items: flex-start
-			margin-bottom: -.5vw
-			border-bottom: 3px solid transparent
 			.event_upcoming_img
 				@include v.absolute($bottom: 0)
 				opacity:0
@@ -44,13 +40,10 @@
 				font-size: 24vw
 				line-height: .9em
 				max-height: 17vw
-				pointer-events: none
-				// border-bottom: 2px solid v.$main-color
-				
+				pointer-events: none				
 				@include v.outline-text-black()
 				-webkit-text-fill-color: v.$bg-color
 			&:hover
-				border-bottom: 3px solid v.$main-color
 				.event_upcoming_date
 					-webkit-text-fill-color: black
 				.event_upcoming_img
@@ -88,11 +81,9 @@
 		.event_arch
 			display: flex
 			padding-top: 1.5vw
-			border-bottom: 3px solid transparent
 			font-size: 2rem
 			&:hover
-				border-bottom: 3px solid v.$main-color
-				// background-color: white
+				z-index: 10
 				.event_arch_date
 					-webkit-text-fill-color: black
 					-webkit-text-stroke-color: transparent
@@ -126,7 +117,9 @@
 					max-height: 17vw 
 					display: block
 			.explode
-				top: -25% !important
+				// top: -25% !important
+				// width: 20% !important
+				// left: -5% !important
 #main_ctner_list_upcoming, #main_ctner_list_archive
 	padding-bottom: 3vw
 	border-bottom: 0

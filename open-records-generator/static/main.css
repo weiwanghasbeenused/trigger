@@ -189,13 +189,7 @@ textarea.medium {
 textarea.small {
 	height: 2em;
 }
-.editable div{
-	width:70%;
-}
 
-.editable div:nth-of-type(even){
-	margin-left: 10%;
-}
 figure{
 	width:80%;
 	margin-bottom: 0.5vw;

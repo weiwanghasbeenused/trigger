@@ -1,6 +1,5 @@
 @use 'var' as v
 
-	
 // @font-face
 // 	font-family: 'atlas_m'
 // 	src: url(../asset/font/AtlasGrotesk-Medium.otf)
@@ -16,6 +15,7 @@
 // @font-face
 // 	font-family: 'atlas_r_l'
 // 	src: url(../asset/font/AtlasGrotesk-RegularItalic.otf)
+
 @font-face
 	font-family: 'mala_r'
 	src: url(../asset/font/MalayalamSangamMN.woff)
@@ -49,16 +49,7 @@ h2
 	// font-family: 'Helvetica', sans-serif
 	font-size: 1.75rem
 	line-height: 1.05em
-	@include v.outline-text-black()
-	-webkit-text-fill-color: v.$bg-color
-	&.active
-		color: black
-		-webkit-text-fill-color: v.$main-color
-		-webkit-text-stroke-color: transparent
-	&:hover
-		color: black
-		-webkit-text-fill-color: v.$main-color
-		-webkit-text-stroke-color: transparent
+	font-weight: 400
 
 h3
 	font-family: 'mala_r'
@@ -78,14 +69,14 @@ h5
 h6
 	// font-family: 'atlas_m'
 	font-weight: 500
-	font-size: 1.25rem
+	font-size: 1.2rem
 	line-height: 1.5em
 a
 	color: #000
 	text-decoration: none
-	font-style: italic
-a:hover
 	font-style: normal
+a:hover
+	font-style: italic
 .explode
 	@include v.absolute()
 	pointer-events: none

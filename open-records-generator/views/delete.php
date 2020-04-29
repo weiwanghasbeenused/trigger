@@ -144,8 +144,47 @@ foreach($all_paths as $p)
 			$fromid = $uu->ids[sizeof($uu->ids) - 2];
 		$message = $ww->delete_wire($fromid, $uu->id);
 		// if object doesn't exist anywhere else, deactivate it
-		if(!$is_linked)
+		if(!$is_linked){
+			if(isset($item['reading_toid'])){
+				$this_toid = explode(',', str_replace(' ', '', $item['reading_toid']));
+				$thisId = $uu->id;
+				foreach($this_toid as $reading_id){
+					$this_reading = $oo->get($reading_id);
+					$this_reading_fromid = explode(',', str_replace(' ', '', $this_reading['reading_fromid']));
+					foreach($this_reading_fromid as $key => $trf){
+						if($trf == $thisId){
+							unset($this_reading_fromid[$key]);
+							break;
+						}
+					}
+					if(!empty($this_reading_fromid))
+						$this_reading_fromid = "'".implode(', ', $this_reading_fromid)."'";
+					else
+						$this_reading_fromid = "null";
+					$oo->update($this_reading['id'], array('reading_fromid' => $this_reading_fromid));
+				}
+			}
+			if(isset($item['reading_fromid'])){
+				$this_fromid = explode(',', str_replace(' ', '', $item['reading_fromid']));
+				$thisId = $uu->id;
+				foreach($this_fromid as $event_id){
+					$this_event = $oo->get($event_id);
+					$this_event_toid = explode(',', str_replace(' ', '', $this_event['reading_toid']));
+					foreach($this_event_toid as $key => $tet){
+						if($tet == $thisId){
+							unset($this_event_toid[$key]);
+							break;
+						}
+					}
+					if(!empty($this_event_toid))
+						$this_event_toid = "'".implode(', ', $this_event_toid)."'";
+					else
+						$this_event_toid = "null";
+					$oo->update($this_event['id'], array('reading_toid' => $this_event_toid));
+				}
+			}
 			$oo->deactivate($uu->id);
+		}
 	?><div class="self-container">
 		<div class="self"><? echo $message; ?></div>
 	</div><?

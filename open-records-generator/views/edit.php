@@ -6,52 +6,51 @@ require_once($include_path.'function_itemsToStr.php');
 
 $browse_url = $admin_path.'browse/'.$uu->urls();
 $isEdit = true;
-$vars = array("cato", "name1", "event_date", "event_time", "location", "upcoming_text", "website", "exhibit", "reading", "body", "url", "rank", "qanda", "begin", "end","thumbnail","reading_toid","reading_fromid"  );
+$vars = array("cato", "name1", "event_date", "event_time", "location", "main_one", "website", "exhibit", "reading", "main_two", "url", "rank", "qanda", "begin", "end","thumbnail","reading_toid","reading_fromid"  );
 
 $var_info = array();
 
 $var_info["input-type"] = array();
+$var_info["input-type"]["cato"] = "text";
 $var_info["input-type"]["name1"] = "text";
-$var_info["input-type"]["body"] = "triggerEditor";
+$var_info["input-type"]["event_date"] = "text";
+$var_info["input-type"]["event_time"] = "text";
+$var_info["input-type"]["location"] = "triggerEditor";
+$var_info["input-type"]["main_one"] = "triggerEditor";
+$var_info["input-type"]["website"] = "referencelist";
+$var_info["input-type"]["exhibit"] = "referencelist";
+$var_info["input-type"]["reading"] = "referencelist";
+$var_info["input-type"]["main_two"] = "triggerEditor";
 $var_info["input-type"]["qanda"] = "triggerEditor";
 $var_info["input-type"]["begin"] = "text";
 $var_info["input-type"]["end"] = "text";
 $var_info["input-type"]["url"] = "text";
 $var_info["input-type"]["rank"] = "text";
-$var_info["input-type"]["event_date"] = "text";
-$var_info["input-type"]["event_time"] = "text";
-$var_info["input-type"]["location"] = "select";
-$var_info["input-type"]["cato"] = "text";
-$var_info["input-type"]["upcoming_text"] = "triggerEditor";
-$var_info["input-type"]["website"] = "referencelist";
-$var_info["input-type"]["exhibit"] = "referencelist";
-$var_info["input-type"]["reading"] = "referencelist";
 $var_info["input-type"]["thumbnail"] = "none";
 $var_info["input-type"]["reading_toid"] = "hidden";
 $var_info["input-type"]["reading_fromid"] = "hidden";
 
 $var_info["label"] = array();
 $var_info["label"]["cato"] = "Event Category";
-$var_info["label"]["name1"] = "Title";
-$var_info["label"]["event_date"] = "Date";
+$var_info["label"]["name1"] = "Name";
+$var_info["label"]["event_date"] = "Date (MM.DD.YYYY)";
 $var_info["label"]["event_time"] = "Time";
 $var_info["label"]["location"] = "Location";
-$var_info["label"]["upcoming_text"] = "Upcoming Intro";
+$var_info["label"]["main_one"] = "Main Text / Upcoming Text";
 $var_info["label"]["website"] = "Website";
-$var_info["label"]["exhibit"] = "Recent Exhibition";
+$var_info["label"]["exhibit"] = "Exhibition";
 $var_info["label"]["reading"] = "Reading List";
-$var_info["label"]["body"] = "Main Text";
+$var_info["label"]["main_two"] = "Main Text 2 / Archive Text";
+$var_info["label"]["qanda"] = "Q & A";
 $var_info["label"]["url"] = "URL Slug";
 $var_info["label"]["rank"] = "Rank";
-$var_info["label"]["qanda"] = "Q & A";
 $var_info["label"]["begin"] = "Begin";
 $var_info["label"]["end"] = "End";
 
-$location_url = "json/location.json";
-$location = file_get_contents($location_url);
-$location = json_decode($location, true);
 $reading_keep = array();
 $id_resource = $oo->urls_to_ids(array("resource"))[0];
+
+$thisId = $oo->urls_to_ids(array($item['url']))[0];
 
 $hasReading = false;
 
@@ -69,6 +68,10 @@ if(isset($item['reading_toid'])){
 function update_object(&$old, &$new, $siblings, $vars, &$old_reading)
 {
 	global $oo;
+	global $ww;
+	global $thisId;
+	// global $vars;
+	// $thisId = $thisId = $oo->urls_to_ids(array($item['url']));
 	// set default name if no name given
 	if(!$new['name1'])
 		$new['name1'] = "untitled";
@@ -109,144 +112,93 @@ function update_object(&$old, &$new, $siblings, $vars, &$old_reading)
 		$dt = strtotime($new['end']);
 		$new['end'] = date($oo::MYSQL_DATE_FMT, $dt);
 	}
-	if(!empty($new['event_date']))
-	{
-		$dt = strtotime($new['event_date']);
-		$new['event_date'] = date("Y-m-d", $dt);
-	}
-	if(!empty($new['reading']))
-	{	
-		$hasNewReading = true;
-		// forming $new_reading
-		global $old_reading_id;
-		global $old_reading;
-		global $reading_keep;
-		global $thisId;
+
+	if($new['reading']!=$old['reading'] && !empty($new['cato'])){
 		global $id_resource;
-		global $hasReading;
-		global $ww;
-		$new_reading = array(); // to carry all the blocks in this update
-		$arr_reading = array(); // to carry those which need to be updated
+		$siblings_reading = $oo->children($id_resource);
+		$s_names_reading = array();
+		foreach($siblings_reading as $s_id_r)
+			$s_names_reading[] = $s_id_r['name1'];
 
-		foreach($reading_keep as $key => $rk){
-			$new_reading[$key]['name1'] = $rk[0];
-			$new_reading[$key]['reading'] = '<a class = "reference_link" href = "'.$rk[1].'">'.$rk[0].'</a><br>';
-			$new_reading[$key]['url'] = slug($new_reading[$key]['name1']);
-			$new_reading[$key]['reading_fromid'] = $thisId;
-			$new_reading[$key]['event_date'] = $new['event_date'];
+		$new_reading_arr = strToItems2($new['reading']);
+		$old_reading_arr = strToItems2($old['reading']);
+		$old_reading_toid_arr = explode(',', str_replace(' ', '', $old['reading_toid']));
+		foreach($old_reading_arr as $old_ra){
+			$search_index = array_search($old_ra, $new_reading_arr);
+			if($search_index ===  FALSE){
+				$i = array_search($old_ra, $old_reading_arr);
+				$this_removed_reading_id = intval($old_reading_toid_arr[$i]);
+				$this_removed_reading = $oo->get($this_removed_reading_id);
+				$this_removed_reading_fromid = $this_removed_reading['reading_fromid'];
+				$this_removed_reading_fromid_arr = explode(',', str_replace(' ', '', $this_removed_reading_fromid));
+				$index = array_search($thisId, $this_removed_reading_fromid_arr);
+				if($index !== FALSE)
+					unset($this_removed_reading_fromid_arr[$index]);
 
-		}
-
-		if($hasReading){
-			// already had reading;
-			$new['reading_toid'] = explode(',', str_replace(' ', ' ', $new['reading_toid']));
-			$loop_length = count($new_reading);
-			$toInsert_index = array(); // for new readings added in this update
-			
-			if( count($old_reading) >= $loop_length){
-				$hasNewReading = false;
-				$loop_length = count($old_reading);
+				$temp = implode(', ', $this_removed_reading_fromid_arr);
+				$this_removed_reading_update = array();
+				$this_removed_reading_update['reading_fromid'] = ($temp) ? $temp : "null";
+				$this_reading_updated = $oo->update($this_removed_reading_id, $this_removed_reading_update);
+				if(!$this_reading_updated){
+					echo 'reading update fail';
+					return false;
+				}
+				$old_reading_toid_arr[$i] = 0;
 			}
-			// starting fileter out unhooked and to-be-ininserted.
-			// looping through each reading
-			for($i = 0 ; $i< $loop_length; $i++ ){
-				if( $old_reading[$i] != $new_reading[$i] ){
-					// update of item detected, now needs to update
-					if( $i < count($old_reading)){
-						// if just updating
-						$arr_reading[$i] = $new_reading[$i] ?  $new_reading[$i] : "null";
-						if($arr_reading[$i] == "null"){
-							//  a reading got deleted/unhooked
-							$this_reading_fromid = $oo->get($id_reading[$i])['reading_fromid'];
-							$this_reading_fromid = explode(',', str_replace(' ', ' ', $this_reading_fromid));
-							if(count($this_reading_fromid) == 1){
-								// if this is the only event related to this reading
-								$oo->deactivate($id_reading[$i]);
-							}
-							else{
-								// else remove this event id from the reading
-								$key = array_search($thisId, $this_reading_fromid);
-								unset( $this_reading_fromid[$key] );
-								$new_reading[$i]['reading_fromid'] = implode(',',$this_reading_fromid);
-							}
-							unset($new['reading_toid'][$i]);
-							unset($arr_reading[$i]);
-						}else{
-							
-							foreach($arr_reading[$i] as $j => &$ar){
-								$ar = $ar ?  "'".$new_reading[$i][$j]."'" : "null";
-							}
-						}
-					}else{
-						// adding new reading
-						$arr_reading[$i] = $new_reading[$i] ?  $new_reading[$i] : "null";
-						foreach($arr_reading[$i] as $j => &$ar){
-							$ar = $ar ?  "'".$new_reading[$i][$j]."'" : "null";
-						}
-						$toInsert_index[] = $i;
+		}
+		foreach($new_reading_arr as $key => $new_ra){
+			$index = array_search($new_ra, $old_reading_arr);
+			if($index ===  FALSE){
+				$thisname = $new_ra[0];
+				$i = FALSE;
+				foreach($s_names_reading as $key => $snr){
+					if($snr == $thisname){
+						$i = $key;
+						break;
 					}
+				}
+				if($i === FALSE){
+					$this_new_reading_arr = array();
 					
-				}
-			}
-			foreach($arr_reading as $i =>$ar){
-				if($ar!='null'){
-					$siblings_reading = $oo->children_ids($id_resource);
-					$s_urls_reading = array();
-					foreach($siblings_reading as $s_id_r)
-						$s_urls_reading[] = $oo->get($s_id_r)['url'];
-		 			$u_reading = str_replace("'", "", $ar['url']);
-		 			$url_reading = valid_url($u_reading, strval($id_reading[$i]), $s_urls_reading);
-					if($url_reading != $u_reading)
-					{
-						$ar['url'] = "'".$url_reading."'";
-						if( array_search($i, $toInsert_index) !==false ){
-							$new['reading_toid'][] = $oo->insert($ar);
-							$ww->create_wire($id_resource, end($new['reading_toid']));
-						}else{
-							$oo->update($id_reading[$i], $ar);
-						}
-						
-						
+					$this_new_reading_arr['name1'] = $thisname;
+					$this_new_reading_arr['url'] = slug($this_new_reading_arr['name1']);
+					$this_new_reading_arr['reading'] = itemsToStr(array($new_ra));
+
+					$this_new_reading_arr['reading_fromid'] = $thisId;
+					foreach($vars as $v)
+						$this_new_reading_arr[$v] = $this_new_reading_arr[$v] ? "'".$this_new_reading_arr[$v]."'" : "null";
+					$this_inserted = $oo->insert($this_new_reading_arr);
+					
+					if(!$this_inserted){
+						echo 'reading inserted fail';
+						return false;
 					}else{
-						if( array_search($i, $toInsert_index) !==false ){
-							$new['reading_toid'][] = $oo->insert($ar);
-							$ww->create_wire($id_resource, end($new['reading_toid']));
-						}else{
-							$oo->update($siblings_reading[$i], $ar);
-						}
-						// update the original reading;
-						
+						global $id_resource;
+						$ww->create_wire($id_resource, $this_inserted);
+						$old_reading_toid_arr[] = $this_inserted;
 					}
+				}else{
+					$thisreading_id = $siblings_reading[$i]['id'];
+					$thisreading_fromid = $siblings_reading[$i]['reading_fromid'] ? $siblings_reading[$i]['reading_fromid'].', '.$thisId : $thisId;
+					$thisreading_arr = array('reading_fromid' => "'".$thisreading_fromid."'");
+					$thisreading_updated = $oo->update($thisreading_id, $thisreading_arr);
+					if(!$thisreading_updated){
+						echo 'reading update fail';
+						return false;
+					}else{
+						$old_reading_toid_arr[] = $thisreading_id;
+					}
+
 				}
 			}
-			$new['reading_toid'] = implode(',',$new['reading_toid']);
-
-
-		}else{
-			// didn't have reading;
-			for($i = 0; $i < count($new_reading) ; $i++){
-				$siblings_reading = $oo->children_ids($id_resource);
-				$s_urls_reading = array();
-				foreach($siblings_reading as $s_id_r)
-					$s_urls_reading[] = $oo->get($s_id_r)['url'];
-
-		 		foreach ($new_reading[$i] as $key => $value) {
-		 			if($value)
-						$new_reading[$i][$key] = "'".$value."'";
-					else
-						$new_reading[$i][$key] = "null";
-				}
-				$id_reading[] = $oo->insert($new_reading[$i]);
-				$u_reading = str_replace("'", "", $new_reading[$i]['url']);
-				$url_reading = valid_url($u_reading, strval($id_reading[$i]), $s_urls_reading);
-				if($url_reading != $u_reading)
-				{
-					$new_reading[$i]['url'] = "'".$url_reading."'";
-					$oo->update(end($id_reading), $new_reading[$i]);
-				}
-			}
-			$new['reading_toid'] = implode(',',$id_reading);
+				
 		}
+		$new['reading_toid'] = array();
+		foreach($old_reading_toid_arr as $orta){
+			if($orta != 0)
+				$new['reading_toid'][] = $orta;
+		}
+		$new['reading_toid'] = implode(',', $new['reading_toid']);
 
 	}
 	// check for differences
@@ -256,6 +208,7 @@ function update_object(&$old, &$new, $siblings, $vars, &$old_reading)
 			$arr[$v] = $new[$v] ?  "'".$new[$v]."'" : "null";
 
 	$updated = false;
+
 	if(!empty($arr))
 	{
 		$updated = $oo->update($old['id'], $arr);
@@ -331,6 +284,8 @@ if ($rr->action != "update" && $uu->id)
 
 				function addListeners(name) {
 					document.getElementById(name + '-html').addEventListener('click', function(e) {resignImageContainer(name);}, false);
+					document.getElementById(name + '-bold').addEventListener('click', function(e) {resignImageContainer(name);}, false);
+					document.getElementById(name + '-italic').addEventListener('click', function(e) {resignImageContainer(name);}, false);
 					document.getElementById(name + '-link').addEventListener('click', function(e) {resignImageContainer(name);}, false);
 				}
 
@@ -468,14 +423,9 @@ if ($rr->action != "update" && $uu->id)
 				
 				</script>
 				<?php
-				// show object data
-				$thisId = $oo->urls_to_ids(array($item['url']));
-				
 
-				// var_dump($thisId);
-				// die();
 				?>
-				<br><div id = "id_display">ID: <? echo $thisId[0]; ?></div>
+				<br><div id = "id_display">ID: <? echo $thisId; ?></div>
 				
 				<? 
 				if(isset($item['reading_fromid'])){
@@ -483,7 +433,7 @@ if ($rr->action != "update" && $uu->id)
 					$thisHookedEvents_id = explode(',', str_replace(' ','',$item['reading_fromid']));
 					$thisHookedEvents = array();
 					foreach($thisHookedEvents_id as $thei){
-						$thisHookedEvents[] = $oo->name($thei);
+						$thisHookedEvents[] = $oo->name(intval($thei));
 					}
 					foreach($thisHookedEvents as $key => $name)
 						echo $name.' (ID = '.$thisHookedEvents_id[$key].')<br>';
@@ -511,10 +461,11 @@ if ($rr->action != "update" && $uu->id)
 						require('views/triggerEditor.php');
 
 						}elseif($var_info["input-type"][$var] == "referencelist")
-						{?>
+						{ 
+						?>
 							<a class = "btn_addListItem" href = "#null" onclick = "addListItem('<? echo $var ;?>')">add item</a>
 							<?
-							$temp = strToItems($item[$var]);
+							$temp = strToItems2($item[$var]);
 
 							if(count($temp) > 1){
 								$loop_length = count($temp);
@@ -525,11 +476,11 @@ if ($rr->action != "update" && $uu->id)
 						?><div class = 'list_name'><? echo $var . "-" . ($i+1); ?></div><input 
 							name='<? echo $var."[".$i."][]"; ?>' 
 							type='<? echo $var_info["input-type"][$var]; ?>'
-							value='<? echo (isset( $temp[$i][1] ) ? $temp[$i][1] : "(title)" )?>' 
+							value='<? echo (isset( $temp[$i][0] ) ? $temp[$i][0] : "(title)" )?>' 
 						><input 
 							name='<? echo $var."[".$i."][]"; ?>' 
 							type='<? echo $var_info["input-type"][$var]; ?>'
-							value='<? echo (isset( $temp[$i][0] ) && $temp[$i][0] != "" ? $temp[$i][0] : "(url)" )?>' 
+							value='<? echo (isset( $temp[$i][1] ) && $temp[$i][1] != "" ? $temp[$i][1] : "(url)" )?>' 
 						><?	
 							}
 						}
@@ -540,51 +491,6 @@ if ($rr->action != "update" && $uu->id)
 								value='<? echo urldecode($item[$var]); ?>'
 								onclick=""
 						><?
-						}
-						elseif($var == "location")
-						{
-						?>
-						<div id = '<? echo $var; ?>-selectList' class = "selectList">
-							<a class = "selectList_btn" href = "#null" onclick = "toggleSelectList('<? echo $var; ?>')">show list [+]</a>
-							<div class = "selectList_list shadowBox">
-								*** you can edit this list at json/location.json ***
-							<? 
-							foreach($location as $list => $adds){
-								?>
-								<ul>
-									<? echo $list; ?>
-									<?
-									foreach($adds as $add){
-										?>
-										<li><? echo $add["loc"].'<br> --- '.$add["address"]; ?></li>
-										<?
-									}
-									echo '<br>'; ?>
-								</ul>
-
-								<?
-							}
-							?>
-								
-							</div>
-						</div>
-						<select name ='<? echo $var; ?>' type='<? echo $var_info["input-type"][$var]; ?>' > 
-							<?
-							foreach($location as $list => $adds){
-								?>
-								<option class = '<? echo $var; ?>-option' <? 
-									if ($list == htmlspecialchars($item[$var], ENT_QUOTES)) {
-										?>
-										selected = "selected" 
-										<?
-									}
-								?>value = '<? echo $list; ?>'><? echo $list; ?></option>
-
-								<?
-							}
-							?>
-						</select>
-						<?	
 						}
 						elseif($var_info["input-type"][$var] == 'hidden'){
 						?><input name='<? echo $var; ?>'
@@ -715,11 +621,9 @@ else
 	{	
 		if($var_info["input-type"][$var] == "referencelist"){
 			while(end($rr->$var) == '(title)'){
-				array_pop($rr->$var);
+					array_pop($rr->$var);
 			}
-			if($var == 'reading'){
-				$reading_keep = $rr->$var;
-			}
+			
 			$rr->$var = itemsToStr( $rr->$var, 'reference_link', $var);
 		}elseif($var == "thumbnail"){
 			$rr->$var = $_POST['thumbnail'];
