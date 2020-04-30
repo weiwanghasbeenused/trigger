@@ -10,7 +10,7 @@
 			<div id = "menu_btn_<? echo $this_url; ?>" class = "menu_btn" >
 
 				<a class = "<? 
-					if($this_item == 'events') echo ($uri[1] == $this_url || $uri[1] == '') ? 'active' : '' ;
+					if($this_name == 'Events') echo ($uri[1] == $this_url || $uri[1] == '') ? 'active' : '' ;
 					else echo ($uri[1] == $this_url) ? 'active' : '' ; 
 					?> explodeCtner"  href = "/<? echo $this_url; ?>">
 					<svg class = 'explode'></svg><? echo $mi['name1'] ?>
