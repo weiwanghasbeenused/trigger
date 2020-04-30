@@ -5,8 +5,8 @@ $thisEvent_media = $ee->media($uu->id);
 $this_cat = $thisEvent["cato"];
 $this_title = $thisEvent["name1"];
 $this_location = $thisEvent["location"];
-$this_date = $thisEvent["event_date"];
-$this_time = $thisEvent["event_time"];
+$this_date = date("m. d. Y", strtotime($thisEvent["event_date"]));
+$this_time = date("H: i", strtotime($thisEvent["event_time"]));
 $this_main1 = $thisEvent["main_one"];
 
 

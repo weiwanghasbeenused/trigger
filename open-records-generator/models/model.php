@@ -50,10 +50,11 @@ class Model
 			$sql .= "WHERE " . implode(" AND ", $where) . " ";
 		if (!empty($order))
 			$sql .= "ORDER BY " . implode(", ", $order) . " ";
-		if (!empty($limit))
+        if ($descending)
+                $sql .= "DESC ";
+        if (!empty($limit))
 			$sql .= "LIMIT " . $limit;
-                if ($descending)
-                        $sql .= " DESC";
+        
 		$res = $db->query($sql);
 		if(!$res)
 			throw new Exception($db->error);

@@ -726,18 +726,25 @@ p {
 }
 
 #main_ctner_about {
-  margin-top: 15vw;
+  padding-left: 5vw;
+  padding-right: 5vw;
 }
-#main_ctner_about .section_content div {
-  width: 66.7%;
+#main_ctner_about .about_col {
+  display: inline-block;
+  width: calc(50% - 2vw);
+  margin-left: 2vw;
+  vertical-align: top;
   font-size: 1.75rem;
   line-height: 1.5em;
 }
-#main_ctner_about .section_content div:nth-of-type(even) {
+#main_ctner_about .about_col:first-child {
+  margin-left: 0;
+}
+#main_ctner_about .about_col div:nth-of-type(even) {
   margin-left: 10%;
 }
-#main_ctner_about .section_title h6 {
-  grid-column: 3/6 span;
+#main_ctner_about .about_col li {
+  margin-left: 1em;
 }
 
 /*# sourceMappingURL=exe.css.map */

@@ -19,4 +19,4 @@ static/data/json-learning/*.json
 static/data/json-live/*.json
 static/data/json-detail/*.json
 static/data/*
-#open-records-generator
+open-records-generator/config/*

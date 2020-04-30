@@ -2,7 +2,7 @@
 class Events extends Objects
 {
 	// const table_name = "objects";
-	public function get_upcoming()
+	public function get_upcoming($limit = '')
 	{	
 		global $db;
 		$sql_upcoming = "SELECT id FROM objects WHERE url = 'upcoming' AND active = '1'";
@@ -16,8 +16,8 @@ class Events extends Objects
 						"wires.active = 1",
 						"wires.toid = objects.id",
 						"objects.active = '1'");
-		$order 	= array("objects.event_date", "objects.begin", "objects.end", "objects.name1");
-		$upcoming_events = $this->get_all($fields, $tables, $where, $order);
+		$order 	= array("objects.rank", "objects.event_date", "objects.begin", "objects.end", "objects.name1");
+		$upcoming_events = $this->get_all($fields, $tables, $where, $order, $limit);
 		return $upcoming_events;
 	}
 	public function get_upcoming_tn($o = NULL)
@@ -30,7 +30,7 @@ class Events extends Objects
 		
 		return $this->get_all($fields, $tables, $where, $order);
 	}
-	public function get_archive()
+	public function get_archive($limit = '')
 	{	
 		global $db;
 		$sql_archive = "SELECT id FROM objects WHERE url = 'archive' AND active = '1'";
@@ -44,8 +44,8 @@ class Events extends Objects
 						"wires.active = 1",
 						"wires.toid = objects.id",
 						"objects.active = '1'");
-		$order 	= array("objects.event_date", "objects.begin", "objects.end", "objects.name1");
-		$archive_events = $this->get_all($fields, $tables, $where, $order, '', TRUE);
+		$order 	= array("objects.rank", "objects.event_date");
+		$archive_events = $this->get_all($fields, $tables, $where, $order, $limit, TRUE);
 		return $archive_events;
 	}
 	public function get_archive_tn($o = NULL)

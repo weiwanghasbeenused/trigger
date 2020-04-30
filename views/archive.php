@@ -3,7 +3,7 @@
 		<h6 id = "cato"><? echo $this_cat;  ?></h6>
 		<h4 id = "title"><? echo $this_title; ?></h4>
 		<div id = "info">
-			<h6 id = "time"><? echo $this_time.' '.$this_date; ?></h6>
+			<h6 id = "time"><? echo $this_date.'&nbsp;&nbsp;'.$this_time; ?></h6>
 			<h6 id = "location">Multiple locations</h6>
 		</div>
 	</div>
@@ -13,7 +13,7 @@
 			<h6>Q&A</h6>
 		</div>
 		<div id = "qanda_content" class = "section_content bodyText">
-			<? echo $this_qanda]; ?>
+			<? echo $this_qanda; ?>
 		</div>
 	<? } 
 

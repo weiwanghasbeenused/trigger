@@ -1,14 +1,20 @@
 @use 'var' as v
 
 #main_ctner_about
-	margin-top: 15vw
-	.section_content
-		div
-			width: 66.7%
-			font-size: 1.75rem
-			line-height: 1.5em
-			&:nth-of-type(even)
+	// margin-top: 15vw
+	padding-left: 5vw
+	padding-right: 5vw
+	.about_col
+		display: inline-block
+		width: calc(50% - 2vw)
+		margin-left: 2vw
+		vertical-align: top
+		font-size: 1.75rem
+		line-height: 1.5em
+		&:first-child
+			margin-left: 0
+		div:nth-of-type(even)
 				margin-left: 10%
-	.section_title
-		h6
-			grid-column: 3 / 6 span
+		li
+			margin-left: 1em
+			// text-indent: -1em

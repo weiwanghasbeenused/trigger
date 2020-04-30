@@ -33,8 +33,8 @@ $var_info["input-type"]["reading_fromid"] = "hidden";
 $var_info["label"] = array();
 $var_info["label"]["cato"] = "Event Category";
 $var_info["label"]["name1"] = "Name";
-$var_info["label"]["event_date"] = "Date (MM.DD.YYYY)";
-$var_info["label"]["event_time"] = "Time";
+$var_info["label"]["event_date"] = "Date (YYYY-MM-DD)";
+$var_info["label"]["event_time"] = "Time (24 hours) (hh-mm)";
 $var_info["label"]["location"] = "Location";
 $var_info["label"]["main_one"] = "Main Text / Upcoming Text";
 $var_info["label"]["website"] = "Website";
@@ -53,6 +53,9 @@ $id_resource = $oo->urls_to_ids(array("resource"))[0];
 $thisId = $oo->urls_to_ids(array($item['url']))[0];
 
 $hasReading = false;
+
+$item['event_date'] = date("Y-m-d", strtotime($item['event_date']));
+$item['event_time'] = date("H:i", strtotime($item['event_time']));
 
 if(isset($item['reading_toid'])){
 	$hasReading = true;
@@ -111,6 +114,11 @@ function update_object(&$old, &$new, $siblings, $vars, &$old_reading)
 	{
 		$dt = strtotime($new['end']);
 		$new['end'] = date($oo::MYSQL_DATE_FMT, $dt);
+	}
+	if(!empty($new['event_date']))
+	{
+		$dt = strtotime($new['event_date']);
+		$new['event_date'] = date($oo::MYSQL_DATE_FMT, $dt);
 	}
 
 	if($new['reading']!=$old['reading'] && !empty($new['cato'])){
