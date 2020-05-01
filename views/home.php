@@ -4,7 +4,7 @@
 		<? echo ( $thisView == 'home' ) ? '<h4 id = "upcoming_ctner_title" class = "ctner_title">Upcoming&darr;</h4>' : ''; 
 			foreach($upcoming_events as $ue){
 			?>
-			<a class = "event event_upcoming explodeCtner" href = "/events/upcoming/<? echo $ue['url']; ?>">
+			<a class = "event event_upcoming explodeCtner" href = "<? echo isset($ue['url']) ? '/events/upcoming/'.$ue['url'] : '' ?>">
 				<svg class = 'explode'></svg>
 				<div class = "event_upcoming_img"><img src = "<? 
 					if(!empty($ue['thumbmail']))
@@ -12,7 +12,7 @@
 				?>"></div>
 				<h3 class = "event_upcoming_date"><? 
 					if(!empty($ue['event_date'])){
-						echo date("m.d", strtotime($ue['event_date'])); 
+						echo $ue['event_date']; 
 					}
 				?></h3>
 				<div class = "event_upcoming_info">
@@ -22,7 +22,7 @@
 			</a>
 		<?
 		}
-		echo ( $thisView == 'home' ) ? '<div id = "more_upcoming" class = "more" ><a  href = "/events/upcoming">More upcoming events&rarr;</a></div>' : '' ;
+		echo ( $thisView == 'home' && $hasUpcoming ) ? '<div id = "more_upcoming" class = "more" ><a  href = "/events/upcoming">More upcoming events&rarr;</a></div>' : '' ;
 		?>
 	</div>
 	<?
@@ -31,24 +31,27 @@
 	?>
 	<div id = "arch_ctner">
 		<? echo ( $thisView == 'home' ) ? '<h4 id = "arch_ctner_title" class = "ctner_title">Archive&darr;</h4>' : '' ; 
-			foreach($archive_events as $ae){
+			foreach($archive_events_ordered as $aeo){
+				if(isset($aeo['new_year'])){
 			?>
-			<a class = "event event_arch explodeCtner" href = "/events/archive/<? echo $ae['url']; ?>">
+			<h6 class = 'year'><? echo $aeo['new_year']; ?></h6>
+			<? }else{ ?>
+			<a class = "event event_arch explodeCtner" href = "/events/archive/<? echo $aeo['url']; ?>">
 				<svg class = 'explode'></svg>
 				<div class = "event_arch_img"><img src = "<? 
-					if(!empty($ae['thumbnail'])){
-						echo $ae['thumbnail']; 
+					if(!empty($aeo['thumbnail'])){
+						echo $aeo['thumbnail']; 
 					}
 				?>"></div>
 				<h3 class = "event_arch_date"><? 
-					if(!empty($ae['event_date'])){
-						echo date("m.d", strtotime($ae['event_date'])); 
+					if(!empty($aeo['event_date'])){
+						echo $aeo['event_date']; 
 					}
 				?></h3>
-				<h4 class = "event_arch_cato"><? echo $ae['cato']; ?></h4>
-				<h4 class = "event_arch_title"><? echo $ae['name1']; ?></h4>
+				<h4 class = "event_arch_cato"><? echo $aeo['cato']; ?></h4>
+				<h4 class = "event_arch_title"><? echo $aeo['name1']; ?></h4>
 			</a>
-		<?
+		<? }
 		}
 		echo ( $thisView == 'home' ) ? '<div id = "more_archive" class = "more"><a href = "/events/archive">More archive events&rarr;</a></div>':'' ;
 		?>

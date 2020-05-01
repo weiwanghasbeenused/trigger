@@ -9,12 +9,12 @@
 		<h6 class = "info_cato" id = "info_cato_location">Location</h6>
 	</div>
 	<div id = "info_content" class = "section_content">
-		<h2 id = "info_time"><? 
+		<div id = "info_time"><? 
 			echo $this_date;  
 			?><br><?
 			echo $this_time;
 			?>
-		</h2>
+		</div>
 		<div id = "info_location" class = "">
 			<? echo $this_location; ?>
 		</div>

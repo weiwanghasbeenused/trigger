@@ -47,6 +47,8 @@ $var_info["label"]["rank"] = "Rank";
 $var_info["label"]["begin"] = "Begin";
 $var_info["label"]["end"] = "End";
 
+
+
 $reading_keep = array();
 $id_resource = $oo->urls_to_ids(array("resource"))[0];
 
@@ -54,8 +56,15 @@ $thisId = $oo->urls_to_ids(array($item['url']))[0];
 
 $hasReading = false;
 
-$item['event_date'] = date("Y-m-d", strtotime($item['event_date']));
-$item['event_time'] = date("H:i", strtotime($item['event_time']));
+if($item['event_date'] != NULL)
+	$item['event_date'] = date("Y-m-d", strtotime($item['event_date']));
+else
+	$item['event_date'] = '';
+
+if($item['event_time'] != NULL)
+	$item['event_time'] = date("H:i", strtotime($item['event_time']));
+else
+	$item['event_time'] = '';
 
 if(isset($item['reading_toid'])){
 	$hasReading = true;
@@ -116,7 +125,8 @@ function update_object(&$old, &$new, $siblings, $vars, &$old_reading)
 		$new['end'] = date($oo::MYSQL_DATE_FMT, $dt);
 	}
 	if(!empty($new['event_date']))
-	{
+	{	
+		
 		$dt = strtotime($new['event_date']);
 		$new['event_date'] = date($oo::MYSQL_DATE_FMT, $dt);
 	}

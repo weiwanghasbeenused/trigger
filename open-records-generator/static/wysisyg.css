@@ -1,7 +1,0 @@
-.editable div{
-	width:70%;
-}
-
-.editable div:nth-of-type(even){
-	margin-left: 10%;
-}

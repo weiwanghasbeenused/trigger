@@ -1,8 +1,13 @@
 <?
 require_once('views/search.php');
+// $isSearch = false;
+// if(isset($_POST['keyword']) && $_POST['keyword'] != ''){
+// 	$isSearch = true;
+// }
+// var_dump($isSearch);
 ?>
 <script>
-
+	var hasKeyword = <? echo $isSearch ? 'true' : 'false' ?>;
 	var sSubmit_search = document.getElementById('submit_search');
 	var sSubmit_clear = document.getElementById('clear_search');
 	var sSsearch_form = document.getElementById('search_form');
@@ -11,8 +16,10 @@ require_once('views/search.php');
 		sSsearch_form.submit();
 	});
 	sSubmit_clear.addEventListener('click', function(){
-		sKeyword.value = '';
-		sSsearch_form.submit();
+		if(hasKeyword){
+			sKeyword.value = '';
+			sSsearch_form.submit();
+		}
 	});
 
 	var sNav = document.getElementById('nav');

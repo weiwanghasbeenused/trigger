@@ -194,20 +194,7 @@ figure{
 	width:80%;
 	margin-bottom: 0.5vw;
 }
-.subtitle{
-	font-size:2em;
-	line-height: 1.2em;
-	color: black;
-	-webkit-text-fill-color: white; /* Will override color (regardless of order) */
-	-webkit-text-stroke-width: 1px;
-	-webkit-text-stroke-color: black;
-	width: 30%;
-	margin-left:68%;
-}
-figcaption{
-	font-size: 0.9em;
-	color: #AAA;
-}
+
 
 #body > div:nth-child(odd) .toolbar {
 	background-color: #e3e3e3;

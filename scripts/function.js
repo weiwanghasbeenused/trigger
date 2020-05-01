@@ -88,10 +88,10 @@ function setSvgSize(thisExplodeCtner){
 	var thisSvg = thisExplodeCtner.getElementsByClassName('explode')[0];
 	thisSvg.setAttributeNS(null, 'viewBox', viewBox );
 	if(thisExplodeCtner.classList.contains('event_arch') || ( thisExplodeCtner.classList.contains('artist-index_item') && !thisExplodeCtner.classList.contains('expanded')) ){
-		thisSvg.style.width = '400%';
-		thisSvg.style.height = '400%';
-		thisSvg.style.top = '-150%';
-		thisSvg.style.left = '-190%';
+		thisSvg.style.width = '20vw';
+		thisSvg.style.height = '20vw';
+		thisSvg.style.top = '-8vw';
+		thisSvg.style.left = '-7vw';
 	}else if(thisExplodeCtner.clientHeight < 50){
 		thisSvg.style.width = '400%';
 		thisSvg.style.height = '400%';
