@@ -2,7 +2,7 @@
 // merge list into ready-display html;
 function strToItems($str){
 	$output = array();
-	$pattern = ['<a class = "reference_link" href = ', '</a>', '"'];
+	$pattern = ['<a class = "reference_link" target = "_blank" href = ', '</a>', '"'];
 	$str = str_replace($pattern,'',$str);
 	$output = explode('<br>',$str);
 	foreach($output as &$op)
@@ -11,7 +11,7 @@ function strToItems($str){
 }
 function strToItems2($str){
 	$output = array();
-	$pattern = [htmlspecialchars('<a class = "reference_link" href = '), htmlspecialchars('</a>'), htmlspecialchars('"')];
+	$pattern = [htmlspecialchars('<a class = "reference_link" target = "_blank" href = '), htmlspecialchars('</a>'), htmlspecialchars('"')];
 	$str = stripslashes( htmlspecialchars($str) );
 	$str = str_replace($pattern,'',$str);
 	$output = explode(htmlspecialchars('<br>'),$str);

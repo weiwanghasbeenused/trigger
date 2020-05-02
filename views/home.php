@@ -16,7 +16,7 @@
 					}
 				?></h3>
 				<div class = "event_upcoming_info">
-					<h4><? echo $ue['cato']; ?>:</h4>
+					<h4><? echo ( !empty($ue['cato']) ) ? $ue['cato'].':' : '' ; ?></h4>
 					<h4 class = "event_upcoming_title"><? echo $ue['name1']; ?></h4>
 				</div>
 			</a>

@@ -25,6 +25,7 @@ if($home_upcoming_limit !== 0){
 	if(count($upcoming_events)!=0){
 		foreach($upcoming_events as &$ue)
 			$ue['event_date'] = date("m.d", strtotime($ue['event_date']));
+		unset($ue);
 	}else{
 		$hasUpcoming = false;
 		$upcoming_events = array(
@@ -34,6 +35,7 @@ if($home_upcoming_limit !== 0){
 		);
 
 	}
+
 }
 if($home_archive_limit !== 0){
 	$archive_events = $ee->get_archive($home_archive_limit);
@@ -46,7 +48,6 @@ if($home_archive_limit !== 0){
 				$year = $this_year;
 				$archive_events_ordered[] = array('new_year'=>$year);
 			}
-
 			$ae['event_date'] = date("m.d", strtotime($ae['event_date']));
 			$archive_events_ordered[] = $ae;
 		}
