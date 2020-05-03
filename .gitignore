@@ -20,3 +20,4 @@ static/data/json-live/*.json
 static/data/json-detail/*.json
 static/data/*
 open-records-generator/config/
+php/config_for_cronjob.php
