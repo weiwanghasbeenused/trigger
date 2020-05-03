@@ -17,8 +17,8 @@ $now = date('Y-m-d');
 // var_dump($upcoming_events);
 foreach( $upcoming_events as $ue ){
 	$this_date = date('Y-m-d', strtotime( $ue['event_date']) );
-	echo $this_date."\n";
 	if( $now > $this_date){
+		echo "moving ".$ue['name1']." to archive...\n";
 		$this_id = $ue['id'];
 		$this_wire_id = intval( $ww->get_wire($upcoming_id, $this_id)['id'] );
 		$arr["fromid"] = $archive_id;
