@@ -45,6 +45,11 @@ require_once('views/artist-index.php');
 		el.addEventListener('click', function(e){
 			if(outsideClick(e, this_a)){
 				if(el.classList.contains('expanded')){
+					if(!status_isMobile){
+						var thisSvg = el.querySelector('svg');
+						thisSvg.removeChild(polygon);
+					}
+
 					el.classList.toggle('expanded');
 				}else{
 					var otherExpanded = document.querySelector('.artist-index_item.expanded');
@@ -53,21 +58,22 @@ require_once('views/artist-index.php');
 						setSvgSize(otherExpanded);
 					}
 					el.classList.toggle('expanded');
-				}
-				if(!status_isMobile){
-					var thisSvg = el.querySelector('svg');
-					var k = getRandomInt(0, final_points_arr.length-1);
-					var final_points = final_points_arr[k].split(' ');
-					var inter_points = generatePoints(initial_points, final_points);
-					thisSvg.appendChild(polygon);
-					setSvgSize(el);
-					for( i = 0 ; i < steps ; i++){
-						setPoints(i, inter_points[i], polygon);
+					if(!status_isMobile){
+						var thisSvg = el.querySelector('svg');
+						var k = getRandomInt(0, final_points_arr.length-1);
+						var final_points = final_points_arr[k].split(' ');
+						var inter_points = generatePoints(initial_points, final_points);
+						thisSvg.appendChild(polygon);
+						setSvgSize(el);
+						for( i = 0 ; i < steps ; i++){
+							setPoints(i, inter_points[i], polygon);
+						}
+						setTimeout(function(){
+							polygon.setAttribute('points', final_points);
+						}, duration);
 					}
-					setTimeout(function(){
-						polygon.setAttribute('points', final_points);
-					}, duration);
 				}
+				
 			}
 		});
 	});

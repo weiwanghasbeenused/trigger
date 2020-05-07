@@ -432,7 +432,8 @@ function insert_object(&$new, $siblings)
 			$siblings = $oo->children_ids($uu->id);
 			$id_array = insert_object($f, $siblings);
 			$toid = $id_array[0];
-			$toid_reading = $id_array[1];
+			if(isset($id_array[1]))
+				$toid_reading = $id_array[1];
 			$fromid_resource = $oo->urls_to_ids(array("resource"))[0];
 			if($toid)
 			{

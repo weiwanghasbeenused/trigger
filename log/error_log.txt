@@ -1,0 +1,5 @@
+
+2020/5/6
+
+	fail to connect mysql: do such directory...
+	-> mysql service was stopped.
