@@ -261,6 +261,7 @@ a:hover {
   display: flex;
   padding-top: 0.5vw;
   font-size: 2rem;
+  padding-top: 1.5vw;
 }
 .main_ctner_list #arch_ctner .event_arch:hover {
   z-index: 10;
@@ -279,8 +280,10 @@ a:hover {
   font-family: "mala_b";
   font-size: 2em;
   letter-spacing: 0.02em;
-  line-height: 1em;
-  width: 15vw;
+  line-height: 0.75em;
+  top: 0.75vw;
+  width: 15%;
+  margin-right: 2%;
   color: black;
   -webkit-text-fill-color: transparent;
   -webkit-text-stroke-width: 1px;
@@ -289,15 +292,18 @@ a:hover {
 .main_ctner_list #arch_ctner .event_arch .event_arch_cato {
   font-size: 1em;
   line-height: 2.5vw;
-  width: 17vw;
+  width: 20%;
+  margin-right: 2%;
 }
 .main_ctner_list #arch_ctner .event_arch .event_arch_title {
   font-size: 1em;
   line-height: 2.5vw;
+  width: 55%;
 }
 .main_ctner_list #arch_ctner .event_arch .event_arch_img {
   position: absolute;
   position: -webkit-absolute;
+  bottom: 0.5vw;
   pointer-events: none;
   opacity: 0;
 }

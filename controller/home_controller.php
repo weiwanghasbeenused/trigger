@@ -23,6 +23,7 @@ if(count($uri) < 3){
 if($home_upcoming_limit !== 0){
 	$upcoming_events = $ee->get_upcoming($home_upcoming_limit);
 	if(count($upcoming_events)!=0){
+		var_dump($upcoming_events);
 		foreach($upcoming_events as &$ue){
 			$ue['event_date'] = isset($ue['event_date']) ? date("m.d", strtotime($ue['event_date'])) : '';
 			$ue['url'] = isset($ue['url']) ? '/events/upcoming/'+$ue['url'] : '#null';

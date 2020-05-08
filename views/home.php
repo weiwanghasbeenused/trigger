@@ -4,7 +4,7 @@
 		<? echo ( $thisView == 'home' ) ? '<h4 id = "upcoming_ctner_title" class = "ctner_title">Upcoming&darr;</h4>' : ''; 
 			foreach($upcoming_events as $ue){
 			?>
-			<a class = "event event_upcoming explodeCtner" href = "<? echo isset($ue['url']) ? '/events/upcoming/'.$ue['url'] : '' ?>">
+			<a class = "event event_upcoming explodeCtner" href = "<? echo isset($ue['url']) ? $ue['url'] : '' ?>">
 				<svg class = 'explode'></svg>
 				<div class = "event_upcoming_img"><img src = "<? 
 					if(!empty($ue['thumbmail']))

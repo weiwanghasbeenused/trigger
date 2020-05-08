@@ -82,6 +82,7 @@
 			display: flex
 			padding-top: .5vw
 			font-size: 2rem
+			padding-top:1.5vw
 			&:hover
 				z-index: 10
 				.event_arch_date
@@ -95,21 +96,24 @@
 				font-family: 'mala_b'
 				font-size: 2em
 				letter-spacing: .02em
-				line-height: 1em
-				width: 15vw
+				line-height: .75em
+				top: .75vw
+				width: 15%
+				margin-right: 2%
 				@include v.outline-text-black()
 				// width: 13vw
 
 			.event_arch_cato
 				font-size: 1em
 				line-height: 2.5vw
-				width: 17vw
-
+				width: 20%
+				margin-right: 2%
 			.event_arch_title
 				font-size: 1em
 				line-height: 2.5vw
+				width: 55%
 			.event_arch_img
-				@include v.absolute()
+				@include v.absolute($bottom:.5vw)
 				pointer-events: none
 				opacity: 0
 				img 
