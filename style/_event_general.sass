@@ -9,7 +9,6 @@ p
 .section_title
 	position: -webkit-sticky
 	position: sticky
-	cursor: pointer
 	display: grid
 	grid-template-columns: repeat(12, 1fr)
 	grid-gap: .5vw 2vw
@@ -33,17 +32,21 @@ p
 	background-color: v.$bg-color
 	z-index: 500
 	border-bottom: none
-	padding-top: 4vw
+	margin-top: 8vw
+	// padding-top: 4vw
 	@include v.transition(padding-top .1s)
+	& > *
+		@include v.absolute($top:0, $left: 0)
 	#title
 		grid-column: 3 / 7 span
 		font-size: 4.5rem
 		@include v.transition(all .25s)
 	#cato
 		grid-column: 1 / 2 span
-		grid-row: 1 / 1 span
 		margin-bottom: .5vw		
-	
+		line-height: 1.2em
+	#info
+		line-height: 2em
 	&.folded
 		border-bottom:2px solid #000
 		padding-top: 0vw

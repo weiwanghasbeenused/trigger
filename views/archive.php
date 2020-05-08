@@ -4,7 +4,7 @@
 		<h4 id = "title"><? echo $this_title; ?></h4>
 		<div id = "info">
 			<h6 id = "time"><? echo $this_date.'&nbsp;&nbsp;'.$this_time; ?></h6>
-			<h6 id = "location">Multiple locations</h6>
+			<h6 id = "location"><? echo $this_location; ?></h6>
 		</div>
 	</div>
 	<div id = "intro_content" class = "section_content bodyText"><? echo $this_main2; ?></div>

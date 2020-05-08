@@ -342,7 +342,6 @@ p {
 .section_title {
   position: -webkit-sticky;
   position: sticky;
-  cursor: pointer;
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   grid-gap: 0.5vw 2vw;
@@ -372,12 +371,18 @@ p {
   background-color: #f0f0f0;
   z-index: 500;
   border-bottom: none;
-  padding-top: 4vw;
+  margin-top: 8vw;
   -webkit-transition: padding-top 0.1s;
   -moz-transition: padding-top 0.1s;
   -ms-transition: padding-top 0.1s;
   -o-transition: padding-top 0.1s;
   transition: padding-top 0.1s;
+}
+#title_title > * {
+  position: absolute;
+  position: -webkit-absolute;
+  top: 0;
+  left: 0;
 }
 #title_title #title {
   grid-column: 3/7 span;
@@ -390,8 +395,11 @@ p {
 }
 #title_title #cato {
   grid-column: 1/2 span;
-  grid-row: 1/1 span;
   margin-bottom: 0.5vw;
+  line-height: 1.2em;
+}
+#title_title #info {
+  line-height: 2em;
 }
 #title_title.folded {
   border-bottom: 2px solid #000;
@@ -526,7 +534,7 @@ p {
   background-color: #f0f0f0;
 }
 #main_ctner_archive .section_content:nth-of-type(2) {
-  margin-top: 20vw;
+  margin-top: 4vw;
 }
 #main_ctner_archive .section_content .content_section {
   margin-top: 6vw;

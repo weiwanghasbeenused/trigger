@@ -34,9 +34,34 @@ require_once("views/archive.php");
 <script type = "text/javascript" src = "/scripts/scrollEvents.js"></script>
 <script type = "text/javascript" src = "/scripts/foldTitle.js"></script>
 <script>
-	var topElement = document.getElementById("nav"); 
+	var titleIsFolded = false;
+	var topElement = document.getElementById("nav");
+	var title_height = document.getElementById("cato").clientHeight;
+	var sTitle_title = document.getElementById("title_title");
+	sTitle_title.style.height = title_height+10+'px'
 	sectioning_title(topElement);
-	scrollEvents(foldTitle);
+
+	window.addEventListener('scroll', function(){
+		sTop = window.scrollY;
+		if (!ticking) {
+		    window.requestAnimationFrame(function() {
+	    		if(sTop >= 100 && !titleIsFolded){
+				  	sTitle_title.classList.add("folded");
+				  	sTitle_title.addEventListener('transitionend', function(){
+				  		titleIsFolded = true;
+				  	});
+				}else if(sTop < 1 && titleIsFolded){
+				  	sTitle_title.classList.remove("folded");
+				  	sTitle_title.addEventListener('transitionend', function(){
+				  		titleIsFolded = false;
+				  	});
+				}
+		      	ticking = false;
+		    });
+
+		    ticking = true;
+		}
+	});
 
 	var sImg_ctner_temp = document.getElementsByClassName('img_ctner_temp');
 	for(i = 0 ; i< sImg_ctner_temp.length; i++){
