@@ -20,4 +20,5 @@ static/data/json-live/*.json
 static/data/json-detail/*.json
 static/data/*
 open-records-generator/config/
+open-records-generator/.htaccess
 php/config_for_cronjob.php

@@ -3,3 +3,8 @@
 
 	fail to connect mysql: do such directory...
 	-> mysql service was stopped.
+
+	[V] website work at 23:25
+
+2020/5/7
+	

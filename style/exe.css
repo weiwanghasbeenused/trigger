@@ -259,7 +259,7 @@ a:hover {
 }
 .main_ctner_list #arch_ctner .event_arch {
   display: flex;
-  padding-top: 1.5vw;
+  padding-top: 0.5vw;
   font-size: 2rem;
 }
 .main_ctner_list #arch_ctner .event_arch:hover {
@@ -273,13 +273,13 @@ a:hover {
   opacity: 1;
 }
 .main_ctner_list #arch_ctner .event_arch * {
-  align-self: flex-end;
+  align-self: flex-start;
 }
 .main_ctner_list #arch_ctner .event_arch .event_arch_date {
   font-family: "mala_b";
   font-size: 2em;
   letter-spacing: 0.02em;
-  line-height: 2.5vw;
+  line-height: 1em;
   width: 15vw;
   color: black;
   -webkit-text-fill-color: transparent;
@@ -681,9 +681,6 @@ p {
 }
 #main_ctner_artist-index #artist-index_list .artist-index_item {
   font-size: 1.2rem;
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  grid-gap: 2vw;
   padding: 0.75vw 0;
   cursor: pointer;
   border-bottom: 2px solid transparent;
@@ -691,11 +688,10 @@ p {
 #main_ctner_artist-index #artist-index_list .artist-index_item > * {
   display: inline-block;
   vertical-align: top;
-  padding-top: 0.55vw;
 }
 #main_ctner_artist-index #artist-index_list .artist-index_item .item_name {
-  grid-column: 1/4 span;
   cursor: pointer;
+  width: 40%;
   padding-top: 0;
   font-weight: 500;
   color: black;
@@ -704,12 +700,17 @@ p {
   -webkit-text-stroke-color: black;
   -webkit-text-fill-color: #f0f0f0;
   font-size: 3rem;
+  height: 100%;
+  margin-right: 2%;
 }
 #main_ctner_artist-index #artist-index_list .artist-index_item .item_tag {
-  grid-column: 5/2 span;
+  width: 8%;
+  margin-right: 2%;
 }
 #main_ctner_artist-index #artist-index_list .artist-index_item .item_link {
-  grid-column: 7/2 span;
+  width: 8%;
+  display: none;
+  margin-right: 2vw;
 }
 #main_ctner_artist-index #artist-index_list .artist-index_item .item_link > a {
   display: none;
@@ -718,8 +719,10 @@ p {
   display: inline;
 }
 #main_ctner_artist-index #artist-index_list .artist-index_item .item_brief {
-  grid-column: 9/4 span;
+  width: 35%;
   display: none;
+  overflow: hidden;
+  cursor: text;
 }
 #main_ctner_artist-index #artist-index_list .artist-index_item:hover {
   border-bottom: 2px solid #000;
@@ -734,10 +737,22 @@ p {
   -webkit-text-fill-color: #000;
 }
 #main_ctner_artist-index #artist-index_list .artist-index_item.expanded .item_brief {
-  display: block;
+  display: inline-block;
+}
+#main_ctner_artist-index #artist-index_list .artist-index_item.expanded .item_link {
+  display: inline-block;
 }
 #main_ctner_artist-index #artist-index_list .artist-index_item.expanded .item_link > a {
   display: inline;
+}
+
+.explodeCtner_click .explode {
+  left: 50%;
+  -webkit-transform: translate(-35vw, 0);
+  -moz-transform: translate(-35vw, 0);
+  -ms-transform: translate(-35vw, 0);
+  -o-transform: translate(-35vw, 0);
+  transform: translate(-35vw, 0);
 }
 
 #main_ctner_artist-index.viewing_search .item_brief {

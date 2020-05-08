@@ -47,35 +47,43 @@
 		padding-right: 5vw
 		.artist-index_item
 			font-size: 1.2rem
-			display: grid
-			grid-template-columns: repeat(12, 1fr)
-			grid-gap: 2vw
+			// display: grid
+			// grid-template-columns: repeat(12, 1fr)
+			// grid-gap: 2vw
 			padding: .75vw 0
 			cursor: pointer
 			border-bottom: 2px solid transparent
 			& > *
 				display: inline-block
 				vertical-align: top
-				padding-top: .55vw
 			.item_name
-				grid-column: 1 / 4 span
 				cursor: pointer
+				width: 40%
 				padding-top: 0
 				font-weight: 500
 				@include v.outline-text-black()
 				-webkit-text-fill-color: v.$bg-color
 				font-size: 3rem
+				height: 100%
+				margin-right: 2%
 			.item_tag
-				grid-column: 5 / 2 span
+				width: 8%
+				margin-right: 2%
 			.item_link
-				grid-column: 7 / 2 span
+				width: 8%
+				display: none
+				// float: right
+				margin-right: 2vw
 				& > a
 					display: none
 					&:first-child
 						display: inline
 			.item_brief
-				grid-column: 9 / 4 span
+				width: 35%
 				display: none
+				overflow: hidden
+				cursor: text
+				// float: right
 			&:hover
 				border-bottom: 2px solid #000
 				.item_name
@@ -85,10 +93,15 @@
 			.item_name
 				-webkit-text-fill-color: #000
 			.item_brief
-				display: block
-			.item_link > a
-				display: inline
-
+				display: inline-block
+			.item_link
+				display: inline-block
+				& > a
+					display: inline
+.explodeCtner_click
+	.explode
+		left: 50%
+		@include v.transform(translate(-35vw, 0))
 #main_ctner_artist-index.viewing_search
 	.item_brief
 		display: block 

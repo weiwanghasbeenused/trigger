@@ -42,8 +42,9 @@ require_once('views/artist-index.php');
 	Array.prototype.forEach.call(sArtist_index_item, function(el, i){
 		var this_btn = el.getElementsByClassName('item_name')[0];
 		var this_a = el.getElementsByTagName('a');
+		var this_brief = el.getElementsByClassName('item_brief');
 		el.addEventListener('click', function(e){
-			if(outsideClick(e, this_a)){
+			if(outsideClick(e, this_a) && outsideClick(e, this_brief)){
 				if(el.classList.contains('expanded')){
 					if(!status_isMobile){
 						var thisSvg = el.querySelector('svg');
