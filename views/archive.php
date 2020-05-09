@@ -9,30 +9,34 @@
 	</div>
 	<div id = "intro_content" class = "section_content bodyText"><? echo $this_main2; ?></div>
 	<? if(!empty($this_qanda)){ ?>
+	<div class = 'section'>
 		<div id = "qanda_title" class = "section_title">
 			<h6>Q&A</h6>
 		</div>
 		<div id = "qanda_content" class = "section_content bodyText">
 			<? echo $this_qanda; ?>
 		</div>
+	</div>
 	<? } 
 
 	if($hasReference){
 	?>
-	<div id = "reference_title" class = 'section_title'>
-		<h6 class = "info_cato" id = "cato_website"><? echo $hasWebsite ? 'Website' : ''; ?></h6>
-		<h6 class = "info_cato" id = "cato_exhibit"><? echo $hasExhibit ? 'Recent exhibition' : ''; ?></h6>
-		<h6 class = "info_cato" id = "cato_reading"><? echo $hasReading ? 'Reading List' : ''; ?></h6>
-	</div>
-	<div id = "reference_content" class = "section_content">
-		<div id = "reference_website">
-			<? echo $thisEvent['website']; ?>
+	<div class = 'section'>
+		<div id = "reference_title" class = 'section_title'>
+			<h6 class = "info_cato" id = "cato_website"><? echo $hasWebsite ? 'Website' : ''; ?></h6>
+			<h6 class = "info_cato" id = "cato_exhibit"><? echo $hasExhibit ? 'Recent exhibition' : ''; ?></h6>
+			<h6 class = "info_cato" id = "cato_reading"><? echo $hasReading ? 'Reading List' : ''; ?></h6>
 		</div>
-		<div id = "reference_exhibit">
-			<? echo $thisEvent['exhibit']; ?>
-		</div>
-		<div id = "reference_reading">
-			<? echo $thisEvent['reading']; ?>
+		<div id = "reference_content" class = "section_content">
+			<div id = "reference_website">
+				<? echo $thisEvent['website']; ?>
+			</div>
+			<div id = "reference_exhibit">
+				<? echo $thisEvent['exhibit']; ?>
+			</div>
+			<div id = "reference_reading">
+				<? echo $thisEvent['reading']; ?>
+			</div>
 		</div>
 	</div>
 	<? } ?>

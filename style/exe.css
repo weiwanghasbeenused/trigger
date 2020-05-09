@@ -60,7 +60,7 @@ h5 {
 
 h6 {
   font-weight: 500;
-  font-size: 1.2rem;
+  font-size: 1rem;
   line-height: 1.5em;
 }
 
@@ -99,7 +99,7 @@ a:hover {
   position: -webkit-fixed;
   top: 0;
   left: 0;
-  z-index: 1000;
+  z-index: 2000;
   width: 100vw;
   max-width: 100%;
   padding: 1.25vw 5vw 1vw 5vw;
@@ -378,6 +378,7 @@ p {
   z-index: 500;
   border-bottom: none;
   margin-top: 8vw;
+  z-index: 1000;
   -webkit-transition: padding-top 0.1s;
   -moz-transition: padding-top 0.1s;
   -ms-transition: padding-top 0.1s;
@@ -414,7 +415,7 @@ p {
 #title_title.folded #title {
   grid-column: 3/7 span;
   grid-row: 1/1 span;
-  font-size: 1.25rem;
+  font-size: 1rem;
   line-height: 1.5em;
   font-weight: 500;
 }

@@ -6,3 +6,4 @@ foreach($menu_items as $key => $mi){
 	}
 }
 require_once('views/nav.php');
+?>

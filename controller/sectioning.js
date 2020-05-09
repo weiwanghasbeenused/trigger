@@ -11,9 +11,11 @@ var sectioning_title = function(topElement){
 		sSection_title[0].style.top = topElement_bottom+"px";
 
 	if(sSection_title.length > 1){
+		var sTitle_title = document.getElementById('title_title');
+		var section_title_top = parseInt(sTitle_title.style.top) + sTitle_title.offsetHeight + "px";
 		Array.prototype.forEach.call(sSection_title, function(el, i){
 			if(i > 0){
-				sSection_title[i].style.top = sSection_title[i-1].style.top + sSection_title[i-1].clientHeight;
+				sSection_title[i].style.top = section_title_top;
 			}
 		});
 	}
