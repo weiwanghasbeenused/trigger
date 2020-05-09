@@ -60,7 +60,7 @@ h5 {
 
 h6 {
   font-weight: 500;
-  font-size: 1rem;
+  font-size: 1.1rem;
   line-height: 1.5em;
 }
 
@@ -415,7 +415,7 @@ p {
 #title_title.folded #title {
   grid-column: 3/7 span;
   grid-row: 1/1 span;
-  font-size: 1rem;
+  font-size: 1.1rem;
   line-height: 1.5em;
   font-weight: 500;
 }
