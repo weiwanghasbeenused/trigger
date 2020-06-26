@@ -10,6 +10,7 @@
     <!-- Sets the style of the status bar for a web application. -->
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <link rel="stylesheet" href="/style/exe.css">
+    <link rel="stylesheet" href="/style/mobile.css">
     <script type = "text/javascript" src = "/scripts/var.js"></script>
     <script type = "text/javascript" src = "/scripts/function.js"></script>
     <link rel="stylesheet" href="https://use.typekit.net/odu6cjg.css">

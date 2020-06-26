@@ -1,0 +1,11 @@
+@media screen and (max-width: 830px){
+	h1, #nav #menu_ctner a{
+		font-size: 6rem;
+	}
+	#nav #title{
+		grid-column: 1 / 4 span;
+	}
+	#nav #menu_ctner{
+		grid-column: 5 / 8 span;
+	}
+}
