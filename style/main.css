@@ -6,6 +6,9 @@
   font-family: "mala_b";
   src: url(../asset/font/MalayalamSangamMN-Bold.woff);
 }
+@font-face {
+
+}
 * {
   padding: 0;
   margin: 0;
@@ -14,6 +17,7 @@
   box-sizing: border-box;
   position: relative;
   position: -webkit-relative;
+  font-weight: normal;
 }
 
 html {
@@ -29,21 +33,24 @@ body {
 }
 
 h1 {
-  font-weight: 400;
-  font-size: 2rem;
-  line-height: 1.05em;
+  font-size: 1em;
+  /*font-weight: 400;*/
+  /*font-size: 2rem;*/
+  /*line-height: 1.05em;*/
 }
 
 h2 {
-  font-size: 1.75rem;
-  line-height: 1.05em;
-  font-weight: 400;
+  /*font-size: 1.75rem;*/
+  /*line-height: 1.05em;*/
+  /*font-weight: 400;*/
 }
 
 h3 {
-  font-family: "mala_r";
-  font-weight: 400;
-  font-style: normal;
+  /*font-family: antique-olive,sans-serif;*/
+  /*font-weight: 400;*/
+  /*font-style: normal;*/
+  /*font-weight: 400;*/
+  /*font-style: normal;*/
 }
 
 h4 {
@@ -82,55 +89,64 @@ a:hover {
 }
 
 ::-moz-selection {
-  background-color: #000;
+  background-color: #f08;
   opacity: 1;
   color: #fff;
 }
 
 ::selection {
-  background-color: #000;
+  background-color: #f08;
   opacity: 1;
   color: #fff;
 }
 
+
+#title {
+  position: fixed;
+  top: 20px;
+  left: 15px;
+  font-size: 24px;
+  /*display: inline-block;*/
+}
+#title a {
+  /*font-style: normal;*/
+}
 #nav {
   /*display: grid;*/
   /*grid-template-columns: repeat(12, 1fr);*/
   /*grid-gap: 2vw;*/
-  position: -webkit-fixed;
+  /*position: -webkit-fixed;*/
   position: fixed;
-  top: 0;
-  left: 0;
+  /*top: 0;*/
+  /*left: 0;*/
+  top: 20px;
   z-index: 2000;
-  /*width: 100vw;*/
-  /*max-width: 100%;*/
+  width: 100vw;
+  max-width: 100%;
   padding: 20px 15px;
-  height: 100vh;
+  font-size: 24px;
+  /*height: 100vh;*/
   /*background-color: #f0f0f0;*/
 }
-#nav #title {
-  display: inline-block;
-}
-#nav #title a {
-  font-style: normal;
-}
-#nav #menu_ctner {
-  margin-top: 50px;
+#menu_ctner {
+      /*grid-column: 3/8 span;*/
+  /*margin-top: 50px;*/
   /*display: flex;*/
   /*flex-direction: column;*/
-  position: absolute;
-  bottom: 75px;
+  /*position: absolute;*/
+  /*bottom: 75px;*/
 }
 
 #nav #menu_ctner a {
-  font-size: 1.75rem;
-  line-height: 1.35em;
+  /*font-size: 2rem;*/
+  line-height: 28px;
   display: inline-block;
   -webkit-transition: max-height 0.35s;
   -moz-transition: max-height 0.35s;
   -ms-transition: max-height 0.35s;
   -o-transition: max-height 0.35s;
   transition: max-height 0.35s;
+  max-height: 5vw;
 }
 #nav #menu_ctner a.active {
   /*font-style: normal;*/
@@ -287,7 +303,11 @@ a:hover {
   align-self: flex-start;
 }
 .main_ctner_list #arch_ctner .event_arch .event_arch_date {
-  font-family: "mala_b";
+  /*font-family: "mala_b";*/
+  /*font-family: filson-pro, sans-serif;*/
+  font-family: ibm-plex-mono, sans-serif;
+  font-weight: 600;
+  font-style: normal;
   font-size: 2em;
   letter-spacing: 0.02em;
   line-height: 0.75em;
@@ -806,5 +826,6 @@ p {
 #main_ctner_about .about_col li {
   margin-left: 1em;
 }
+
 
 /*# sourceMappingURL=exe.css.map */

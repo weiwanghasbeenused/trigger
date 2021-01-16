@@ -19,6 +19,5 @@ static/data/json-learning/*.json
 static/data/json-live/*.json
 static/data/json-detail/*.json
 static/data/*
-open-records-generator/config/
-open-records-generator/.htaccess
+open-records-generator/
 php/config_for_cronjob.php

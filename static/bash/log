@@ -1,0 +1,13 @@
+
+2020-12-27
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+mysqldump: Got error: 2003: Can't connect to MySQL server on '134.122.115.189' (61) when trying to connect
+mysql: [Warning] Using a password on the command line interface can be insecure.
+
+2020-12-27
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+
+2021-01-04
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.

@@ -10,10 +10,10 @@ else{
 
 	require_once("controller/head_controller.php");
 	require_once("php/function.php");
-	require_once("controller/nav_controller.php");
+	require_once("views/nav.php");
 
 	if(!$uri[1] || (count($uri) == 3 && $uri[2] == "upcoming") || (count($uri) == 3 && $uri[2] == "archive") || (count($uri) == 2 && $uri[1] == "events"))
-	    require_once('controller/home_controller.php');
+	    require_once('views/home.php');
 	elseif(count($uri) == 4 && $uri[2] == "upcoming")
 	    require_once('controller/upcoming_controller.php');
 	elseif(count($uri) == 4 && $uri[2] == "archive")
