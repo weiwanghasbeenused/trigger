@@ -18,8 +18,8 @@ h1, h2, h3, h4, h5, h6{font-size:1em;}
 .caption-roman{font-size: 12px;line-height: 20px;font-weight: 400;}
 .caption-bold{font-size: 12px;line-height: 20px;font-weight: 700;}
 .event-title-large{font-size:36px;line-height: 36px;font-weight:500;}
-.date-small{font-family: 'Bely Display', serif;font-size:42px;line-height: 42px;font-weight:400;}
-.date-large{font-family: 'Bely Display', serif;font-size:33vw;line-height: 33vw;font-weight:400;}
+.date-small{font-family: bely-display, serif;font-size:42px;line-height: 42px;font-weight:400;}
+.date-large{font-family: bely-display, serif;font-size:33vw;line-height: 33vw;font-weight:400;}
 .text-outline{
   color: black;
   -webkit-text-fill-color: transparent;
