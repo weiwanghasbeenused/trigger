@@ -12,10 +12,10 @@ else{
 	require_once("php/function.php");
 	require_once("views/nav.php");
 
-	if(!$uri[1] || (count($uri) == 3 && $uri[2] == "upcoming") || (count($uri) == 3 && $uri[2] == "archive") || (count($uri) == 2 && $uri[1] == "events"))
+	if(!$uri[1])
 	    require_once('views/home.php');
-	elseif(count($uri) == 4 && $uri[2] == "upcoming")
-	    require_once('controller/upcoming_controller.php');
+	elseif( ($uri[1] == "upcoming" || $uri[1] == "archive") && count($uri) < 3)
+	    require_once('views/listing.php');
 	elseif(count($uri) == 4 && $uri[2] == "archive")
 	    require_once('controller/archive_controller.php');
 	elseif($uri[1] == "resource")

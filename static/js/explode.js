@@ -1,4 +1,5 @@
 var sExplodeCtner = document.getElementsByClassName('explodeCtner');
+var sExplodeTrigger = document.getElementsByClassName('explodeTrigger');
 if(!status_isMobile){
 	// svg
 	var xmlns = 'http://www.w3.org/2000/svg';
@@ -7,8 +8,8 @@ if(!status_isMobile){
 	var point_x_dev_base = origin[0]/10;
 	var point_y_dev_base = origin[1]/10;
 
-	for(i = 0 ; i < sExplodeCtner.length ; i++){
-		setSvgSize(sExplodeCtner[i]);
+	for(i = 0 ; i < sExplodeTrigger.length ; i++){
+		setSvgSize(sExplodeTrigger[i]);
 	}
 
 	var polygon = document.createElementNS(xmlns, 'polygon');
@@ -16,11 +17,11 @@ if(!status_isMobile){
 
 	initial_points = initial_points.split(' ');
 
-	Array.prototype.forEach.call(sExplodeCtner, function(el, j){
-		sExplodeCtner[j].addEventListener('mouseenter', function(e){
+	Array.prototype.forEach.call(sExplodeTrigger, function(el, j){
+		sExplodeTrigger[j].addEventListener('mouseenter', function(e){
 			var k = getRandomInt(0, final_points_arr.length-1);
 			var final_points = final_points_arr[k].split(' ');
-			var thisSvg = sExplodeCtner[j].getElementsByClassName('explode')[0];
+			var thisSvg = sExplodeTrigger[j].getElementsByClassName('explode')[0];
 			thisSvg.appendChild(polygon);
 			var inter_points = generatePoints(initial_points, final_points);
 			for( i = 0 ; i < steps ; i++){
@@ -30,8 +31,8 @@ if(!status_isMobile){
 				polygon.setAttribute('points', final_points);
 			}, duration);
 		});
-		sExplodeCtner[j].addEventListener('mouseleave', function(e){
-			var thisSvg = sExplodeCtner[j].getElementsByClassName('explode')[0];
+		sExplodeTrigger[j].addEventListener('mouseleave', function(e){
+			var thisSvg = sExplodeTrigger[j].getElementsByClassName('explode')[0];
 			thisSvg.removeChild(polygon);
 		});
 	});

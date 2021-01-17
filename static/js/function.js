@@ -84,29 +84,46 @@ function setPoints(i, inter_points, polygon){
 	}, i * duration/steps);
 }
 
-function setSvgSize(thisExplodeCtner){
-	var thisSvg = thisExplodeCtner.getElementsByClassName('explode')[0];
+function setSvgSize(thisExplodeTrigger){
+	var thisSvg = thisExplodeTrigger.getElementsByClassName('explode')[0];
+	var thisCtner = thisExplodeTrigger.getElementsByClassName('explodeCtner')[0];
 	thisSvg.setAttributeNS(null, 'viewBox', viewBox );
-	if(thisExplodeCtner.classList.contains('event_arch') || ( thisExplodeCtner.classList.contains('artist-index_item') && !thisExplodeCtner.classList.contains('expanded')) ){
-		thisSvg.style.width = '20vw';
-		thisSvg.style.height = '20vw';
-		thisSvg.style.top = '-8vw';
-		thisSvg.style.left = '-7vw';
-	}else if(thisExplodeCtner.clientHeight < 50){
+	if(thisExplodeTrigger.classList.contains('archive-event') || ( thisExplodeTrigger.classList.contains('artist-index_item') && !thisExplodeTrigger.classList.contains('expanded')) ){
+		// thisSvg.style.width = '20vw';
+		// thisSvg.style.height = '20vw';
+		// thisSvg.style.top = '-8vw';
+		// thisSvg.style.left = '-7vw';
+		thisCtner.style.width = '280px';
+		thisCtner.style.height = '220px';
+		thisCtner.style.top = '-60px';
+		thisCtner.style.left = '-75px';
+	}else if(thisExplodeTrigger.clientHeight < 50){
 		thisSvg.style.width = '400%';
-		thisSvg.style.height = '400%';
-		thisSvg.style.top = '-150%';
+		// thisSvg.style.height = '400%';
+		// thisSvg.style.top = '-150%';
+		thisSvg.style.height = '100%';
+		thisSvg.style.top = '0';
 		thisSvg.style.left = '-150%';
-	}else if(thisExplodeCtner.clientHeight < 150){
+		thisCtner.style.height = '400%';
+		thisCtner.style.top = '-150%';
+	}else if(thisExplodeTrigger.clientHeight < 150){
 		thisSvg.style.width = '200%';
-		thisSvg.style.height = '200%';
-		thisSvg.style.top = '-50%';
+		// thisSvg.style.height = '200%';
+		// thisSvg.style.top = '-50%';
+		thisSvg.style.height = '100%';
+		thisSvg.style.top = '0';
 		thisSvg.style.left = '-50%';
+		thisCtner.style.height = '200%';
+		thisCtner.style.top = '-50%';
 	}else{
 		thisSvg.style.width = '150%';
-		thisSvg.style.height = '150%';
-		thisSvg.style.top = '-25%';
+		// thisSvg.style.height = '150%';
+		// thisSvg.style.top = '-25%';
+		thisSvg.style.height = '100%';
+		thisSvg.style.top = '0';
 		thisSvg.style.left = '-25%';
+		thisCtner.style.height = '150%';
+		thisCtner.style.top = '-25%';
 	}
 }
 
