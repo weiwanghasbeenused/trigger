@@ -1,23 +1,25 @@
-.DS_Store
-.htpasswd
+# machine-specific config files
 .htaccess
-.gitignore~
-media/*.gif
-media/*.jpg
-media/*.jpeg
-media/*.png
-media/*.pdf
-media/*.svg
-media/*.tif
-media/*.tiff
-media/*.eps
-media/*.docx
-media/*.eps
-static/data/json-all/*.json
-static/data/json-films/*.json
-static/data/json-learning/*.json
-static/data/json-live/*.json
-static/data/json-detail/*.json
-static/data/*
-open-records-generator/
-php/config_for_cronjob.php
+.htpasswd 
+
+# nano, emacs backups
+*~
+
+# media
+*.gif
+*.jpg
+*.jpeg
+*.png
+*.pdf
+*.svg
+*.tif
+*.tiff
+*.mp4
+
+# macos
+.DS_Store
+
+# bash 
+backup
+sync
+log

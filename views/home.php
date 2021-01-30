@@ -16,7 +16,10 @@ $archive_events = getArchiveEvents(10);
 				$event_begin = strtotime($event['begin']);
 				$event_year = date('Y', $event_begin);
 				$event_date = date('m.d', $event_begin);
-				$event_tag = 'Artist Panel Talk';
+				$event_title_arr = prepareTitle($event['name1']);
+				$event_tag = $event_title_arr['tag'];
+				$event_title = $event_title_arr['title'];
+				// $event_subtitle = $event_title_arr['event_subtitle'];
 				$event_media = $oo->media($event['id']);
 				$event_thumbnail_url = getEventThumbnail($event_media);
 				
@@ -28,11 +31,11 @@ $archive_events = getArchiveEvents(10);
 					?></div><div class = 'year-container'><p class = 'year date-small'><?= $current_year; ?>.</p><?
 				}
 			?>
-				<a class = 'event upcoming-event explodeTrigger <?= ($event_counter%2 == 0) ? 'even' : 'odd'; ?> <?= empty($event_thumbnail_url) ? "noThumbnail" : "" ?>' href="/upcoming/<?= $event['url']; ?>">
+				<a class = 'event upcoming-event explodeTrigger <?= ($event_counter%2 == 0) ? 'even' : 'odd'; ?> <?= $event_thumbnail_url ? "" : "noThumbnail" ?>' href="/upcoming/<?= $event['url']; ?>">
 					<div class='explodeCtner'><svg class = 'explode'></svg></div>
-					<div class = "event-thumbnailCtner"><img class = "event-thumbnail" src = "<?= $event_thumbnail_url; ?>"></div>
+					<div class = "event-thumbnailCtner"><?= $event_thumbnail_url ? '<img class = "event-thumbnail" src = "'. $event_thumbnail_url.'">' : ''; ?></div>
 					<p class = 'event-date date-large text-outline'><?= $event_date; ?></p><div class = 'event-info'>
-						<p class = 'event-tag caption-roman'><?= $event_tag; ?></p><h2 class = 'event-title body-medium'><?= $event['name1']; ?></h2>
+						<p class = 'event-tag caption-roman'><?= $event_tag; ?></p><h2 class = 'event-title body-medium'><?= $event_title; ?></h2>
 					</div>
 				</a>
 			<?
@@ -61,7 +64,9 @@ $archive_events = getArchiveEvents(10);
 				$event_begin = strtotime($event['begin']);
 				$event_year = date('Y', $event_begin);
 				$event_date = date('m.d', $event_begin);
-				$event_tag = 'Artist Panel Talk';
+				$event_title_arr = prepareTitle($event['name1']);
+				$event_tag = $event_title_arr['tag'];
+				$event_title = $event_title_arr['title'];
 				$event_media = $oo->media($event['id']);
 				$event_thumbnail_url = getEventThumbnail($event_media);
 				
@@ -71,13 +76,11 @@ $archive_events = getArchiveEvents(10);
 					?></div><div class = 'year-container'><p class = 'year date-small'><?= $current_year; ?>.</p><?
 				}
 			?>
-				<a class = 'event archive-event explodeTrigger <?= empty($event_thumbnail_url) ? "noThumbnail" : "" ?>' href="/archive/<?= $event['url']; ?>">
+				<a class = 'event archive-event explodeTrigger <?= $event_thumbnail_url ? "" : "noThumbnail" ?>' href="/archive/<?= $event['url']; ?>">
 					<div class='explodeCtner'><svg class = 'explode'></svg></div>
-					<div class = "event-thumbnailCtner">
-						<img class = "event-thumbnail" src = "<?= $event_thumbnail_url; ?>">
-					</div>
+					<div class = "event-thumbnailCtner"><?= $event_thumbnail_url ? '<img class = "event-thumbnail" src = "'. $event_thumbnail_url.'">' : ''; ?></div>
 					<p class = 'event-date date-small text-outline'><?= $event_date; ?></p><div class = 'event-info'>
-						<p class = 'event-tag caption-roman'><?= $event_tag; ?></p><h2 class = 'event-title body-medium'><?= $event['name1']; ?></h2>
+						<p class = 'event-tag caption-roman'><?= $event_tag; ?></p><h2 class = 'event-title body-medium'><?= $event_title; ?></h2>
 					</div>
 				</a>
 			<?

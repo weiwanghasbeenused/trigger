@@ -12,6 +12,7 @@ body
 }
 /* typography */
 h1, h2, h3, h4, h5, h6{font-size:1em;}
+h3, h4, h5, h6{font-weight: 400;}
 .body-medium{font-weight: 500;}
 .body-roman{font-weight: 400;}
 .body-bold{font-weight: 700;}
@@ -153,6 +154,7 @@ img{width: 100%;}
   line-height: 14px;
   display: inline-block;
   background: #f0f0f0;
+  cursor: pointer;
 }
 #upcoming-listing-container .event
 {
@@ -162,8 +164,8 @@ img{width: 100%;}
 #upcoming-listing-container .year,
 #archive-listing-container .year
 {
-  position: sticky;
   position: -webkit-sticky;
+  position: sticky;
   top: 50px;
   padding-left: 20px;
   display: inline-block;
@@ -247,6 +249,120 @@ img{width: 100%;}
 #event-container .listing-section-title
 {
   opacity: 0;
+}
+
+/*detail*/
+#detail-header
+{
+  margin: 0 20px;
+  padding-bottom: 60px;
+}
+#detail-header:after
+{
+  content: ' ';
+  display: block;
+  height: 0;
+  clear: both;
+}
+#detail-header .event-tag
+{
+  /*margin-top: 60px;*/
+}
+#detail-header .event-tag + #event-title
+{
+  padding-top: 20px;
+}
+#detail-header h1
+{
+  clear: both;
+}
+#detail-header #event-subtitle
+{
+  margin-top: 10px;
+}
+#detail-header .event-location
+{
+  position: absolute;
+  right: 0;
+  bottom: 95px;
+  
+}
+#detail-header .event-date
+{
+  /*clear: both;*/
+  text-align: right;
+  /*margin-top: 45px;*/
+}
+#detail-header .event-time
+{
+  text-align: right;
+}
+#event-landingImg
+{
+  width: auto;
+  /*position: absolute;*/
+  max-height: 400px;
+
+  max-width: 90%;
+  left: 50%;
+  /*top: 50%;*/
+  /*transform: translate(-50%, -50%);*/
+  transform: translate(-50%, 0);
+  margin-top: 30px;
+  z-index: -1;
+}
+#detail-header .fade-img-zone:hover ~ #event-landingImg
+{
+  opacity: .25;
+}
+#detail-header #event-time-ctner
+{
+  position: absolute;
+  right: 0;
+  bottom: 0px;
+  /*float: right;*/
+  /*clear: both;*/
+}
+#detail-body
+{
+  margin-top: 75px;
+}
+
+.section-title
+{
+  position: -webkit-sticky;
+  position: sticky;
+  top: 10px;
+}
+
+.section-content p
+{
+  padding: 0 20px;
+}
+.section-content .body-image-holder
+{
+  text-align: center;
+}
+.section-content .body-image-holder img
+{
+  width: auto;
+  max-width: 100%;
+  max-height: 65vh;
+}
+.artist-index_item
+{
+  cursor: pointer;
+  border-bottom: 2px solid #000;
+  padding: 10px;
+}
+.artist-index_item:hover,
+.artist-index_item.expanded
+{
+  background-color: #fff;
+}
+.artist-tag-container .tag
+{
+  background-color: transparent;
 }
 @media (min-width: 500px){
 
@@ -463,8 +579,130 @@ img{width: 100%;}
     padding: 0;
     margin-bottom: 0;
   }
+  #detail-container
+  {
+    padding-top: 90px;
+    padding-bottom: 120px;
+  }
+  #detail-header
+  {
+    margin: 0;
+  }
+  #detail-header #event-subtitle
+  {
+    float: left;
+  }
+  #detail-header .event-tag
+  {
+    margin-top: 60px;
+  }
+  #event-landingImg
+  {
+    /*width: auto;*/
+    position: absolute;
+    max-height: 100%;
+    /*max-width: 90%;*/
+    /*left: 50%;*/
+    top: 50%;
+    transform: translate(-50%, -50%);
+    /*z-index: -1;*/
+    margin-top: initial;
+  }
+  #detail-header #event-time-ctner
+  {
+    float: right;
+    clear: both;
+    bottom: initial;
+    position: relative;
+  }
+  #detail-header .event-location
+  {
+    position: initial;
+    right: initial;
+    float: right;
+    bottom: initial;
+    text-align: right;
+    margin: 10px 0;
+  }
+  .section-content p
+  {
+    padding: 0;
+    width: 720px;
+    margin: 0 auto;
+  }
+
+  .column{
+    box-sizing: border-box;
+    display: inline-block;
+    vertical-align: top;
+  }
+  .column[column="2"]
+  {
+    width: 50%;
+  }
+  .column[column="2"]:first-of-type
+  {
+    padding-right: 20px;
+  }
+  .column[column="2"]:last-of-type
+  {
+    padding-left: 20px;
+  }
+  .artist-name,
+  .artist-tag-container,
+  .artist-notes,
+  .artist-brief
+  {
+    display: inline-block;
+    vertical-align: top;
+    box-sizing: border-box;
+    padding-right: 40px;
+  }
+  
+  .artist-name{
+    width: 30%;
+  }
+  .artist-tag-container{
+    width: 12%;
+    min-width: 120px;
+  }
+  .artist-tag-container .tag
+  {
+    margin-top: 10px;
+  }
+  .artist-tag-container .tag:first-of-type
+  {
+    margin-top: 0px;
+  }
+  .artist-notes{
+    width: 12%;
+    min-width: 120px;
+  }
+  .artist-brief{
+    max-width: 40%;
+    padding-right: 0;
+  }
+  .artist-tag-container,
+  .artist-notes,
+  .artist-brief
+  {
+    display: none;
+  }
+  .expanded .artist-tag-container,
+  .expanded .artist-notes,
+  .expanded .artist-brief
+  {
+    display: inline-block;
+  }
   
 }
 @media (min-width: 1500px){
-
+  .main-container
+  {
+    padding-left: 0;
+    padding-right: 0;
+    width: 1440px;
+    margin-left: auto;
+    margin-right: auto;
+  }
 }

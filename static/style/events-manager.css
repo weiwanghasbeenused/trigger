@@ -1,0 +1,489 @@
+*{padding:0;margin:0;box-sizing:border-box;position: relative;}
+body
+{
+  font-family: neue-haas-grotesk-text, sans-serif;
+  background-color: #f0f0f0;
+  font-size: 16px;
+  line-height: 20px;
+}
+
+/* typography */
+h1, h2, h3, h4, h5, h6{font-size:1em;}
+h3, h4, h5, h6{font-weight: 400;}
+.body-medium{font-weight: 500;}
+.body-roman{font-weight: 400;}
+.body-bold{font-weight: 700;}
+.caption-roman{font-size: 12px;line-height: 20px;font-weight: 400;}
+.caption-bold{font-size: 12px;line-height: 20px;font-weight: 700;}
+.event-title-large{font-size:36px;line-height: 36px;font-weight:500;}
+.date-small{font-family: bely-display, serif;font-size:42px;line-height: 42px;font-weight:400;}
+.date-large{font-family: bely-display, serif;font-size:33vw;line-height: 33vw;font-weight:400;}
+.text-outline{
+  color: black;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: black;
+  -webkit-text-fill-color: #f0f0f0;
+}
+/* basic tags */
+a{text-decoration: none;color:#000;}
+.nav-item > a,
+#list a,
+#action-list a
+{
+  display: inline-block;padding: 5px 8px;
+}
+a:hover{
+  background-color: #000;
+  color: #f0f0f0;
+
+}
+img{width: 100%;}
+ul{list-style: none;margin: 0;}
+li > a
+{
+  display: inline-block;
+}
+label
+{
+  display: inline-block;
+  margin-bottom: 5px;
+}
+/* browse */
+header
+{
+  width: 800px;
+  padding: 5px 0;
+  /*left: 50%;*/
+  margin: 0 auto;
+  /*position: fixed;*/
+  /*top: 0;*/
+  z-index: 100;
+  background-color: #f0f0f0;
+  overflow: hidden;
+}
+.nav-item
+{
+  display: inline-block;
+  position: relative;
+  
+}
+.nav-item > a
+{
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+  border-right: 1px solid #000;
+  border-top: 1px solid #000;
+  border-bottom: 1px solid #000;
+  padding-left: 28px;
+  margin-left: -20px;
+  background-color: #f0f0f0;
+}
+.nav-item:first-child > a
+{
+  margin-left: 0;
+  padding-left: 8px;
+  border-left: 1px solid #000;
+}
+.nav-item > a:hover
+{
+  background-color: #000;
+  color: #fff;
+}
+.nav-item:last-child
+{
+  display: none;
+}
+input[type="text"]
+{
+  display: block;
+  position: relative;
+  font-size: 16px;
+  padding: 3px 5px;
+  width: 100%;
+  width: 600px;
+}
+input[type="text"].section-title-input
+{
+  width: 100%;
+}
+.wysiwyg-container textarea{
+  width: 100%;
+  height: 200px;
+  padding: 30px;
+}
+.wysiwyg-container textarea:focus
+{
+  outline: 1px solid #f00;
+}
+.input-section
+{
+  margin-bottom: 20px;
+}
+#main
+{
+  width: 800px;
+  padding: 10px 0 120px 0;
+  margin: 0 auto;
+}
+#list
+{
+}
+#list li
+{
+}
+#list .btn-delete
+{
+  float: right;
+  border: 1px solid #f00;
+  color: #f00;
+}
+#list .btn-edit
+{
+  display: block; 
+  width: 720px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  vertical-align: top;
+  margin-top: 5px;
+}
+#list .btn-edit:hover
+{
+  background-color: #00d;
+}
+#list .btn-delete:hover,
+#list .btn-delete:hover + .btn-edit
+{
+  background-color: #f00;
+  color: #fff;
+}
+#action-list
+{
+  padding-bottom: 30px;
+}
+.btn-action
+{
+  border-radius: 15px;
+  border: 1px solid #000;
+}
+#list:not([eventType]) .btn-delete
+{
+  display: none;
+}
+.editable
+{
+  background-color: #fff;
+  border: 1px solid #000;
+  min-height: 200px;
+  padding: 5px;
+}
+.body-section .editable
+{
+  border-top: none;
+  border-bottom: 1px dashed #000;
+}
+.editable.image-holder
+{
+  /*background-color: initial;*/
+  padding: 20px;
+  position: relative;
+  text-align: center; 
+  cursor: pointer;
+
+}
+.toolbar
+{
+  padding: 4px 0 11px 0;
+  border-bottom: 1px solid #000;
+  display: none;
+  top: 0;
+  position: -webkit-sticky;
+  position: sticky;
+  z-index: 10;
+  background-color: #f0f0f0;
+}
+.image-wysiwyg-container .toolbar
+{
+  margin-bottom: -50px;
+}
+
+.toolbar a,
+a.tool-btn
+{
+  background-color: #fff;
+  border-right: 2px solid #000;
+  border-bottom: 2px solid #000;
+  padding: 0 5px;
+  cursor: pointer;
+}
+.toolbar a:hover,
+a.tool-btn:hover
+{
+  color: #777;
+}
+.toolbar a:active,
+a.tool-btn:active
+{
+  border-right: none;
+  border-bottom: none;
+  border-top: 2px solid #000;
+  border-left: 2px solid #000;
+  background-color: #ddd;
+}
+a.tool-btn.alert-btn
+{
+  border-color: #f00;
+}
+a.tool-btn.alert-btn:hover
+{
+  color: #fff;
+  background-color: #f00;
+}
+
+.toolbar .right
+{
+  float: right;
+}
+#input-section-body:after
+{
+  content: " ";
+  display: block;
+  clear: both;
+  height: 0;
+}
+.section-title-input
+{
+  margin-bottom: 5px;
+}
+#btn-add-body-section
+{
+  
+}
+#body-section-toolbar
+{
+  text-align: center;
+}
+.btn-delete-section{
+  display: block;
+  margin-top: 0;
+  color: #f00;
+  border-color: #f00;
+  float: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 5;
+  cursor: pointer;
+  float: right;
+}
+/*.btn-delete-section:hover
+{
+  background-color: #f00;
+  color: #f0f0f0;
+}*/
+.btn-delete-section:hover ~ label
+{
+  color: #f00;
+}
+.btn-delete-section:hover ~ input,
+.btn-delete-section:hover ~ div .editable,
+.btn-delete-section:hover ~ textarea
+.btn-delete-section:hover ~ span
+{
+  background-color: #f00;
+  opacity: .5;
+}
+.wysiwyg-container
+{
+  /*padding-bottom: 40px;*/
+}
+.wysiwyg-container:first-child
+{
+  padding-bottom: 0;
+}
+.dontdisplay
+{
+  display: none;
+}
+.displaying-toolbar .toolbar
+{
+  display: block;
+}
+.displaying-imagecontainer .imagecontainer
+{
+  display: block;
+}
+.imagecontainer
+{
+  padding: 10px;
+  display: none;
+}
+.displaying-html .tool-bold,
+.displaying-html .tool-indent,
+.displaying-html .tool-reset,
+.displaying-html .tool-italic,
+.displaying-html .tool-link,
+.displaying-html .tool-image
+{
+  visibility: hidden;
+}
+.displaying-html .editable,
+.displaying-html .tool-html
+{
+  display: none;
+}
+.displaying-html textarea,
+.displaying-html .tool-txt
+{
+  display: block;
+}
+.wysiwyg-container
+{
+  margin-bottom: 15px;
+}
+
+.image-upload,
+.existing-image
+{
+  /*font-family: monospace;*/
+  width: 500px;
+  margin-bottom: 20px;
+}
+.image-upload .field-name,
+.existing-image .field-name
+{
+  display: inline-block;
+  width: 75px;
+}
+.existing-image textarea
+{
+  width: 100%;
+  height: 50px;
+  padding: 5px;
+  margin: 10px 0;
+}
+.image-upload input
+{
+  cursor: pointer;
+}
+.imagebox
+{
+  white-space: nowrap;
+}
+.image-container
+{
+  display: inline-block;
+  box-sizing: border-box;
+  width: 20%;
+  padding-right: 10px;
+  vertical-align: middle;
+  cursor: pointer;
+}
+.image-container:hover
+{
+  opacity: .75;
+}
+.editable.image-holder:after
+{
+  content: 'Click to change the image';
+  display: none;
+  background-color: rgba(255, 255, 255, .8);
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  /*pointer-events: none;*/
+  cursor: pointer;
+  padding-top: 30px;
+  box-sizing: border-box;
+}
+/*.image-wysiwyg-note
+{
+  display: none;
+  background-color: rgba(255, 255, 255, .8);
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}*/
+/*.image-wysiwyg-note p
+{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}*/
+.image-holder img
+{
+  width: auto;
+  max-width: 100%;
+  max-height: 50vh;
+}
+.image-holder:hover:after
+{
+  display: block;
+}
+.wysiwyg-image-editor:hover .btn-delete-image
+{
+  display: block;
+}
+.edit-block-template
+{
+  display: none;
+}
+.round-btn-body
+{
+  display: inline-block;
+    padding: 5px 8px;
+    border-radius: 15px;
+    border: 1px solid #000;
+    cursor: pointer;
+}
+.red-btn
+{
+  border-color: #f00;
+  color: #f00;
+}
+.body-section div:first-of-type .editable
+{
+  border-top: 1px solid #000;
+}
+.body-section div:last-of-type .editable
+{
+  border-bottom: 1px solid #000;
+}
+.body-section:not(:first-of-type) .wysiwyg-text-editor:nth-of-type(2) .editable
+{
+  border-top: 1px solid #000;
+}
+.btn-delete-image
+{
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background-color: #fff;
+  display: none;
+}
+.btn-delete-image:hover ~ .image-holder
+{
+  background-color: #f00;
+  opacity: 0.5;
+}
+.btn-add-body-text
+{
+  display: none;
+}
+.body-content-control
+{
+  margin-top: 10px;
+  display: block;
+}
+.wysiwyg-image-editor + .body-content-control .btn-add-body-text
+{
+  display: initial;
+}
