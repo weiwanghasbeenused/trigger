@@ -1,6 +1,6 @@
 var sExplodeCtner = document.getElementsByClassName('explodeCtner');
 var sExplodeTrigger = document.getElementsByClassName('explodeTrigger');
-if(!status_isMobile){
+if(wW > 1000){
 	// svg
 	var xmlns = 'http://www.w3.org/2000/svg';
 	var viewBox = '0 0 450 300';
@@ -18,23 +18,51 @@ if(!status_isMobile){
 	initial_points = initial_points.split(' ');
 
 	Array.prototype.forEach.call(sExplodeTrigger, function(el, j){
-		sExplodeTrigger[j].addEventListener('mouseenter', function(e){
-			var k = getRandomInt(0, final_points_arr.length-1);
-			var final_points = final_points_arr[k].split(' ');
-			var thisSvg = sExplodeTrigger[j].getElementsByClassName('explode')[0];
-			thisSvg.appendChild(polygon);
-			var inter_points = generatePoints(initial_points, final_points);
-			for( i = 0 ; i < steps ; i++){
-				setPoints(i, inter_points[i], polygon);
-			}
-			setTimeout(function(){
-				polygon.setAttribute('points', final_points);
-			}, duration);
-		});
-		sExplodeTrigger[j].addEventListener('mouseleave', function(e){
-			var thisSvg = sExplodeTrigger[j].getElementsByClassName('explode')[0];
-			thisSvg.removeChild(polygon);
-		});
+		var thisTriggerType = el.getAttribute('triggerType');
+		if(thisTriggerType == 'hover')
+		{
+			el.addEventListener('mouseenter', function(e){
+				var k = getRandomInt(0, final_points_arr.length-1);
+				var final_points = final_points_arr[k].split(' ');
+				var thisSvg = el.getElementsByClassName('explode')[0];
+				thisSvg.appendChild(polygon);
+				var inter_points = generatePoints(initial_points, final_points);
+				for( i = 0 ; i < steps ; i++){
+					setPoints(i, inter_points[i], polygon);
+				}
+				setTimeout(function(){
+					polygon.setAttribute('points', final_points);
+				}, duration);
+			});
+			el.addEventListener('mouseleave', function(e){
+				var thisSvg = el.getElementsByClassName('explode')[0];
+				thisSvg.removeChild(polygon);
+			});
+		}
+		else if(thisTriggerType == 'click')
+		{
+			el.addEventListener('click', function(){
+				if(el.classList.contains('expanded'))
+				{
+					var k = getRandomInt(0, final_points_arr.length-1);
+					var final_points = final_points_arr[k].split(' ');
+					var thisSvg = el.getElementsByClassName('explode')[0];
+					thisSvg.appendChild(polygon);
+					var inter_points = generatePoints(initial_points, final_points);
+					for( i = 0 ; i < steps ; i++){
+						setPoints(i, inter_points[i], polygon);
+					}
+					setTimeout(function(){
+						polygon.setAttribute('points', final_points);
+					}, duration);
+				}
+				else
+				{
+					var thisSvg = el.getElementsByClassName('explode')[0];
+					thisSvg.removeChild(polygon);
+				}
+			});
+		}
 	});
 	var logo_explodeCtner = document.getElementsByClassName('logo_explodeCtner')[0];
 

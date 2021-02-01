@@ -31,7 +31,7 @@ $archive_events = getArchiveEvents(10);
 					?></div><div class = 'year-container'><p class = 'year date-small'><?= $current_year; ?>.</p><?
 				}
 			?>
-				<a class = 'event upcoming-event explodeTrigger <?= ($event_counter%2 == 0) ? 'even' : 'odd'; ?> <?= $event_thumbnail_url ? "" : "noThumbnail" ?>' href="/upcoming/<?= $event['url']; ?>">
+				<a class = 'event upcoming-event explodeTrigger <?= ($event_counter%2 == 0) ? 'even' : 'odd'; ?> <?= $event_thumbnail_url ? "" : "noThumbnail" ?>' href="/upcoming/<?= $event['url']; ?>" triggerType = "hover">
 					<div class='explodeCtner'><svg class = 'explode'></svg></div>
 					<div class = "event-thumbnailCtner"><?= $event_thumbnail_url ? '<img class = "event-thumbnail" src = "'. $event_thumbnail_url.'">' : ''; ?></div>
 					<p class = 'event-date date-large text-outline'><?= $event_date; ?></p><div class = 'event-info'>
@@ -76,7 +76,7 @@ $archive_events = getArchiveEvents(10);
 					?></div><div class = 'year-container'><p class = 'year date-small'><?= $current_year; ?>.</p><?
 				}
 			?>
-				<a class = 'event archive-event explodeTrigger <?= $event_thumbnail_url ? "" : "noThumbnail" ?>' href="/archive/<?= $event['url']; ?>">
+				<a class = 'event archive-event explodeTrigger <?= $event_thumbnail_url ? "" : "noThumbnail" ?>' href="/archive/<?= $event['url']; ?>" triggerType = "hover">
 					<div class='explodeCtner'><svg class = 'explode'></svg></div>
 					<div class = "event-thumbnailCtner"><?= $event_thumbnail_url ? '<img class = "event-thumbnail" src = "'. $event_thumbnail_url.'">' : ''; ?></div>
 					<p class = 'event-date date-small text-outline'><?= $event_date; ?></p><div class = 'event-info'>

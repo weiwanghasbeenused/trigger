@@ -266,5 +266,15 @@ function prepareBody_edit($str)
 
   return $event_body;
 }
+function wysiwygEmpty($str)
+{
+  while(ord($str) == '13'){
 
+    $str = substr($str, 1);
+  }
+  // var_dump($str);
+  if(empty($str))
+    return true;
+  return false;
+}
 ?>
