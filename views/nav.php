@@ -24,7 +24,7 @@ $menu_items = array_values($menu_items);
 			$this_url = strtolower($mi['url']);
 		?>
 			<div id = "menu_btn_<? echo $this_url; ?>" class = "menu_btn" >
-				<a class = "event-title-large <? echo ($uri[1] == $this_url) ? 'active' : '' ; ?> explodeTrigger"  href = "/<? echo $this_url; ?>">
+				<a class = "event-title-large <? echo ($uri[1] == $this_url) ? 'active' : '' ; ?> explodeTrigger"  href = "/<? echo $this_url; ?>" triggerType="hover">
 					<div class = "explodeCtner"><svg class = 'explode'></svg></div><? echo $mi['name1'] ?>
 				</a>
 			</div><br>

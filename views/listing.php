@@ -32,7 +32,7 @@
 						?></div><div class = 'year-container'><p class = 'year date-small'><?= $current_year; ?>.</p><?
 					}
 				?>
-					<a class = 'event <?= $thisEventType; ?>-event explodeTrigger <?= ($event_counter%2 == 0) ? 'even' : 'odd'; ?> <?= empty($event_thumbnail_url) ? "noThumbnail" : "" ?>' href="/<?= $thisEventType; ?>/<?= $event['url']; ?>">
+					<a class = 'event <?= $thisEventType; ?>-event explodeTrigger <?= ($event_counter%2 == 0) ? 'even' : 'odd'; ?> <?= empty($event_thumbnail_url) ? "noThumbnail" : "" ?>' href="/<?= $thisEventType; ?>/<?= $event['url']; ?>" triggerType="hover">
 						<div class='explodeCtner'><svg class = 'explode'></svg></div>
 						<div class = "event-thumbnailCtner"><img class = "event-thumbnail" src = "<?= $event_thumbnail_url; ?>"></div>
 						<p class = 'event-date date-large text-outline'><?= $event_date; ?></p><div class = 'event-info'>
@@ -73,7 +73,7 @@
 					?></div><div class = 'year-container'><p class = 'year date-small'><?= $current_year; ?>.</p><?
 				}
 			?>
-				<a class = 'event <?= $thisEventType; ?>-event explodeTrigger <?= empty($event_thumbnail_url) ? "noThumbnail" : "" ?>' href="/<?= $thisEventType; ?>/<?= $event['url']; ?>">
+				<a class = 'event <?= $thisEventType; ?>-event explodeTrigger <?= empty($event_thumbnail_url) ? "noThumbnail" : "" ?>' href="/<?= $thisEventType; ?>/<?= $event['url']; ?>" triggerType="hover">
 					<div class='explodeCtner'><svg class = 'explode'></svg></div>
 					<div class = "event-thumbnailCtner">
 						<img class = "event-thumbnail" src = "<?= $event_thumbnail_url; ?>">
