@@ -317,6 +317,7 @@ a.tool-btn.alert-btn:hover
 {
   padding: 10px;
   display: none;
+  overflow: scroll;
 }
 .displaying-html .tool-bold,
 .displaying-html .tool-indent,
@@ -394,11 +395,12 @@ a.tool-btn.alert-btn:hover
   position: absolute;
   top: 0;
   left: 0;
-  /*pointer-events: none;*/
+  pointer-events: none;
   cursor: pointer;
   padding-top: 30px;
   box-sizing: border-box;
 }
+
 /*.image-wysiwyg-note
 {
   display: none;

@@ -67,11 +67,20 @@ function getEventThumbnail($media){
   {
     foreach($media as $m)
     {
-      if(strpos($m['caption'], '[isThumbnail]') !== false)
+      $this_caption_raw = $m['caption'];
+      $this_attr_end_pos = strpos($this_caption_raw, ']');
+      if($this_attr_end_pos !== false)
       {
-        $output = m_url($m);
-        break;
+        $this_attr_length = $this_attr_end_pos - 1;
+        $this_attr = substr($this_caption_raw, 1, $this_attr_length);
+        if(strpos($this_attr, 'isThumbnail') !== false)
+        {
+          $output = m_url($m);
+          break;
+        }
       }
+      else
+        break;
     }
     if(empty($output))
       $output = m_url($media[0]);
@@ -83,7 +92,7 @@ function getEventThumbnail($media){
   return $output;
 }
 
-function prepareTitle($str)
+function prepareTitle($str, $isEdit = false)
 {
   if(!is_string($str))
     throw new Exception("[!] prepareTitle() received a non-string input.");
@@ -93,8 +102,21 @@ function prepareTitle($str)
   $tagdivider_pos = strpos($event_name1, $tagdivider);
   if($tagdivider_pos !== false){
     $event_tag = substr($event_name1, 0, $tagdivider_pos);
+    if( strpos($event_tag, ',') !== false && !$isEdit){
+      $event_tag_arr = explode(',', $event_tag);
+      foreach($event_tag_arr as &$tag)
+      {
+        $tag = wysiwygClean($tag);
+      }
+      unset($tag);
+    }
+    else
+      $event_tag_arr = array($event_tag);
+    
     $event_name1 = substr($event_name1, $tagdivider_pos + strlen($tagdivider));
   }
+  else
+      $event_tag_arr = array($event_tag);
   $event_subtitle = '';
   $subtitledivider = '[subtitledivider]';
   $subtitledivider_pos = strpos($event_name1, $subtitledivider);
@@ -104,7 +126,7 @@ function prepareTitle($str)
   }
   $event_title = $event_name1;
 
-  return array('tag'=>$event_tag, 'title'=>$event_title, 'subtitle'=>$event_subtitle);
+  return array('tag'=>$event_tag_arr, 'title'=>$event_title, 'subtitle'=>$event_subtitle);
 }
 
 function prepareBody($str)
@@ -142,28 +164,31 @@ function prepareBody($str)
     }
     $event_body[] = array(
       'sectiontitle' => $this_subtitle,
-      'content' => $this_text
+      'content' => wysiwygClean($this_text)
     );
     $str = substr($str, $sectiondivider_pos + strlen($sectiondivider) );
     $sectiondivider_pos = strpos($str, $sectiondivider);
   }
-
-  $sectiontitledivider_pos = strpos($str, $sectiontitledivider);
-  if($sectiontitledivider_pos !== false)
+  if(!empty($str))
   {
-    $temp = explode($sectiontitledivider, $str);
-    $this_subtitle = $temp[0];
-    $this_text = $temp[1];
+    $sectiontitledivider_pos = strpos($str, $sectiontitledivider);
+    if($sectiontitledivider_pos !== false)
+    {
+      $temp = explode($sectiontitledivider, $str);
+      $this_subtitle = $temp[0];
+      $this_text = $temp[1];
+    }
+    else
+    {
+      $this_subtitle = '';
+      $this_text = $str;
+    }
+    $event_body[] = array(
+      'sectiontitle' => $this_subtitle,
+      'content' => $this_text
+    );
   }
-  else
-  {
-    $this_subtitle = '';
-    $this_text = $str;
-  }
-  $event_body[] = array(
-    'sectiontitle' => $this_subtitle,
-    'content' => $this_text
-  );
+  
 
   return $event_body;
 }
@@ -182,6 +207,7 @@ function prepareBody_edit($str)
   while($sectiondivider_pos !== false)
   {
     $this_section = substr( $str, 0, $sectiondivider_pos );
+    // var_dump($this_section);
     $sectiontitledivider_pos = strpos($this_section, $sectiontitledivider);
     if($sectiontitledivider_pos !== false)
     {
@@ -195,17 +221,18 @@ function prepareBody_edit($str)
       $this_content = $this_section;
     }
 
+
     $this_content_arr = array();
     $imagedivider_pos = strpos($this_content, $imagedivider);
 
     if($imagedivider_pos === false)
-      $this_content_arr[] = array('content-type' => 'text', 'content' => $this_content);
+      $this_content_arr[] = array('content-type' => 'text', 'content' => wysiwygClean($this_content));
     else
     {
       while( $imagedivider_pos !== false ){
         $this_text = substr($this_content, 0, $imagedivider_pos);
-        if(!empty($this_text))
-          $this_content_arr[] = array('content-type' => 'text', 'content' => $this_text);
+        if(!wysiwygEmpty($this_text))
+          $this_content_arr[] = array('content-type' => 'text', 'content' => wysiwygClean($this_text));
         $endimagedivider_pos = strpos($this_content, $endimagedivider);
         $image_str_length = $endimagedivider_pos - ($imagedivider_pos + strlen($imagedivider));
         $this_image = substr($this_content, $imagedivider_pos + strlen($imagedivider), $image_str_length);
@@ -213,17 +240,19 @@ function prepareBody_edit($str)
         $this_content = substr($this_content, $endimagedivider_pos + strlen($endimagedivider));
         $imagedivider_pos = strpos($this_content, $imagedivider);
       }
+      if(!wysiwygEmpty($this_content))
+      $this_content_arr[] = array('content-type' => 'text', 'content' => wysiwygClean($this_content));
     }
-    
     $event_body[] = array(
       'sectiontitle' => $this_subtitle,
       'sectioncontent' => $this_content_arr
     );
+
     $str = substr($str, $sectiondivider_pos + strlen($sectiondivider) );
     $sectiondivider_pos = strpos($str, $sectiondivider);
   }
 
-  if(!empty($str))
+  if(!wysiwygEmpty($str))
   {
     $sectiontitledivider_pos = strpos($str, $sectiontitledivider);
     if($sectiontitledivider_pos !== false)
@@ -268,8 +297,11 @@ function prepareBody_edit($str)
 }
 function wysiwygEmpty($str)
 {
-  while(ord($str) == '13'){
-
+  while(ord(substr($str, 0, 1)) == '9' || 
+        ord(substr($str, 0, 1)) == '10' || 
+        ord(substr($str, 0, 1)) == '13'
+       )
+  {
     $str = substr($str, 1);
   }
   // var_dump($str);
@@ -277,4 +309,93 @@ function wysiwygEmpty($str)
     return true;
   return false;
 }
+function wysiwygClean($str)
+{
+  while(ord(substr($str, 0, 1)) == '9' || 
+        ord(substr($str, 0, 1)) == '10' || 
+        ord(substr($str, 0, 1)) == '13'
+       )
+  {
+    $str = substr($str, 1);
+  }
+  if(!empty($str))
+  {
+    while(ord(substr($str, strlen($str) - 1)) == '9' || 
+          ord(substr($str, strlen($str) - 1)) == '10' || 
+          ord(substr($str, strlen($str) - 1)) == '13'
+         )
+    {
+      $str = substr($str, 0, strlen($str) - 1);
+    }
+  }
+  return $str;
+}
+function process_media_wysiwyg($toid)
+{
+  global $mm;
+  global $rr;
+  global $resize;
+  global $resize_root;
+  global $resize_scale;
+  global $media_root;
+
+  $m_rows = $mm->num_rows();
+  $m_old = $m_rows;
+  foreach($_FILES["uploads"]["error"] as $key => $error)
+  {
+    if($error == UPLOAD_ERR_OK)
+    {
+      $tmp_name = $_FILES["uploads"]["tmp_name"][$key];
+      $m_name = $_FILES["uploads"]["name"][$key];
+      $m_type = strtolower(end(explode(".", $m_name)));
+
+      // add to db's image list
+      $m_arr["type"] = "'".$m_type."'";
+      $m_arr["object"] = "'".$toid."'";
+      $m_arr["caption"] = "'".$rr->captions[$key+count($rr->medias)]."'";
+      $insert_id = $mm->insert($m_arr);
+      $m_rows++;
+
+      $m_file = m_pad($insert_id).".".$m_type;
+      $m_dest = $resize ? $resize_root : $media_root;
+      $m_dest.= $m_file;
+
+      if(move_uploaded_file($tmp_name, $m_dest)) {
+        if($resize)
+          resize($m_dest, $media_root.$m_file, $resize_scale);
+      }
+      else {
+        $m_rows--;
+        $mm->deactivate($insert_id);
+      }
+    }
+  }
+  return $m_old < $m_rows;
+}
+function getCleanCaption($str)
+{
+  $this_caption_raw = $str;
+  $output = array();
+  $isThumbnail = false;
+
+  $this_caption_attr_end_pos = strpos($this_caption_raw, ']');
+  if($this_caption_attr_end_pos !== false){
+    $this_caption_attr_length = $this_caption_attr_end_pos - 1;
+    $this_caption_attr = substr($this_caption_raw, 1, $this_caption_attr_length);
+    $cleanedCaption = substr($this_caption_raw, $this_caption_attr_end_pos + 1);
+    if( strpos($this_caption_attr, 'isThumbnail') !== false)
+      $isThumbnail = true;
+  }
+  else
+  {
+    $this_caption_attr = '';
+    $cleanedCaption = $this_caption_raw;
+
+  }
+  $output['isThumbnail'] = $isThumbnail;
+  $output['cleanedCaption'] = $cleanedCaption;
+
+  return $output;
+}
+
 ?>

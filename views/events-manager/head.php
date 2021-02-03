@@ -72,7 +72,7 @@ $title = "Trigger | Events Manager";
                 }
                 else
                 {
-                    $this_item_name1 = $item['name1'];
+                    $this_item_name1 = prepareTitle($item['name1'])['title'];
                     $this_item_url = '/events-manager/'.$uri[2].'/'.$uri[3].'/edit';
                 }
                 if( strlen($this_item_name1) > 45 )

@@ -17,7 +17,7 @@ else
 {
 	$eventType = end($uri);
 	$eventType_id = end($oo->urls_to_ids(array($eventType)));
-	$sql = "SELECT objects.id, objects.name1, objects.begin, objects.url FROM objects, wires WHERE objects.active='1' AND wires.active='1' AND objects.name1 NOT LIKE '.%' AND objects.id = wires.toid AND wires.fromid = '".$eventType_id."' ORDER BY objects.begin, objects.name1";
+	$sql = "SELECT objects.id, objects.name1, objects.begin, objects.url FROM objects, wires WHERE objects.active='1' AND wires.active='1' AND objects.name1 NOT LIKE '.%' AND objects.id = wires.toid AND wires.fromid = '".$eventType_id."' ORDER BY objects.begin DESC";
 	$res = $db->query($sql);
     if(!$res)
 		throw new Exception($db->error);

@@ -1,7 +1,7 @@
 <?
 	$thisEventType = $uri[1];
 	$event_title_arr = prepareTitle($item['name1']);
-	$event_tag = $event_title_arr['tag'];
+	$event_tag_arr = $event_title_arr['tag'];
 	$event_title = $event_title_arr['title'];
 	$event_subtitle = $event_title_arr['subtitle'];
 	$location = $item['deck'];
@@ -13,8 +13,12 @@
 ?>
 <div id = 'detail-container' class = 'main-container' eventType='<?= $thisEventType; ?>'>
 	<section id = 'detail-header'>
-		
-		<?= empty($event_tag) ? '' : '<p class = "event-tag caption-roman fade-img-zone">'.$event_tag.'</p>' ; ?>
+		<? if(!empty($event_tag_arr)){
+			foreach($event_tag_arr as $tag)
+			{
+				echo '<p class = "event-tag caption-roman fade-img-zone">'.$tag.'</p>';
+			}
+		} ?>
 		<h1 id = 'event-title' class = 'event-title-large fade-img-zone'><?= $event_title; ?></h1>
 		<?= empty($event_subtitle) ? '' : '<p id = "event-subtitle" class = "body-bold fade-img-zone">'.$event_subtitle.'</p>' ; ?>
 		<?= empty($location) ? '' : '<p class = "body-bold event-location fade-img-zone">'.$location.'</p>' ; ?>

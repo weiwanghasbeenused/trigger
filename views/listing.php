@@ -21,7 +21,7 @@
 					$event_year = date('Y', $event_begin);
 					$event_date = date('m.d', $event_begin);
 					$event_title_arr = prepareTitle($event['name1']);
-					$event_tag = $event_title_arr['tag'];
+					$event_tag_arr = $event_title_arr['tag'];
 					$event_title = $event_title_arr['title'];
 					$event_media = $oo->media($event['id']);
 					$event_thumbnail_url = getEventThumbnail($event_media);				
@@ -36,7 +36,7 @@
 						<div class='explodeCtner'><svg class = 'explode'></svg></div>
 						<div class = "event-thumbnailCtner"><img class = "event-thumbnail" src = "<?= $event_thumbnail_url; ?>"></div>
 						<p class = 'event-date date-large text-outline'><?= $event_date; ?></p><div class = 'event-info'>
-							<p class = 'event-tag caption-roman'><?= $event_tag; ?></p><h2 class = 'event-title body-medium'><?= $event_title; ?></h2>
+							<div class='event-tag-container'><? foreach($event_tag_arr as $tag){ ?><p class = 'event-tag caption-roman'><?= $tag; ?></p><? } ?></div><h2 class = 'event-title body-medium'><?= $event_title; ?></h2>
 						</div>
 					</a>
 				<?
@@ -62,7 +62,7 @@
 				$event_year = date('Y', $event_begin);
 				$event_date = date('m.d', $event_begin);
 				$event_title_arr = prepareTitle($event['name1']);
-				$event_tag = $event_title_arr['tag'];
+				$event_tag_arr = $event_title_arr['tag'];
 				$event_title = $event_title_arr['title'];
 				$event_media = $oo->media($event['id']);
 				$event_thumbnail_url = getEventThumbnail($event_media);
@@ -79,7 +79,7 @@
 						<img class = "event-thumbnail" src = "<?= $event_thumbnail_url; ?>">
 					</div>
 					<p class = 'event-date date-small text-outline'><?= $event_date; ?></p><div class = 'event-info'>
-						<p class = 'event-tag caption-roman'><?= $event_tag; ?></p><h2 class = 'event-title body-medium'><?= $event_title; ?></h2>
+						<div class='event-tag-container'><? foreach($event_tag_arr as $tag){ ?><p class = 'event-tag caption-roman'><?= $tag; ?></p><? } ?></div><h2 class = 'event-title body-medium'><?= $event_title; ?></h2>
 					</div>
 				</a>
 			<?

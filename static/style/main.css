@@ -109,12 +109,12 @@ polygon
 {
   /*fill: #fff;*/
 }
-.viewingNav polygon
+/*.viewingNav polygon
 {
   fill: transparent;
   stroke: #fff;
   stroke-width: 1.5;
-}
+}*/
 .menu_btn {
   cursor: pointer;
   display: inline-block;
@@ -147,6 +147,10 @@ polygon
   padding-top: 100px;
   /*overflow: hidden;*/
 }
+#alert-noUpcoming
+{
+  padding: 0 20px;
+}
 .main-container
 {
   padding-top: 100px;
@@ -170,12 +174,13 @@ polygon
 {
   border: 1px solid #000;
   /*height: 24px;*/
-  padding: 3px 8px 3px 8px;
+  padding:2px 8px;
   border-radius: 10px;
   line-height: 14px;
   display: inline-block;
   background: #f0f0f0;
   cursor: pointer;
+  margin-right: 8px;
 }
 #upcoming-listing-container .event
 {
@@ -231,7 +236,6 @@ polygon
 }
 #archive-listing-container .event-tag{
   max-width: 40%;
-  margin-right: 10px;
 }
 #archive-listing-container .event-title{
   max-width: 60%;
@@ -348,27 +352,40 @@ polygon
 {
   margin-top: 75px;
 }
-
+.body-section
+{
+  margin-bottom: 160px;
+}
+.body-section:last-child
+{
+  margin-bottom: 0;
+}
 .section-title
 {
   position: -webkit-sticky;
   position: sticky;
-  top: 10px;
+  top: 20px;
+  margin-bottom: 80px;
 }
+.body-section
+{
 
-.section-content p
+}
+.section-content > p
 {
   padding: 0 20px;
+  margin-bottom: 20px;
 }
 .section-content .body-image-holder
 {
   text-align: center;
+  margin-bottom: 20px;
 }
 .section-content .body-image-holder img
 {
   width: auto;
   max-width: 100%;
-  max-height: 65vh;
+  max-height: 70vh;
 }
 .artist-index_item
 {
@@ -431,6 +448,15 @@ polygon
 {
   display: none;
 }
+.section-content .centered
+{
+  text-align: center;
+}
+.section-content p + figure,
+.section-content div + figure
+{
+  margin-top: 60px;
+}
 @media (min-width: 500px){
 
 }
@@ -472,6 +498,10 @@ polygon
     padding-left: 80px;
     padding-right: 80px;
   }
+  #alert-noUpcoming
+  {
+    padding: 0;
+  }
   .main-container{
     padding-top: 150px;
     padding-left: 80px;
@@ -479,8 +509,8 @@ polygon
   }
   .event-tag, .tag
   {
-    padding: 4px 10px;
-    border-radius: 12px;
+    border-radius: 13px;
+
   }
   /* event listing */
   .listing-section-title
@@ -592,7 +622,7 @@ polygon
   }
   #archive-listing-container .event-date
   {
-    width: 170px;
+    width: 180px;
     margin-bottom:0;
   }
   #archive-listing-container .explodeCtner
@@ -612,7 +642,7 @@ polygon
   {
     transform: translate(-3px, 0);
     max-width: initial;
-    margin-bottom: 6px;
+    margin-bottom: 4px;
   }
   #upcoming-listing-container + #archive-listing-container
   {
@@ -692,11 +722,13 @@ polygon
     text-align: right;
     margin: 10px 0;
   }
-  .section-content p
+  .section-content > p,
+  .section-content > div
   {
     padding: 0;
     width: 720px;
-    margin: 0 auto;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .column{
