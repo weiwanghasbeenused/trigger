@@ -100,7 +100,6 @@ input[type="text"]
   position: relative;
   font-size: 16px;
   padding: 3px 5px;
-  width: 100%;
   width: 600px;
 }
 input[type="text"].section-title-input
@@ -177,6 +176,7 @@ input[type="text"].section-title-input
   min-height: 200px;
   padding: 5px;
 }
+
 .body-section .editable
 {
   border-top: none;
@@ -488,4 +488,14 @@ a.tool-btn.alert-btn:hover
 .wysiwyg-image-editor + .body-content-control .btn-add-body-text
 {
   display: initial;
+}
+#location-input-section .wysiwyg-container
+{
+  width: 600px;
+}
+#location-input-section .editable
+{
+  min-height: initial;
+  height: 28px;
+  width: 600px;
 }

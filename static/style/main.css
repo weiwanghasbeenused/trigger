@@ -4,7 +4,7 @@ body
   font-family: neue-haas-grotesk-text, sans-serif;
   background-color: #f0f0f0;
   font-size: 16px;
-  line-height: 22px;
+  line-height: 26px;
 }
 ::selection {
     background-color: #F7C;
@@ -234,7 +234,7 @@ polygon
   margin-bottom: 5px;
   /*margin-left: 40%;*/
 }
-#archive-listing-container .event-tag{
+#archive-listing-container .event-tag-container{
   max-width: 40%;
 }
 #archive-listing-container .event-title{
@@ -295,7 +295,7 @@ polygon
 }
 #detail-header .event-tag + #event-title
 {
-  padding-top: 20px;
+  padding-top: 10px;
 }
 #detail-header h1
 {
@@ -364,17 +364,26 @@ polygon
 {
   position: -webkit-sticky;
   position: sticky;
-  top: 20px;
+  top: 50px;
   margin-bottom: 80px;
+  padding: 0 40px;
 }
 .body-section
 {
 
 }
-.section-content > p
+.section-content > p,
+.section-content > div
 {
   padding: 0 20px;
-  margin-bottom: 20px;
+  /*margin-bottom: 20px;*/
+}
+.section-content a,
+.artist-notes a,
+.artist-brief a
+{
+  display: inline-block;
+  border-bottom: 2px solid black;
 }
 .section-content .body-image-holder
 {
@@ -413,14 +422,18 @@ polygon
 {
   /*transform: translate(50%, 0);*/
   position: absolute;
-  right: 8px;
-  bottom: 5px;
+  right: 0px;
+  width: 100%;
+  padding-bottom: 5px;
+  bottom: 0;
   cursor: pointer;
   display: none;
+  text-align: center;
 }
 .artist-index_item.expanded
 {
   cursor: default;
+  padding-bottom: 60px;
 }
 .artist-brief
 {
@@ -448,6 +461,11 @@ polygon
 {
   display: none;
 }
+.artist-index_item a
+{
+
+}
+
 .section-content .centered
 {
   text-align: center;
@@ -531,6 +549,10 @@ polygon
     margin-bottom: 10px;
     margin-right: 0;
     transform: translate(-3px, 0);
+    
+  }
+  #upcoming-listing-container .event-tag-container
+  {
     max-width: initial;
   }
   #upcoming-listing-container .event-title
@@ -641,8 +663,11 @@ polygon
   #archive-listing-container .event-tag
   {
     transform: translate(-3px, 0);
-    max-width: initial;
     margin-bottom: 4px;
+  }
+  #archive-listing-container .event-tag-container
+  {
+    max-width: initial;
   }
   #upcoming-listing-container + #archive-listing-container
   {
@@ -751,7 +776,12 @@ polygon
   .btn-fold-artist-item
   {
     /*transform: translate(50%, 0);*/
+    width: 30px;
+    /*padding-bottom: 0;*/
     display: none;
+  }
+  .artist-index_item
+  {
   }
   .artist-index_item:hover
   {
@@ -808,6 +838,22 @@ polygon
   .expanded .artist-brief
   {
     display: inline-block;
+  }
+  .section-title
+  {
+    top: 20px;
+  }
+  #detail-header .event-tag + #event-title
+  {
+    padding-top: 20px;
+  }
+  .artist-index_item.expanded
+  {
+    padding-bottom: 10px;
+  }
+  .indent
+  {
+    text-indent: 30px;
   }
   
 }

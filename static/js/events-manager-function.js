@@ -1,9 +1,17 @@
-function link() {
+function link_old() {
 	var linkURL = prompt('Enter a URL:', 'http://');
 	if (linkURL === null || linkURL === "") {
 		return;
 	}
 	document.execCommand('createlink', false, linkURL);
+}
+function link(isBlank = false) {
+    var linkURL = prompt('Enter a URL:', 'http://');
+    var sText = document.getSelection();
+    if(isBlank) 
+    	document.execCommand('insertHTML', false, '<a href="' + linkURL + '" target="_blank">' + sText + '</a>');
+    else
+    	document.execCommand('insertHTML', false, '<a href="' + linkURL + '" >' + sText + '</a>');
 }
 
 function addWysiwygEditorListeners(thisWysiwygElement) {

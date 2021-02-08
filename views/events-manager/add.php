@@ -124,9 +124,27 @@
 			<label for = 'add-event-time' class = 'caption-roman'>Event Time (ex: 2021-01-01 18:00)</label>
 			<input id = 'add-event-time' name = 'event-time' type = 'text'>
 		</div>
-		<div class = 'input-section body-roman'>
-			<label for = 'add-event-location' class = 'caption-roman'>Location</label>
-			<input id = 'add-event-location' name = 'event-location' type = 'text'>
+		<div id="location-input-section" class = 'input-section body-roman'>
+			<div class = 'wysiwyg-container'>
+				<label class = 'caption-roman'>Location</label><br>
+				<div class = 'wysiwyg-text-editor wysiwyg-editor'>
+					<span class="toolbar dontdisplay">
+						<?php if ($user == 'admin'): ?>
+							<a id="" class='tool-html right' href="#null" >html</a>
+							<a id="" class='tool-txt right dontdisplay' href="#null" >done.</a>
+						<?php endif; ?>
+		                <a class='tool-link' href="#null" onclick="link(true);">link</a>
+					</span>
+
+					<?php if ($user == 'guest'): ?>
+						<div name='event-location' class='large editable' contenteditable='false' id='' onclick="" style="">
+					<?php else: ?>
+						<div name='event-location' class='large editable' contenteditable='true' id='' onclick="" style="">
+					<?php endif; ?>
+					</div>
+					<textarea rows='1' name='event-location' class='large dontdisplay'></textarea>
+				</div>
+			</div>
 		</div>
 		<div id = 'input-section-body' class = 'input-section body-roman'>
 			<div class = 'body-section wysiwyg-container'>
